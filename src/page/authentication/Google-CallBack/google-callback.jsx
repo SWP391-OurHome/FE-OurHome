@@ -10,32 +10,19 @@ export default function GoogleCallback() {
     const location = useLocation();
 
     useEffect(() => {
-        const processGoogleCallback = async () => {
-            try {
-                // Lấy code từ URL parameters
-                const queryParams = new URLSearchParams(location.search);
-                const code = queryParams.get('code');
+        const queryParams = new URLSearchParams(location.search);
+        const token = queryParams.get("token");
+        const error = queryParams.get("error");
 
-                if (!code) {
-                    setError('Không nhận được mã xác thực từ Google');
-                    setLoading(false);
-                    return;
-                }
+        if (token) {
+            localStorage.setItem("token", token);
+            navigate("/"); // ✅ về home
+        } else {
+            setError(error || "Đăng nhập Google thất bại.");
+            setLoading(false);
+        }
+    }, [location]);
 
-                // Gửi code đến backend để xác thực
-                await authService.handleGoogleCallback(code);
-
-                // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
-                navigate('/');
-            } catch (error) {
-                console.error('Google login error:', error);
-                setError('Đăng nhập bằng Google thất bại. Vui lòng thử lại.');
-                setLoading(false);
-            }
-        };
-
-        processGoogleCallback();
-    }, [location, navigate]);
 
     return (
         <div className="google-callback-container">

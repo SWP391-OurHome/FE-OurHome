@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css'; // Bỏ comment dòng import toa
 // Pages
 import HomePage from './page/homepage/HomePage';
 import Login from './page/authentication/login/Login';
+import GoogleCallback from './page/authentication/Google-CallBack/google-callback';
+import SignUp from "./page/authentication/signup/SignUp";
+
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
 function App() {
@@ -30,6 +33,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/google-callback" element={<GoogleCallback />} />
+                    <Route path="/signup" element={<SignUp />} />
+
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />

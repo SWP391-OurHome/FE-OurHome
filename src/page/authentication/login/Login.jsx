@@ -5,9 +5,13 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { login, loginWithGoogle } from "../../../services/authService";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,27 +21,33 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await login(form.email.trim(), form.password.trim());
-      console.log("DATA FROM SERVER:", data);
       if (data.success) {
-        toast.success("Login successful!");
-        // Lưu token vào localStorage nếu cần: localStorage.setItem("token", data.token)
+        // Lưu thông tin user vào localStorage
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        toast.success("Đăng nhập thành công!");
         navigate("/");
       } else {
-        toast.error(data.message || "Invalid credentials");
+        toast.error(data.message || "Thông tin đăng nhập không chính xác");
       }
     } catch (error) {
-      toast.error("Server error. Please try again later.");
+      toast.error("Lỗi server. Vui lòng thử lại sau.");
     }
   };
 
   const handleGoogleLogin = async () => {
     setMessage("");
     setLoading(true);
-
     try {
-      const response = await authService.loginWithGoogle();
-      console.log("Google login initiated:", response);
-      // Google OAuth flow will redirect to Google's consent page
+      const response = await loginWithGoogle();
+      if (response.success) {
+        localStorage.setItem("user", JSON.stringify(response.user));
+        localStorage.setItem("token", response.token);
+        toast.success("Đăng nhập Google thành công!");
+        navigate("/");
+      } else {
+        toast.error(response.message || "Đăng nhập Google thất bại");
+      }
     } catch (error) {
       const resMessage =
         (error.response &&
@@ -45,8 +55,9 @@ const Login = () => {
           error.response.data.message) ||
         error.message ||
         error.toString();
-
       setMessage(resMessage);
+      toast.error("Lỗi đăng nhập Google");
+    } finally {
       setLoading(false);
     }
   };
