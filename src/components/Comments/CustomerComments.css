@@ -1,0 +1,53 @@
+.comments-section {
+    background-color: #fff;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.comments-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.comments-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.comment-card {
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-card img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.comment-text {
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.comment-author strong {
+    display: block;
+    font-size: 1rem;
+    color: #222;
+}
+
+.comment-author span {
+    font-size: 0.9rem;
+    color: #777;
+}

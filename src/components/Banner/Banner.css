@@ -1,0 +1,95 @@
+.hero-container {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    color: #000;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.hero-text p {
+    margin-top: 1rem;
+    color: #333;
+}
+
+.search-box {
+    margin-top: 2rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tabs button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    background: #007bff;
+    color: white;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.filters input,
+.filters select {
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 150px;
+}
+
+.search-btn,
+.map-btn,
+.reset-btn {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.search-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.map-btn {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.reset-btn {
+    background-color: #6c757d;
+    color: white;
+}
