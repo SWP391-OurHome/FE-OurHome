@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Banner.css";
-import bannerImage  from "../../Assets/Banner.jpg";
+import bannerImage from "../../Assets/Banner.jpg";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const HeroSection = () => {
     const [form, setForm] = useState({
@@ -70,7 +71,6 @@ const HeroSection = () => {
                             value={form.keyword}
                             onChange={handleChange}
                         />
-
                         <select name="type" value={form.type} onChange={handleChange}>
                             <option value="">Property Type</option>
                             <option value="apartment">Apartment</option>
@@ -79,7 +79,6 @@ const HeroSection = () => {
                             <option value="villa">PentHouse</option>
                             <option value="villa">Land</option>
                         </select>
-
                         <select name="price" value={form.price} onChange={handleChange}>
                             <option value="">Price Range</option>
                             {form.purpose === "rent" ? (
@@ -98,7 +97,6 @@ const HeroSection = () => {
                                 </>
                             )}
                         </select>
-
                         <select name="area" value={form.area} onChange={handleChange}>
                             <option value="">Area</option>
                             <option value="under30">Under 30m²</option>
@@ -106,13 +104,8 @@ const HeroSection = () => {
                             <option value="60to100">60–100m²</option>
                             <option value="over100">Over 100m²</option>
                         </select>
-
                         <button className="search-btn" onClick={handleSearch}>
-                            🔍 Search
-                        </button>
-                        <button className="map-btn">🗺️ Map</button>
-                        <button className="reset-btn" onClick={resetForm}>
-                            🔄 Reset
+                            <i className="bi bi-search"></i>
                         </button>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./CustomerComments.css";
+import testpicture from "../../Assets/testpicture.jpg";
 
 const comments = [
     {
@@ -7,21 +8,21 @@ const comments = [
         role: "Customer",
         comment:
             "The platform made it easy to find and rent an apartment quickly. Great experience!",
-        avatar: "/avatars/customer1.jpg",
+        avatar: testpicture,
     },
     {
         name: "Nguyen Van Binh",
         role: "Seller",
         comment:
             "I posted my property and received several serious inquiries within 2 days.",
-        avatar: "/avatars/seller1.jpg",
+        avatar: testpicture,
     },
     {
         name: "Trang Le",
         role: "Customer",
         comment:
             "Clear listings and responsive sellers. I highly recommend this website!",
-        avatar: "/avatars/customer2.jpg",
+        avatar: testpicture,
     },
 ];
 

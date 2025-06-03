@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./PropertyList.css";
-import PropertyCard from "../PropertyCard/PropertyCard"; //
+import PropertyCard from "../PropertyCard/PropertyCard";
+import { Link } from "react-router-dom";
+import testpicture from "../../Assets/testpicture.jpg";
 
 const properties = [
     // RENT
@@ -9,7 +11,7 @@ const properties = [
         title: "Modern Apartment with Sea View",
         location: "Đà Nẵng",
         price: "8 million/month",
-        image: "/properties/da-nang1.jpg",
+        image: testpicture,
         type: "Apartment",
         purpose: "rent",
     },
@@ -18,18 +20,17 @@ const properties = [
         title: "Luxury Villa near My Khe Beach",
         location: "Đà Nẵng",
         price: "25 million/month",
-        image: "/properties/da-nang2.jpg",
+        image: testpicture,
         type: "Villa",
         purpose: "rent",
     },
-
     // SALE
     {
         id: 3,
         title: "3BR House in Hoa Xuan, Cam Le",
         location: "Đà Nẵng",
         price: "2.8 billion VND",
-        image: "/properties/sale-danang1.jpg",
+        image: testpicture,
         type: "House",
         purpose: "buy",
     },
@@ -38,7 +39,7 @@ const properties = [
         title: "Beachside Land Plot – Ngu Hanh Son",
         location: "Đà Nẵng",
         price: "3.5 billion VND",
-        image: "/properties/sale-danang2.jpg",
+        image: testpicture,
         type: "Land",
         purpose: "buy",
     },
@@ -47,7 +48,7 @@ const properties = [
         title: "Penthouse Apartment – Ocean View",
         location: "Đà Nẵng",
         price: "6.2 billion VND",
-        image: "/properties/sale-danang3.jpg",
+        image: testpicture,
         type: "Apartment",
         purpose: "buy",
     },
@@ -63,28 +64,28 @@ const PropertyList = () => {
     return (
         <div className="property-wrapper">
             <h2>Properties in Đà Nẵng</h2>
-
             <div className="filter-buttons">
                 <button
                     className={selectedPurpose === "buy" ? "active" : ""}
                     onClick={() => setSelectedPurpose("buy")}
                 >
-                    🏠 For Sale
+                    <i className="bi bi-house"></i>For Sale
                 </button>
                 <button
                     className={selectedPurpose === "rent" ? "active" : ""}
                     onClick={() => setSelectedPurpose("rent")}
                 >
-                    📄 For Rent
+                    <i className="bi bi-file-earmark-fill"></i> For Rent
                 </button>
             </div>
-
             <div className="property-grid">
                 {filteredProperties.length === 0 ? (
                     <p>No properties found.</p>
                 ) : (
                     filteredProperties.map((property) => (
-                        <PropertyCard key={property.id} property={property} />
+                        <Link to={`/property/${property.id}`} key={property.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <PropertyCard property={property} />
+                        </Link>
                     ))
                 )}
             </div>

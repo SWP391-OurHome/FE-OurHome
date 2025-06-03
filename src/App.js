@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Bỏ comment dòng import toastify CSS
-
+import 'react-toastify/dist/ReactToastify.css';
 
 // Pages
 import HomePage from './page/homepage/HomePage';

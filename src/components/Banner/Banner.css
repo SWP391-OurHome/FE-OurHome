@@ -20,14 +20,22 @@
     margin: 0 auto;
 }
 
+.hero-text {
+    text-align: left; /* Căn trái để phù hợp với bố cục */
+    max-width: 800px; /* Giới hạn chiều rộng để không bị quá dài */
+}
+
 .hero-text h1 {
     font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 1rem; /* Tăng khoảng cách dưới tiêu đề */
 }
 
 .hero-text p {
-    margin-top: 1rem;
+    margin-top: 0;
     color: #333;
+    font-size: 1.1rem; /* Tăng kích thước chữ mô tả */
+    line-height: 1.5; /* Tăng khoảng cách dòng cho dễ đọc */
 }
 
 .search-box {
@@ -36,16 +44,20 @@
 
 .tabs {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 1.5rem; /* Tăng khoảng cách giữa các nút */
+    margin-bottom: 1.5rem;
+    justify-content: flex-start; /* Căn trái để đồng bộ với hero-text */
 }
 
 .tabs button {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 2rem; /* Tăng kích thước nút */
     border: none;
     background: #ccc;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 1.1rem; /* Tăng kích thước chữ */
+    font-weight: 500; /* Tăng độ đậm */
+    transition: background-color 0.3s ease;
 }
 
 .tabs button.active {
@@ -58,6 +70,7 @@
     flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
+    justify-content: flex-start; /* Căn trái để đồng bộ */
 }
 
 .filters input,
@@ -67,9 +80,21 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     min-width: 150px;
+    flex: 1 1 150px; /* Đảm bảo độ rộng tối thiểu và co giãn */
 }
 
-.search-btn,
+.search-btn {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #dc3545;
+    color: white;
+    min-width: 50px;
+    flex: 0 0 auto; /* Không co giãn cho nút */
+}
+
 .map-btn,
 .reset-btn {
     padding: 0.6rem 1rem;
@@ -77,11 +102,6 @@
     border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
-}
-
-.search-btn {
-    background-color: #dc3545;
-    color: white;
 }
 
 .map-btn {
@@ -92,4 +112,51 @@
 .reset-btn {
     background-color: #6c757d;
     color: white;
+}
+
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .tabs {
+        gap: 1rem;
+    }
+
+    .tabs button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filters input,
+    .filters select,
+    .search-btn {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tabs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .tabs button {
+        width: 100%;
+    }
 }
