@@ -60,9 +60,9 @@ export const login = async (email, password) => {
     }
 };
 
-const loginWithGoogle = async () => {
+export const loginWithGoogle = async () => {
     try {
-        const response = await axios.get(API_URL + 'google-login-url');
+        const response = await axios.get(API_URL + '/google-login-url');
 
         // Chuyển hướng người dùng đến URL đăng nhập Google
         window.location.href = response.data.url;
@@ -71,4 +71,39 @@ const loginWithGoogle = async () => {
     } catch (error) {
         throw error;
     }
+};
+
+export const handleGoogleCallback = async (code) => {
+    try {
+        const response = await axios.get(`${API_URL}/oauth2/callback`, {
+            params: {
+                code,
+                state: btoa("http://localhost:3000/google-callback")
+            }
+        });
+
+        // Nhận dữ liệu từ BE
+        const { token, user } = response.data;
+
+        // Lưu vào localStorage nếu cần
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        return { token, user };
+    } catch (error) {
+        console.error("Callback error:", error);
+        throw error;
+    }
+};
+
+export const signUp = async (userData) => {
+    const response = await axios.post('http://localhost:8082/api/auth/sign-up', userData);
+    return response.data;
+};
+
+export default {
+    login,
+        loginWithGoogle,
+        handleGoogleCallback,
+        signUp
 };

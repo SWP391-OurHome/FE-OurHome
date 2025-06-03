@@ -6,9 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 // Pages
 import HomePage from './page/homepage/HomePage';
 import Login from './page/authentication/login/Login';
-import PropertyDetails from './page/propertydetails/PropertyDetails'; // Cập nhật đường dẫn
-import Dashboard from './page/dashboardadmin/Dashboard';
-import SellerDashboard from './page/sellerdashboard/SellerDashboard';
+import GoogleCallback from './page/authentication/Google-CallBack/google-callback';
+import SignUp from "./page/authentication/signup/SignUp";
+
+ // Đảm bảo đường dẫn đúng theo cấu trúc dự án
+
 function App() {
     return (
         <Router>
@@ -30,9 +32,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
-                    <Route path='/dashboard' element={<Dashboard />} />
-                    <Route path='/sellerdashboard' element={<SellerDashboard />} />
+                    <Route path="/google-callback" element={<GoogleCallback />} />
+                    <Route path="/signup" element={<SignUp />} />
+
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />
