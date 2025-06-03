@@ -8,6 +8,9 @@ import HomePage from './page/homepage/HomePage';
 import Login from './page/authentication/login/Login';
 import GoogleCallback from './page/authentication/Google-CallBack/google-callback';
 import SignUp from "./page/authentication/signup/SignUp";
+import PropertyDetails from './page/propertydetails/PropertyDetails'; // Cập nhật đường dẫn
+import Dashboard from './page/dashboardadmin/Dashboard';
+import SellerDashboard from './page/sellerdashboard/SellerDashboard';
 
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
@@ -34,6 +37,9 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/google-callback" element={<GoogleCallback />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
+                    <Route path='/dashboard' element={<Dashboard />} />
+                    <Route path='/sellerdashboard' element={<SellerDashboard />} />
 
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
