@@ -1,6 +1,8 @@
 import React from "react";
 import "./Agents.css";
 import AgentCard from "./AgentCard";
+import testpicture from "../../Assets/testpicture.jpg";
+
 
 const agents = [
     {
@@ -8,21 +10,21 @@ const agents = [
         title: "Real Estate Agent",
         phone: "0123 456 789",
         email: "john@example.com",
-        image: "/agents/agent1.jpg", // đổi theo đúng đường dẫn ảnh thật
+        image: testpicture, // đổi theo đúng đường dẫn ảnh thật
     },
     {
         name: "Emma Smith",
         title: "Property Consultant",
         phone: "0987 654 321",
         email: "emma@example.com",
-        image: "/agents/agent2.jpg",
+        image: testpicture,
     },
     {
         name: "David Lee",
         title: "Luxury Property Specialist",
         phone: "0111 222 333",
         email: "david@example.com",
-        image: "/agents/agent3.jpg",
+        image: testpicture,
     },
 ];
 

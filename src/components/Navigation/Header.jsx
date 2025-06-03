@@ -12,7 +12,6 @@ const Header = () => {
                         <div className="logo-icon">
                             <img src={Logo} alt="Logo" />
                         </div>
-                        <span className="logo-text">FLEX LIVING</span>
                     </a>
 
                     {/* Navigation */}
@@ -20,13 +19,13 @@ const Header = () => {
                         <a href="/" className="nav-link">
                             Home
                         </a>
-                        <a href="/landlords" className="nav-link">
+                        <a href="/For Sale" className="nav-link">
                             For Sale
                         </a>
-                        <a href="/blog" className="nav-link">
+                        <a href="/For Rent" className="nav-link">
                             For Rent
                         </a>
-                        <Link to="/login" className="nav-link">
+                        <Link to="/Sign-In" className="nav-link">
                             Sign-In
                         </Link>
                         <a href="/signup" className="nav-link">

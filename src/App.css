@@ -1,5 +1,28 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 6rem 1rem 2rem;
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding: 6rem 1.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding: 6rem 2rem 2rem;
+  }
 }
 
 .App-logo {

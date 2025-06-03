@@ -6,8 +6,8 @@ const AgentCard = ({ agent }) => {
             <img src={agent.image} alt={agent.name} />
             <h3>{agent.name}</h3>
             <p>{agent.title}</p>
-            <p>📞 {agent.phone}</p>
-            <p>✉️ {agent.email}</p>
+            <p><i className="bi bi-telephone"></i> {agent.phone}</p>
+            <p><i className="bi bi-envelope"></i> {agent.email}</p>
             <button>Contact</button>
         </div>
     );
