@@ -162,6 +162,24 @@ export const verifyOtp = async (email, otp) => {
   }
 };
 
+export const checkPhoneNumber = async (phoneNumber) => {
+  try {
+    const response = await axios.get(`${API_URL}/check-phone`, {
+      params: { phoneNumber }, // gửi phoneNumber qua query string
+    });
+
+    return response.data; // { exists: boolean, message: string }
+  } catch (error) {
+    console.error("Error checking phone number:", error);
+    return {
+      exists: false,
+      message:
+        error.response?.data?.message ||
+        `Error checking phone number: ${error.message}`,
+    };
+  }
+};
+
 export default {
   login,
   loginWithGoogle,
