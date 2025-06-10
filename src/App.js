@@ -10,8 +10,15 @@ import GoogleCallback from './page/authentication/Google-CallBack/google-callbac
 import PropertyDetails from './page/propertydetails/PropertyDetails'; // Cập nhật đường dẫn
 import Dashboard from './page/dashboardadmin/Dashboard';
 import SellerDashboard from './page/sellerdashboard/SellerDashboard';
+<<<<<<< HEAD
+import VerifyGoogle from './page/authentication/VerifyEmail/VerifyGoogle';
+import PhoneAuth from './page/authentication/VerifyPhone/verifyphone'
+import ForgotPassword from "./page/authentication/ForgotPassword/ForgotPassword";
+
+=======
 import Error404 from './page/404error/Error404';
 import Sale from './page/salepage/Sale';
+>>>>>>> 5811a083fe713aaffeff35135f577741ec31d3a6
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
 function App() {
