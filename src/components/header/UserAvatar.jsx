@@ -17,7 +17,7 @@ const UserAvatar = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   if (!user) return null;

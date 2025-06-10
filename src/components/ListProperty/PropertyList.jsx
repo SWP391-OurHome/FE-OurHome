@@ -1,96 +1,136 @@
-import React, { useState } from "react";
+import React from "react";
+import {
+    FaBath,
+    FaBed,
+    FaExpand,
+    FaMapMarkerAlt,
+    FaHome,
+} from "react-icons/fa";
 import "./PropertyList.css";
-import PropertyCard from "../PropertyCard/PropertyCard";
-import { Link } from "react-router-dom";
-import testpicture from "../../Assets/testpicture.jpg";
-
+import Property1 from "../../Assets/img/Property1.jpg"
+import Property2 from "../../Assets/img/Property2.jpg"
+import Property3 from "../../Assets/img/Property3.jpg"
+import Property4 from "../../Assets/img/Property4.jpg"
+import Property5 from "../../Assets/img/Property5.jpg"
+import Property6 from "../../Assets/img/Property6.jpg"
 const properties = [
-    // RENT
     {
         id: 1,
-        title: "Modern Apartment with Sea View",
-        location: "Đà Nẵng",
-        price: "8 million/month",
-        image: testpicture,
-        type: "Apartment",
-        purpose: "rent",
+        title: "Luxury Family Home",
+        address: "1800-1818 79th St",
+        price: "$395,000",
+        badge: ["FOR SALE", "FEATURED"],
+        beds: 4,
+        baths: 1,
+        area: 400,
+        img: Property1,
     },
     {
         id: 2,
-        title: "Luxury Villa near My Khe Beach",
-        location: "Đà Nẵng",
-        price: "25 million/month",
-        image: testpicture,
-        type: "Villa",
-        purpose: "rent",
+        title: "Skyper Pool Apartment",
+        address: "1020 Bloomingdale Ave",
+        price: "$280,000",
+        badge: ["FOR SALE"],
+        beds: 4,
+        baths: 2,
+        area: 450,
+        img: Property2,
     },
-    // SALE
     {
         id: 3,
-        title: "3BR House in Hoa Xuan, Cam Le",
-        location: "Đà Nẵng",
-        price: "2.8 billion VND",
-        image: testpicture,
-        type: "House",
-        purpose: "buy",
+        title: "North Dillard Street",
+        address: "4330 Bell Shoals Rd",
+        price: "$250/month",
+        badge: ["FOR RENT"],
+        beds: 4,
+        baths: 2,
+        area: 400,
+        img: Property3,
     },
     {
         id: 4,
-        title: "Beachside Land Plot – Ngu Hanh Son",
-        location: "Đà Nẵng",
-        price: "3.5 billion VND",
-        image: testpicture,
-        type: "Land",
-        purpose: "buy",
+        title: "Eaton Garth Penthouse",
+        address: "7722 18th Ave, Brooklyn",
+        price: "$180,000",
+        badge: ["FOR SALE", "FEATURED"],
+        beds: 4,
+        baths: 2,
+        area: 450,
+        img: Property4,
     },
     {
         id: 5,
-        title: "Penthouse Apartment – Ocean View",
-        location: "Đà Nẵng",
-        price: "6.2 billion VND",
-        image: testpicture,
-        type: "Apartment",
-        purpose: "buy",
+        title: "New Apartment Nice View",
+        address: "42 Avenue Q, Brooklyn",
+        price: "$850/month",
+        badge: ["FOR RENT", "FEATURED"],
+        beds: 4,
+        baths: 1,
+        area: 460,
+        img: Property5,
+    },
+    {
+        id: 6,
+        title: "Diamond Manor Apartment",
+        address: "7802 20th Ave, Brooklyn",
+        price: "$259,000",
+        badge: ["FOR SALE", "FEATURED"],
+        beds: 4,
+        baths: 2,
+        area: 500,
+        img: Property6,
     },
 ];
 
-const PropertyList = () => {
-    const [selectedPurpose, setSelectedPurpose] = useState("buy");
-
-    const filteredProperties = properties.filter(
-        (p) => p.location === "Đà Nẵng" && p.purpose === selectedPurpose
-    );
-
+const FeaturedProperties = () => {
     return (
-        <div className="property-wrapper">
-            <h2>Properties in Đà Nẵng</h2>
-            <div className="filter-buttons">
-                <button
-                    className={selectedPurpose === "buy" ? "active" : ""}
-                    onClick={() => setSelectedPurpose("buy")}
-                >
-                    <i className="bi bi-house"></i>For Sale
-                </button>
-                <button
-                    className={selectedPurpose === "rent" ? "active" : ""}
-                    onClick={() => setSelectedPurpose("rent")}
-                >
-                    <i className="bi bi-file-earmark-fill"></i> For Rent
-                </button>
+        <section className="featured-section">
+            <div className="featured-header">
+                <h2 className="section-title">Featured Properties</h2>
+                <p className="section-subtitle">
+                    Discover top listings hand-picked for you.
+                </p>
+                <div className="filter-buttons">
+                    <button className="active">All Properties</button>
+                    <button>For Sale</button>
+                    <button>For Rent</button>
+                </div>
             </div>
-            <div className="property-grid">
-                {filteredProperties.length === 0 ? (
-                    <p>No properties found.</p>
-                ) : (
-                    filteredProperties.map((property) => (
-                        <Link to={`/property/${property.id}`} key={property.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <PropertyCard property={property} />
-                        </Link>
-                    ))
-                )}
+
+            <div className="properties-grid">
+                {properties.map((item) => (
+                    <div className="property-card" key={item.id}>
+                        <div className="image-wrapper">
+                            <img src={item.img} alt={item.title} />
+                            <div className="badges">
+                                {item.badge.map((b, i) => (
+                                    <span key={i} className={`badge ${b.toLowerCase().replace(" ", "-")}`}>
+                                    {b}
+                                  </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="property-details">
+                            <h3 className="property-title">{item.title}</h3>
+                            <p className="property-address">
+                                <FaMapMarkerAlt /> {item.address}
+                            </p>
+                            <p className="property-price">{item.price}</p>
+                            <div className="property-info">
+                                <span><FaBed /> {item.beds}</span>
+                                <span><FaBath /> {item.baths}</span>
+                                <span><FaExpand /> {item.area} sqft</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-        </div>
+
+            <div className="view-all">
+                <button className="view-all-btn">See All Listing →</button>
+            </div>
+        </section>
     );
 };
 
-export default PropertyList;
+export default FeaturedProperties;

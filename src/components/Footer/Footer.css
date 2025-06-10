@@ -1,174 +1,214 @@
 .footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    background-color: #f8f9fa;
-    padding: 4rem 0;
-    border-top: 1px solid #e5e5e5;
-    color: #1a1a1a;
-    font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #1f4b43 !important;
+  padding: 4rem;
+
+  color: #fff;
+  font-family: "Poppins", sans-serif;
 }
 
 .footer-container {
-    max-width: 1280px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
 }
 
 .footer-left {
-    flex: 1;
-    min-width: 280px;
+  flex: 1;
+  min-width: 280px;
 }
 
+
 .footer-left .logo {
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #004b3f;
-    letter-spacing: 0.5px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #004b3f;
+  letter-spacing: 0.5px;
 }
 
 .footer-left p {
-    margin: 0.5rem 0;
-    color: #4a4a4a;
-    font-size: 0.95rem;
+  margin-top: 10px;
+  color: #fff !important;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.75;
 }
 
 .social-icons {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
 .social-icons a {
-    font-size: 1.2rem;
-    color: #4a4a4a;
-    transition: all 0.3s ease;
-    padding: 0.5rem;
-    border-radius: 50%;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 1.5rem;
+  color: #fff;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .social-icons a:hover {
-    color: #004b3f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #004b3f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer-links {
-    display: flex;
-    flex: 2;
-    justify-content: space-between;
-    gap: 4rem;
-    min-width: 400px;
+  display: flex;
+  flex: 2;
+  gap: 4rem;
+  min-width: 400px;
 }
 
-.footer-column h4 {
-    font-weight: 600;
-    margin-bottom: 1.2rem;
-    color: #1a1a1a;
-    font-size: 1.1rem;
+.footer-column h4,
+.footer-subscribe h4 {
+  color: #FFFFFF78;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1.9rem;
+  line-height: 1.35;
 }
 
 .footer-column a {
-    display: block;
-    color: #4a4a4a;
-    font-size: 0.95rem;
-    margin: 0.5rem 0;
-    text-decoration: none;
-    transition: all 0.2s ease;
+  display: block;
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 15px;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .footer-column a:hover {
-    color: #004b3f;
-    transform: translateX(5px);
+  transform: translateX(5px);
 }
 
 .footer-subscribe {
-    flex: 1;
-    min-width: 300px;
+  flex: 1;
+  min-width: 300px;
 }
 
-.footer-subscribe h4 {
-    font-weight: 600;
-    color: #1a1a1a;
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+.footer-subscribe-container {
+  padding: 20px;
+  max-width: 400px;
+  color: #a0b2a1;
+  font-family: Arial, sans-serif;
 }
 
-.footer-subscribe p {
-    font-size: 0.95rem;
-    margin: 0.5rem 0 1rem;
-    color: #4a4a4a;
+.footer-subscribe-title {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color:  #FFFFFF78;
 }
 
-.footer-subscribe input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
+.footer-subscribe-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.footer-subscribe input:focus {
-    outline: none;
-    border-color: #004b3f;
-    box-shadow: 0 0 0 2px rgba(0, 75, 63, 0.1);
+.footer-subscribe-input {
+  flex: 1;
+  padding: 8px 0;           /* bỏ padding trái phải */
+  font-size: 14px;
+  border: none;             /* bỏ viền */
+  border-bottom: 2px solid #e4dbd4;
+  background-color: transparent;
+  color: #e4e7e4;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-.footer-subscribe button {
-    background-color: #004b3f;
-    color: white;
-    padding: 0.8rem 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 0;
+.footer-subscribe-input::placeholder {
+  color: #fff;
 }
 
-.footer-subscribe button:hover {
-    background-color: #007a66;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.footer-subscribe-input:focus {
+  border-bottom-color: #1b9e9e;
+}
+
+/* Input với underline cho .footer-subscribe-alt-input */
+
+.footer-subscribe-alt-input {
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #556b56;
+  background-color: transparent;
+  color: #e6f0e6;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.footer-subscribe-alt-input::placeholder {
+  color: #8fae8f;
+}
+
+.footer-subscribe-alt-input:focus {
+  border-bottom-color: #8fbc8f;
+}
+
+.footer-subscribe-button {
+  background: #FFFFFF14;
+  color: #e4e7e4;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.footer-subscribe-button:hover {
+  background-color: #1b9e9e;
+}
+
+.footer-subscribe-text {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  color: #fffaf5;
 }
 
 @media (max-width: 1024px) {
-    .footer-container {
-        padding: 0 2rem;
-    }
-    
-    .footer-links {
-        gap: 2rem;
-    }
+  .footer-container {
+    padding: 0 2rem;
+  }
+
+  .footer-links {
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .footer {
-        padding: 3rem 0;
-    }
-    
-    .footer-container {
-        padding: 0 1.5rem;
-    }
-    
-    .footer-links {
-        min-width: 100%;
-        justify-content: flex-start;
-    }
-    
-    .footer-subscribe {
-        min-width: 100%;
-    }
+  .footer {
+    padding: 3rem 0;
+  }
+
+  .footer-container {
+    padding: 0 1.5rem;
+  }
+
+  .footer-links {
+    min-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .footer-subscribe {
+    min-width: 100%;
+  }
 }
