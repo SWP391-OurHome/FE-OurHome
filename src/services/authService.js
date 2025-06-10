@@ -88,6 +88,35 @@ export const handleGoogleCallback = async (code) => {
   }
 };
 
+export const register = async (formData) => {
+  try {
+    console.log("➡️ Sending form:", formData);
+    const response = await axios.post(
+      `${API_URL}/signup`,
+      {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    const message = error.response?.data?.message || "Error creating account";
+    return {
+      success: false,
+      message: message,
+    };
+  }
+};
+
 // Function to send OTP
 export const sendOtp = async (email) => {
   try {
