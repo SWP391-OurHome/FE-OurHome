@@ -1,0 +1,55 @@
+.seller-recent-properties {
+  padding: 20px;
+  background-color: #f5f7fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.seller-recent-properties h2 {
+  color: #311b92;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 600;
+}
+
+.seller-properties-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.seller-property-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.seller-property-card h3 {
+  color: #311b92;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.seller-property-card p {
+  color: #666;
+  margin: 5px 0;
+  font-size: 0.95em;
+}
+
+.seller-status-listed {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.seller-status-sold {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
