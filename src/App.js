@@ -11,6 +11,9 @@ import SignUp from "./page/authentication/signup/SignUp";
 import PropertyDetails from './page/propertydetails/PropertyDetails'; // Cập nhật đường dẫn
 import Dashboard from './page/dashboardadmin/Dashboard';
 import SellerDashboard from './page/sellerdashboard/SellerDashboard';
+import VerifyGoogle from './page/authentication/VerifyEmail/VerifyGoogle';
+import PhoneAuth from './page/authentication/VerifyPhone/verifyphone'
+import ForgotPassword from "./page/authentication/ForgotPassword/ForgotPassword";
 
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
@@ -40,7 +43,9 @@ function App() {
                     <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
                     <Route path='/dashboard' element={<Dashboard />} />
                     <Route path='/sellerdashboard' element={<SellerDashboard />} />
-
+                    <Route path='/verify-gmail' element={<VerifyGoogle />} />
+                    <Route path='/verify-phone' element={<PhoneAuth />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />
