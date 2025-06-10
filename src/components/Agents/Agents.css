@@ -1,58 +1,59 @@
-.agent-section {
-    padding: 3rem 2rem;
-    background-color: #f9f9f9;
+.agents-container {
+    margin-top: 100px;
     text-align: center;
+    padding: 50px 20px;
 }
 
-.agent-section h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+.agents-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-.agent-grid {
+.agents-subtitle {
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+}
+
+.agents-grid {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
+    align-items: center;
+    gap: 30px;
 }
 
 .agent-card {
-    background: white;
+    background: #fff;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    width: 260px;
-    text-align: center;
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 280px;
+    height: 315px;
+    transition: transform 0.3s ease;
 }
 
 .agent-card:hover {
     transform: translateY(-5px);
 }
 
-.agent-card img {
+.agent-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 100%;
     border-radius: 8px;
+    object-fit: cover;
 }
 
-.agent-card h3 {
-    margin-top: 1rem;
-    font-size: 1.2rem;
+.agent-name {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #222;
 }
 
-.agent-card p {
-    margin: 0.3rem 0;
-    color: #555;
-}
-
-.agent-card button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #0d6efd;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+.agent-role {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #959393;
 }
