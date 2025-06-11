@@ -12,7 +12,15 @@ import PropertyDetails from './page/propertydetails/PropertyDetails'; // Cập n
 import Dashboard from './page/dashboardadmin/Dashboard';
 import SellerDashboard from './page/sellerdashboard/SellerDashboard';
 import Membership from './page/membership/Membership';
+<<<<<<< HEAD
+import VerifyGoogle from './page/authentication/VerifyEmail/VerifyGoogle';
+import PhoneAuth from './page/authentication/VerifyPhone/verifyphone'
+import ForgotPassword from "./page/authentication/ForgotPassword/ForgotPassword";
 
+=======
+import Error404 from './page/404error/Error404';
+import Sale from './page/salepage/Sale';
+>>>>>>> 5811a083fe713aaffeff35135f577741ec31d3a6
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
 function App() {
@@ -37,11 +45,10 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/google-callback" element={<GoogleCallback />} />
-                    {/* <Route path="/signup" element={<SignUp />} /> */}
+                    <Route path="/signup" element={<SignUp />} />
                     <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
                     <Route path='/dashboard' element={<Dashboard />} />
                     <Route path='/sellerdashboard' element={<SellerDashboard />} />
-                    <Route path='/membership' element={<Membership/>}/>
 
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />

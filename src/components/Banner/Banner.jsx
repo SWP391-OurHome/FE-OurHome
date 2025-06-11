@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Banner.css";
 import bannerImage from "../../Assets/Banner.jpg";
+
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const HeroSection = () => {
@@ -30,83 +31,92 @@ const HeroSection = () => {
         console.log("Searching with:", form);
     };
 
-    return (
-        <div
-            className="hero-container"
-            style={{
-                backgroundImage: `url(${bannerImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            <div className="hero-content">
-                <div className="hero-text">
-                    <h1>We rent your property</h1>
-                    <p>
-                        Find the perfect property for your needs. Discover rentals and real estate listings with ease and confidence.
-                    </p>
-                </div>
+    const [searchQuery, setSearchQuery] = useState("")
 
-                <div className="search-box">
-                    <div className="tabs">
-                        <button
-                            className={form.purpose === "buy" ? "active" : ""}
-                            onClick={() => setForm({ ...form, purpose: "buy" })}
-                        >
-                            Buy
-                        </button>
-                        <button
-                            className={form.purpose === "rent" ? "active" : ""}
-                            onClick={() => setForm({ ...form, purpose: "rent" })}
-                        >
-                            Rent
-                        </button>
+    return (
+        <div className="landing-container">
+            {/* Background Image */}
+            <div className="background-image">
+                <div className="overlay"></div>
+            </div>
+
+            {/* Content */}
+            <div className="content-wrapper">
+                <div className="content-container">
+
+                    <button className="guide-button">LET US GUIDE YOUR HOME</button>
+
+
+                    <div className="heading-section">
+                        <h1 className="main-heading">Believe in finding it</h1>
+                        <p className="sub-heading">Search properties for sale and to rent in the Da Nang</p>
                     </div>
 
-                    <div className="filters">
-                        <input
-                            type="text"
-                            name="keyword"
-                            placeholder="Search by keyword"
-                            value={form.keyword}
-                            onChange={handleChange}
-                        />
-                        <select name="type" value={form.type} onChange={handleChange}>
-                            <option value="">Property Type</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="house">House</option>
-                            <option value="villa">Villa</option>
-                            <option value="villa">PentHouse</option>
-                            <option value="villa">Land</option>
-                        </select>
-                        <select name="price" value={form.price} onChange={handleChange}>
-                            <option value="">Price Range</option>
-                            {form.purpose === "rent" ? (
-                                <>
-                                    <option value="under5">Under 5 million</option>
-                                    <option value="5to10">5 – 10 million</option>
-                                    <option value="10to20">10 – 20 million</option>
-                                    <option value="over20">Over 20 million</option>
-                                </>
-                            ) : (
-                                <>
-                                    <option value="under1b">Under 1 billion</option>
-                                    <option value="1to3b">1 – 3 billion</option>
-                                    <option value="3to5b">3 – 5 billion</option>
-                                    <option value="over5b">Over 5 billion</option>
-                                </>
-                            )}
-                        </select>
-                        <select name="area" value={form.area} onChange={handleChange}>
-                            <option value="">Area</option>
-                            <option value="under30">Under 30m²</option>
-                            <option value="30to60">30–60m²</option>
-                            <option value="60to100">60–100m²</option>
-                            <option value="over100">Over 100m²</option>
-                        </select>
-                        <button className="search-btn" onClick={handleSearch}>
-                            <i className="bi bi-search"></i>
-                        </button>
+                    {/* Search Section */}
+                    <div className="search-section">
+                        {/* Search Bar */}
+                        <div className="search-bar-container">
+                            <input
+                                type="text"
+                                placeholder="Enter Name, Keywords..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="search-input"
+                            />
+                            <button className="search-button">
+                                <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Property Type Selection */}
+                        <div className="property-types">
+                            <p className="property-types-label">What are you looking for?</p>
+
+                            <div className="property-buttons">
+                                <button className="property-button">
+                                    <svg className="property-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                        />
+                                    </svg>
+                                    Modern Villa
+                                </button>
+
+                                <button className="property-button">
+                                    <svg className="property-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                                        />
+                                    </svg>
+                                    Apartment
+                                </button>
+
+                                <button className="property-button">
+                                    <svg className="property-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                                        />
+                                    </svg>
+                                    Town House
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
