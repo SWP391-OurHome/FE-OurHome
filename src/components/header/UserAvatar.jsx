@@ -9,9 +9,22 @@ const UserAvatar = () => {
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
+    console.log("🧪 User from localStorage:", userData);
     if (userData) {
       setUser(JSON.parse(userData));
     }
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".user-avatar-container")) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -28,33 +41,38 @@ const UserAvatar = () => {
         className="avatar-wrapper"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        {user.avatar ? (
-          <img src={user.avatar} alt="User avatar" className="user-avatar" />
+        {user.picture ? (
+            <img src={user.picture} alt="User avatar" className="user-avatar" />
         ) : (
-          <div className="avatar-placeholder">
-            {user.name ? user.name[0].toUpperCase() : "U"}
-          </div>
+            <div className="avatar-placeholder">
+              {user.name ? user.name[0].toUpperCase() : "U"}
+            </div>
         )}
+
       </div>
 
       {showDropdown && (
-        <div className="avatar-dropdown">
-          <div className="user-info">
-            <p className="user-name">{user.name}</p>
-            <p className="user-email">{user.email}</p>
+          <div className="avatar-dropdown">
+            <div className="user-info-customer">
+
+              <div className="user-details-customer">
+                <p className="user-name-customer">{user.name}</p>
+                <p className="user-email-customer">{user.email}</p>
+              </div>
+            </div>
+            <div className="dropdown-divider"></div>
+            <button className="dropdown-item" onClick={() => navigate("/profile")}>
+              Profile
+            </button>
+            <button className="dropdown-item" onClick={() => navigate("/changepassword")}>
+              Change Password
+            </button>
+            <button className="dropdown-item" onClick={handleLogout}>
+              LogOut
+            </button>
           </div>
-          <div className="dropdown-divider"></div>
-          <button
-            className="dropdown-item"
-            onClick={() => navigate("/profile")}
-          >
-            Hồ sơ
-          </button>
-          <button className="dropdown-item" onClick={handleLogout}>
-            Đăng xuất
-          </button>
-        </div>
       )}
+
     </div>
   );
 };

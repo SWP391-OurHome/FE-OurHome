@@ -14,14 +14,33 @@ export default function GoogleCallback() {
         const token = queryParams.get("token");
         const error = queryParams.get("error");
 
+
+        const name = queryParams.get("name");
+        const email = queryParams.get("email");
+        const picture = queryParams.get("picture");
+        const role = queryParams.get("role") ;
+        console.log("📥 Received from Google Redirect:");
+        console.log("Token:", token);
+        console.log("Name:", name);
+        console.log("Email:", email);
+        console.log("Picture:", picture);
+        console.log("Role:", role);
+        console.log("Error:", error);
         if (token) {
+
             localStorage.setItem("token", token);
-            navigate("/"); // ✅ về home
+            localStorage.setItem("role", role.toLowerCase());
+
+            const user = { name, email, picture };
+            localStorage.setItem("user", JSON.stringify(user));
+
+            navigate("/"); // ✅ về Home sau khi đã có dữ liệu
         } else {
             setError(error || "Đăng nhập Google thất bại.");
             setLoading(false);
         }
     }, [location]);
+
 
 
     return (
