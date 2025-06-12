@@ -30,9 +30,11 @@ const Login = () => {
         localStorage.setItem("role", role);
 
         const user = {
+          userID: res.data.userID,
           name: res.data.name,
           email: res.data.email,
-          picture: res.data.picture
+          picture: res.data.picture,
+          birthday: res.data.birthday
         };
         localStorage.setItem("user", JSON.stringify(user));
 

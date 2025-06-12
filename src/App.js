@@ -16,6 +16,9 @@ import ForgotPassword from "./page/authentication/ForgotPassword/ForgotPassword"
 import SignUp from "./page/authentication/signup/SignUp";
 import Error404 from './page/404error/Error404';
 import Sale from './page/salepage/Sale';
+import Profile from './page/authentication/Profile/profile';
+import ChangePassWord from './page/authentication/ChangePassword/changepassword';
+
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
 function App() {
@@ -49,7 +52,8 @@ function App() {
                     {/*<Route path='*' element={<Error404 />} />*/}
                     <Route path='/verify-gmail' element={<VerifyGoogle />} />
                     <Route path='/signup' element={<SignUp />} />
-
+                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/changepassword' element={<ChangePassWord />} />
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />
