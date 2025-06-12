@@ -17,7 +17,7 @@ import SignUp from "./page/authentication/signup/SignUp";
 import Error404 from './page/404error/Error404';
 import Sale from './page/salepage/Sale';
 import Profile from './page/authentication/Profile/profile';
-import ChangePassWord from './page/authentication/ChangePassword/changepassword';
+import ChangePassWord from './page/authentication/ChangePassWord/changepassword';
 
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
