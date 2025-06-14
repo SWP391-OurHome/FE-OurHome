@@ -14,14 +14,28 @@ export default function GoogleCallback() {
         const token = queryParams.get("token");
         const error = queryParams.get("error");
 
+        const userID = queryParams.get("userId");
+        const name = queryParams.get("name");
+        const email = queryParams.get("email");
+        const picture = queryParams.get("picture");
+        const role = queryParams.get("role") ;
+        const birthDay = queryParams.get("birthday");
+        console.log(token, error, userID, name, email, picture, role,userID);
         if (token) {
+
             localStorage.setItem("token", token);
-            navigate("/"); // ✅ về home
+            localStorage.setItem("role", role.toLowerCase());
+
+            const user = { name, email, picture ,birthDay};
+            localStorage.setItem("user", JSON.stringify(user));
+
+            navigate("/"); // ✅ về Home sau khi đã có dữ liệu
         } else {
             setError(error || "Đăng nhập Google thất bại.");
             setLoading(false);
         }
     }, [location]);
+
 
 
     return (
