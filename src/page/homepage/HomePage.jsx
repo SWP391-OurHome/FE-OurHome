@@ -32,7 +32,10 @@ const HomePage = () => {
         </section>
 
         {/* Featured Properties Section */}
+        <section className="section property-section-city fade-in">
 
+            <PropertyList />
+        </section>
 
         <section className="section property-section-city fade-in">
 
