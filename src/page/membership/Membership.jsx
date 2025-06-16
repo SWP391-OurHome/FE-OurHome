@@ -6,61 +6,55 @@ import './Membership.css';
 const Membership = () => {
   const plans = [
     {
-      name: 'Silver',
-      price: '5 triệu VND/tháng',
-      description: 'Phù hợp cho người bán mới bắt đầu hành trình bất động sản.',
+      name: 'Basic',
+      price: '$100/month',
+      description: 'Ideal for new sellers starting their journey.',
       benefits: [
-        'Tối đa 10 tin đăng bất động sản',
-        'Bảng điều khiển phân tích cơ bản',
-        'Hỗ trợ qua email',
-        'Truy cập mẫu chuẩn',
+        '5 free property listings',
+        'Email support',
+        'Access to basic dashboard',
       ],
-      color: '#e6f3ff',
-      icon: 'star',
+      color: 'linear-gradient(135deg, #f7e4e1, #fff)',
     },
     {
-      name: 'Gold',
-      price: '15 triệu VND/tháng',
-      description: 'Lý tưởng cho doanh nghiệp đang phát triển cần nhiều sự tiếp cận.',
+      name: 'Advanced',
+      price: '$400/month',
+      description: 'Optimized for professional sellers with enhanced features.',
       benefits: [
-        'Tối đa 50 tin đăng bất động sản',
-        'Bảng điều khiển phân tích nâng cao',
-        'Hỗ trợ qua email và chat ưu tiên',
-        'Mẫu cao cấp',
-        'Tin đăng nổi bật trên trang chủ',
+        '20 free property listings',
+        'Email and chat support',
+        'Advanced dashboard',
+        'Featured listing once a month',
       ],
-      color: '#fff3e6',
-      icon: 'trophy',
+      color: 'linear-gradient(135deg, #e1f0e1, #fff)',
     },
     {
-      name: 'Diamond',
-      price: '30 triệu VND/tháng',
-      description: 'Dành cho người bán hàng đầu tìm kiếm khả năng hiển thị và công cụ tối đa.',
+      name: 'Premium',
+      price: '$800/month',
+      description: 'Comprehensive solution for large businesses.',
       benefits: [
-        'Tin đăng bất động sản không giới hạn',
-        'Phân tích đầy đủ với báo cáo tùy chỉnh',
-        'Hỗ trợ 24/7 chuyên dụng',
-        'Mẫu độc quyền và thương hiệu',
-        'Tin đăng nổi bật hàng đầu',
-        'Truy cập chiến dịch marketing VIP',
+        'Unlimited property listings',
+        '24/7 phone support',
+        'Detailed analytics and reports',
+        'Featured listing weekly',
+        'Exclusive advertising',
       ],
-      color: '#e6ffe6',
-      icon: 'gem',
+      color: 'linear-gradient(135deg, #e1e8f0, #fff)',
     },
   ];
 
   const faqs = [
     {
-      question: 'Điều gì xảy ra nếu tôi hủy tư cách thành viên?',
-      answer: 'Bạn có thể hủy bất cứ lúc nào, và tư cách thành viên sẽ vẫn hoạt động đến cuối chu kỳ thanh toán. Không hoàn tiền cho các tháng còn lại.',
+      question: 'How do I register for a membership plan?',
+      answer: 'Click on "Choose Plan" and follow the simple payment instructions.',
     },
     {
-      question: 'Tôi có thể nâng cấp hoặc giảm cấp gói không?',
-      answer: 'Có, bạn có thể nâng cấp hoặc giảm cấp bất cứ lúc nào. Thay đổi có hiệu lực ngay lập tức, với hóa đơn được điều chỉnh theo tỷ lệ cho thời gian còn lại.',
+      question: 'Is there a refund available?',
+      answer: 'No refunds are available after the first 7 days unless under special circumstances.',
     },
     {
-      question: 'Có phí ẩn nào không?',
-      answer: 'Không có phí ẩn. Giá hiển thị là tổng chi phí, bao gồm tất cả tính năng liệt kê trong gói bạn chọn.',
+      question: 'How can I upgrade my plan?',
+      answer: 'Go to your account section and select "Upgrade Plan" to change immediately.',
     },
   ];
 
@@ -68,35 +62,31 @@ const Membership = () => {
     <>
       <Navbar />
       <div className="membership-container">
-        {/* Banner Section */}
-        <div className="banner-section">
-          <img src="https://via.placeholder.com/1200x300" alt="Membership Banner" className="banner-image" />
-          <div className="banner-content">
-            <h1>Tin Tưởng Vào Thành Công Của Bạn</h1>
-            <p>Khám phá các gói thành viên để nâng tầm kinh doanh bất động sản của bạn.</p>
-          </div>
+        {/* Banner */}
+        <div className="banner">
+          <h1>Discover Membership Plans</h1>
+          <p>Elevate your real estate business with us today!</p>
         </div>
 
         {/* Membership Plans */}
         <div className="plans-section">
-          <h2 className="section-title">Gói Thành Viên Nổi Bật</h2>
+          <h2>Your Membership Plans</h2>
           <div className="plans-grid">
             {plans.map((plan, index) => (
-              <div key={index} className="plan-card" style={{ backgroundColor: plan.color }}>
+              <div key={index} className="plan-card" style={{ background: plan.color }}>
                 <div className="plan-header">
-                  <i className={`bi bi-${plan.icon}`}></i>
                   <h3>{plan.name}</h3>
+                  <span className="plan-price">{plan.price}</span>
                 </div>
                 <p className="plan-description">{plan.description}</p>
-                <div className="plan-price">{plan.price}</div>
                 <ul className="plan-benefits">
                   {plan.benefits.map((benefit, i) => (
                     <li key={i}>
-                      <i className="bi bi-check-circle"></i> {benefit}
+                      <span className="check-mark">✓</span> {benefit}
                     </li>
                   ))}
                 </ul>
-                <button className="plan-button" onClick={() => alert(`Chọn gói ${plan.name}`)}>Chọn Gói</button>
+                <button className="plan-button" onClick={() => alert(`You have selected the ${plan.name} plan`)}>Choose Plan</button>
               </div>
             ))}
           </div>
@@ -104,7 +94,7 @@ const Membership = () => {
 
         {/* FAQ Section */}
         <div className="faq-section">
-          <h2 className="section-title">Câu Hỏi Thường Gặp</h2>
+          <h2>Frequently Asked Questions</h2>
           <div className="faq-grid">
             {faqs.map((faq, index) => (
               <div key={index} className="faq-item">
