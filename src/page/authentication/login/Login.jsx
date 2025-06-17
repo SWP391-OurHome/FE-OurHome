@@ -28,6 +28,16 @@ const Login = () => {
 
         localStorage.setItem("token", res.data.token || "");
         localStorage.setItem("role", role);
+
+        const user = {
+          userID: res.data.userID,
+          name: res.data.name,
+          email: res.data.email,
+          picture: res.data.picture,
+          birthday: res.data.birthday
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+
         toast.success("Login successful!");
 
         if (role === "seller") {
@@ -37,7 +47,7 @@ const Login = () => {
         } else {
           navigate("/");
         }
-      } else {
+      }else {
         toast.error(res.message || "Invalid login credentials");
       }
     } catch (error) {

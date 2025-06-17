@@ -1,0 +1,112 @@
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.edit-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.edit-btn:hover {
+    background: #45a049;
+}
+
+/* Thêm wrapper bao quanh các phần chỉnh sửa */
+.profile-edit-wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Các phần tử theo chiều dọc */
+    align-items: flex-start;
+    height: 300px; /* Chiều cao cố định */
+    overflow: hidden; /* Ẩn nội dung thừa khi có thay đổi */
+    padding-bottom: 20px;
+}
+
+/* Đảm bảo ảnh đại diện hiển thị đúng */
+.profile-image img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.profile-info p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Style cho các input */
+input {
+    margin-top: 11px;
+    display: block;
+    border: 1px solid #ddd;
+    padding: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px; /* Thêm border-radius cho input */
+}
+
+/* Các nút Save và Cancel */
+.profile-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.save-btn, .cancel-btn {
+    background: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.save-btn:hover {
+    background: #45a049;
+}
+
+.cancel-btn {
+    background: #f44336;
+}
+
+.cancel-btn:hover {
+    background: #e53935;
+}
+
+/* Phần ẩn/hiện các phần nhập email và phone */
+.profile-edit-email,
+.profile-edit-phone {
+    display: none; /* Ẩn theo mặc định */
+}
+
+/* Hiển thị khi chỉnh sửa email hoặc phone */
+.profile-edit-email.show,
+.profile-edit-phone.show {
+    display: block; /* Hiển thị khi trạng thái chuyển thành true */
+}

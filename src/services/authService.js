@@ -180,6 +180,56 @@ export const checkPhoneNumber = async (phoneNumber) => {
   }
 };
 
+export const changePassword = async (email,currentPassword, newPassword) => {
+  try {
+    const response = await axios.put(`${API_URL}/password`, {
+      email,
+      currentPassword,
+      newPassword,
+    });
+
+    const data = response.data;
+
+    if (data.success === true) {
+      return {
+        success: true,
+        message: data.message || "Password changed successfully.",
+      };
+    } else {
+      return {
+        success: false,
+        message: data.message || "Failed to change password.",
+      };
+    }
+  } catch (error) {
+    let message = "An error occurred while changing the password.";
+
+    if (error.response) {
+      const responseData = error.response.data;
+
+      if (typeof responseData === "string") {
+        message = responseData;
+      } else if (responseData && responseData.message) {
+        message = responseData.message;
+      } else if (error.response.statusText) {
+        message = error.response.statusText;
+      }
+    } else if (error.request) {
+      message = "No response from server. Please check your internet connection.";
+    } else if (error.message) {
+      message = error.message;
+    }
+
+    return {
+      success: false,
+      message: message,
+    };
+  }
+};
+
+
+
+
 export default {
   login,
   loginWithGoogle,

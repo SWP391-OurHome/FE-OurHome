@@ -1,14 +1,61 @@
 /* General Container */
 .property-details {
+  margin-top: 100px; /* 👈 Giải pháp chính xác */
   font-family: 'Poppins', sans-serif;
   max-width: 1280px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 2rem 1.5rem;
   background: #ffffff;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   border-radius: 20px;
   position: relative;
 }
+.property-full-details {
+  text-align: left;
+  margin-bottom: 3rem;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* 👈 tự chia đều */
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+/* ✅ Fix căn lề trái cho toàn bộ section */
+.property-description,
+.property-full-details,
+.amenities,
+.neighborhood,
+.location-map {
+  text-align: left;
+}
+
+.property-description h2,
+.property-full-details h2,
+.amenities h2,
+.neighborhood h2,
+.location-map h2 {
+  text-align: left !important;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #004d40;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.detail-item {
+  background-color: #f9f9f9;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  color: #333;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+
 
 /* Main Layout */
 .property-main {
@@ -219,6 +266,7 @@
 
 /* Description, Amenities, Neighborhood, Location, Policy */
 .property-description,
+
 .amenities,
 .neighborhood,
 .location-map,
@@ -226,7 +274,16 @@
   margin-bottom: 3rem;
 }
 
-.property-description h2,
+.property-description h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #004d40;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+  text-align: left; /* 👈 FIX: căn lề trái */
+}
+
 .amenities h2,
 .neighborhood h2,
 .location-map h2,
@@ -239,7 +296,15 @@
   padding-bottom: 0.5rem;
 }
 
-.property-description p,
+
+.property-description p {
+  color: #666;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  text-align: left;
+  margin-left: 1.2rem;
+}
+
 .neighborhood p {
   color: #666;
   line-height: 1.7;
@@ -389,9 +454,11 @@
   }
   .property-description, .amenities, .neighborhood, .location-map, .policy-details {
     margin-bottom: 2rem;
+
   }
   .property-description h2, .amenities h2, .neighborhood h2, .location-map h2, .policy-details h2 {
     font-size: 1.4rem;
+
   }
   .policy-sections {
     flex-direction: column;
