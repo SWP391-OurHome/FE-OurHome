@@ -3,7 +3,11 @@ import "../auth-common.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-import { login, loginWithGoogle } from "../../../services/authService";
+import {
+  login,
+  loginWithGoogle,
+  getRoleBasedRedirectPath,
+} from "../../../services/authService";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
@@ -30,24 +34,20 @@ const Login = () => {
         localStorage.setItem("role", role);
 
         const user = {
-          userID: res.data.userID,
-          name: res.data.name,
+          id: res.data.userID,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
           email: res.data.email,
           picture: res.data.picture,
-          birthday: res.data.birthday
+          birthday: res.data.birthday,
         };
         localStorage.setItem("user", JSON.stringify(user));
 
         toast.success("Login successful!");
 
-        if (role === "seller") {
-          navigate("/sellerdashboard");
-        } else if (role === "admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
-      }else {
+        const redirectPath = getRoleBasedRedirectPath(role);
+        navigate(redirectPath);
+      } else {
         toast.error(res.message || "Invalid login credentials");
       }
     } catch (error) {

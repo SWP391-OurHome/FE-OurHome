@@ -2,6 +2,33 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8082/api/auth";
 
+// Function to update user data and trigger UI update
+export const updateUserData = (userData) => {
+  try {
+    localStorage.setItem("user", JSON.stringify(userData));
+    // Trigger custom event để UserAvatar và Header cập nhật
+    window.dispatchEvent(new CustomEvent("userDataUpdated"));
+    return true;
+  } catch (error) {
+    console.error("Error updating user data:", error);
+    return false;
+  }
+};
+
+// Hàm tiện ích để xác định đường dẫn chuyển hướng dựa trên vai trò người dùng
+export const getRoleBasedRedirectPath = (role) => {
+  switch (role?.toLowerCase()) {
+    case "customer":
+      return "/";
+    case "seller":
+      return "/seller/dashboard"; // Chuyển hướng về seller dashboard
+    case "admin":
+      return "/admin/dashboard"; // Chuyển hướng về admin dashboard
+    default:
+      return "/"; // Mặc định chuyển hướng về trang chủ
+  }
+};
+
 export const login = async (email, password) => {
   try {
     // Gửi đúng body mà backend đang yêu cầu
@@ -22,13 +49,27 @@ export const login = async (email, password) => {
     const data = response.data;
 
     if (data && data.success) {
-      // Lưu user vào localStorage nếu cần
-      localStorage.setItem("user", JSON.stringify(data));
+      // Lưu user vào localStorage và trigger UI update
+      updateUserData(data);
+
+      // Lưu token nếu có
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // Lưu role nếu có
+      if (data.role) {
+        localStorage.setItem("role", data.role);
+      }
+
+      // Xác định đường dẫn chuyển hướng dựa trên role
+      const redirectPath = getRoleBasedRedirectPath(data.role);
 
       return {
         success: true,
         message: data.message || "Login successful",
         data: data,
+        redirectPath: redirectPath,
       };
     } else {
       // Đăng nhập thất bại có phản hồi hợp lệ từ BE
@@ -180,9 +221,37 @@ export const checkPhoneNumber = async (phoneNumber) => {
   }
 };
 
+// Function to reset password
+export const resetPassword = async (email, password) => {
+  try {
+    const response = await axios.put(`${API_URL}/reset-password`, {
+      email,
+      password,
+    });
+
+    return {
+      success: response.data.success,
+      message: response.data.message || "Password reset successfully.",
+    };
+  } catch (error) {
+    console.error("Error resetting password", error);
+    return {
+      success: false,
+      message: error.response
+        ? error.response.data.message
+        : "Failed to reset password. Please try again.",
+    };
+  }
+};
+
 export default {
   login,
   loginWithGoogle,
   handleGoogleCallback,
   register,
+  sendOtp,
+  verifyOtp,
+  resetPassword,
+  updateUserData,
+  getRoleBasedRedirectPath,
 };
