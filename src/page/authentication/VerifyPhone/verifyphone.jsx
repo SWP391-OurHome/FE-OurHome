@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { firebase } from "../../../config/FirebaseConfig";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../../../config/FirebaseConfig";
 import "../auth-common.css";
 
 const PhoneAuth = () => {
@@ -11,16 +12,40 @@ const PhoneAuth = () => {
 
   // Khởi tạo reCAPTCHA khi component mount
   useEffect(() => {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-        "sign-in-button",
-        {
-          size: "invisible",
-          defaultCountry: "VN",
-          callback: (response) => {
-            console.log("reCAPTCHA solved:", response);
-          },
-        }
-    );
+    // Dọn dẹp reCAPTCHA cũ nếu tồn tại
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+      window.recaptchaVerifier = null;
+    }
+
+    // Kiểm tra xem phần tử #sign-in-button có tồn tại không
+    const recaptchaContainer = document.getElementById("sign-in-button");
+    if (!recaptchaContainer) {
+      console.error("reCAPTCHA container #sign-in-button not found");
+      setMessage("Lỗi: Không tìm thấy container reCAPTCHA.");
+      return;
+    }
+
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
+        size: "invisible",
+        defaultCountry: "VN",
+        callback: (response) => {
+          console.log("reCAPTCHA solved:", response);
+        },
+      });
+    } catch (error) {
+      console.error("Error initializing reCAPTCHA:", error);
+      setMessage("Lỗi khởi tạo reCAPTCHA. Vui lòng thử lại.");
+    }
+
+    return () => {
+      // Dọn dẹp reCAPTCHA khi component unmount
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
+    };
   }, []);
 
   // Timer đếm ngược cho nút gửi lại OTP
@@ -44,19 +69,20 @@ const PhoneAuth = () => {
   // Gửi OTP
   const handleSendOtp = async () => {
     if (!phoneNumber) {
-      alert("Vui lòng nhập số điện thoại");
+      setMessage("Vui lòng nhập số điện thoại");
       return;
     }
     try {
       const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await firebase
-          .auth()
-          .signInWithPhoneNumber(phoneNumber, appVerifier);
+      if (!appVerifier) {
+        setMessage("reCAPTCHA chưa được khởi tạo. Vui lòng thử lại.");
+        return;
+      }
+      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       window.confirmationResult = confirmationResult;
-      alert("Đã gửi OTP thành công");
+      setMessage("Đã gửi OTP thành công");
       setIsOtpSent(true);
-      setTimer(60); // Bắt đầu đếm ngược 60 giây
-      setMessage("");
+      setTimer(60);
     } catch (error) {
       console.error("Error sending OTP:", error);
       setMessage("Gửi OTP thất bại. Vui lòng thử lại sau.");
@@ -66,14 +92,12 @@ const PhoneAuth = () => {
   // Xác thực OTP
   const handleVerifyOtp = async () => {
     if (otp.length !== 6) {
-      alert("Vui lòng nhập đủ 6 chữ số OTP");
+      setMessage("Vui lòng nhập đủ 6 chữ số OTP");
       return;
     }
     try {
       await window.confirmationResult.confirm(otp);
-      alert("Xác thực thành công!");
       setMessage("Xác thực thành công!");
-      // Có thể reset form hoặc chuyển trang ở đây
     } catch (error) {
       console.error("Error verifying OTP:", error);
       setMessage("OTP không đúng hoặc đã hết hạn.");
@@ -166,7 +190,7 @@ const PhoneAuth = () => {
               {message && (
                   <div
                       className={`message ${
-                          message.includes("failed") || message.includes("not")
+                          message.includes("thất bại") || message.includes("hết hạn") || message.includes("khởi tạo")
                               ? "error"
                               : "success"
                       }`}
