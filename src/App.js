@@ -17,8 +17,7 @@ import SignUp from "./page/authentication/signup/SignUp";
 import Error404 from './page/404error/Error404';
 import Sale from './page/salepage/Sale';
 import Profile from './page/authentication/Profile/profile';
-import Verifyphone from "./page/authentication/VerifyPhone/verifyphone";
-// import ChangePassWord from './page/authentication/';
+import ChangePassWord from './page/authentication/ChangePassword/changepassword';
 
  // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 
@@ -48,16 +47,13 @@ function App() {
                     <Route path="/google-callback" element={<GoogleCallback />} />
                     <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
                     <Route path='/dashboard' element={<Dashboard />} />
-                    <Route path='/seller/dashboard' element={<SellerDashboard />} />
-                    {/*<Route path='/admin/dashboard' element={<SellerDashboard />} />*/}
+                    <Route path='/sellerdashboard' element={<SellerDashboard />} />
                     <Route path='/sale' element={<Sale />} />
                     {/*<Route path='*' element={<Error404 />} />*/}
                     <Route path='/verify-gmail' element={<VerifyGoogle />} />
-                    <Route path='/verify-phone' element={<Verifyphone />} />
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/profile' element={<Profile />} />
-                    <Route path='/forgot-password' element={<ForgotPassword />} />
-                    {/*<Route path='/changepassword' element={<ChangePassWord />} />*/}
+                    <Route path='/changepassword' element={<ChangePassWord />} />
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />
