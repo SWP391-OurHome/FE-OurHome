@@ -52,20 +52,14 @@ const EmailVerification = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-background">
-        <div className="auth-background-content">
-          <h1>Email Verification</h1>
-          <p>
-            Please verify your email address to complete your account setup and
-            access all features.
-          </p>
-        </div>
+    <div className="authen-container">
+      <div className="authen-background">
+
       </div>
 
-      <div className="auth-content">
-        <div className="auth-form-container">
-          <div className="auth-header">
+      <div className="authen-content">
+        <div className="authen-form-container">
+          <div className="authen-header">
             <h2>
               {isOtpSent ? "Enter Verification Code" : "Verify Your Email"}
             </h2>
@@ -76,39 +70,39 @@ const EmailVerification = () => {
             </p>
           </div>
 
-          <form className="auth-form">
+          <form className="authen-form">
             {!isOtpSent ? (
-              <div className="form-group">
+              <div className="authen-form-group">
                 <label>Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="form-control"
+                  className="authen-form-control"
                 />
                 <button
                   type="button"
-                  className="auth-button"
+                  className="authen-button"
                   onClick={handleSendOtp}
                 >
                   Send Verification Code
                 </button>
               </div>
             ) : (
-              <div className="form-group">
+              <div className="authen-form-group">
                 <label>Verification Code</label>
                 <input
                   type="text"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                   placeholder="Enter verification code"
-                  className="form-control"
+                  className="authen-form-control"
                   maxLength="6"
                 />
                 <button
                   type="button"
-                  className="auth-button"
+                  className="authen-button"
                   onClick={handleVerifyOtp}
                 >
                   Verify Code
@@ -118,8 +112,8 @@ const EmailVerification = () => {
 
             {message && (
               <div
-                className={`message ${
-                  message.includes("success") ? "success" : "error"
+                className={`authen-message ${
+                  message.includes("success") ? "authen-success" : "authen-error"
                 }`}
               >
                 {message}
@@ -127,7 +121,7 @@ const EmailVerification = () => {
             )}
 
             <div
-              className="auth-links"
+              className="authen-links"
               style={{ marginTop: "2rem", textAlign: "center" }}
             >
               <a href="/login">Back to Login</a>

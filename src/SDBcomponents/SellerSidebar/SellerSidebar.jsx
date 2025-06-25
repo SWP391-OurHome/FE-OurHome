@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./SellerSidebar.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import Logo from '../../Assets/LogoFooter.svg';
 const SellerSidebar = () => {
   return (
     <aside className="seller-sidebar">
       <div className="seller-sidebar-header">
-        <h2>FLEX LIVING</h2>
+        <img src={Logo} alt="Logo" />
       </div>
       <nav className="seller-sidebar-nav">
         <ul>
@@ -33,6 +33,12 @@ const SellerSidebar = () => {
             <Link to="/seller/statscards">
               <i className="bi bi-graph-up"></i>
               <span>Stats</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/seller/notifications">
+              <i className="bi bi-bell"></i>
+              <span>Notifications</span>
             </Link>
           </li>
           <li>

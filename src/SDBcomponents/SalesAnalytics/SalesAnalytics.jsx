@@ -20,8 +20,8 @@ const SalesAnalytics = () => {
       {
         label: "Sales ($)",
         data: [5000, 10000, 15000, 8000, 12000],
-        backgroundColor: "rgba(49, 27, 146, 0.6)",
-        borderColor: "rgba(49, 27, 146, 1)",
+  backgroundColor: "rgba(36, 106, 65, 0.6)",
+  borderColor: "rgba(37, 89, 77, 1)",
         borderWidth: 1,
       },
     ],

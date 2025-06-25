@@ -96,7 +96,7 @@ const PropertyList = () => {
                   <div className="property-detail-info-overlay">
                     <h3>{item.addressLine1}</h3>
                     <p>
-                      <FaMapMarkerAlt /> {item.addressLine1}, {item.city}
+                      <FaMapMarkerAlt style={{marginTop: '-1.5px' }} /> {item.addressLine1}, {item.city}
                     </p>
                     <strong>${item.price}</strong>
                     <div className="property-info">

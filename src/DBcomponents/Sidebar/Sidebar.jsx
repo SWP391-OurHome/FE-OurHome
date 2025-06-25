@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./AdminSidebar.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import Logo from '../../Assets/LogoFooter.svg';
 const AdminSidebar = () => {
   return (
     <aside className="admin-sidebar">
       <div className="admin-sidebar-header">
-        <h2>FLEX LIVING</h2>
+        {/* <h2> Just Home </h2> */}
+        <img src={Logo} alt="Logo" />
       </div>
       <nav className="admin-sidebar-nav">
         <ul>
@@ -21,12 +22,6 @@ const AdminSidebar = () => {
             <Link to="/dashboard/analytics">
               <i className="bi bi-bar-chart"></i>
               <span>Analytics</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/properties">
-              <i className="bi bi-building"></i>
-              <span>Properties</span>
             </Link>
           </li>
           <li>

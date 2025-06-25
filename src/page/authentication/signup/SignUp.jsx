@@ -98,27 +98,21 @@ const SignUp = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-background">
-        <div className="auth-background-content">
-          <h1>Create Your Account</h1>
-          <p>
-            Join our community and start your journey to finding your perfect
-            home.
-          </p>
-        </div>
+    <div className="authen-container">
+      <div className="authen-background">
+  
       </div>
 
-      <div className="auth-content">
-        <div className="auth-form-container">
-          <div className="auth-header">
+      <div className="authen-content">
+        <div className="authen-form-container">
+          <div className="authen-header">
             <h2>Sign Up</h2>
             <p>Fill in your details to create your account</p>
           </div>
 
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <div className="form-row" style={{ display: "flex", gap: "1rem" }}>
-              <div className="form-group" style={{ flex: 1 }}>
+          <form className="authen-form" onSubmit={handleSubmit}>
+            <div className="authen-form-row" style={{ display: "flex", gap: "1rem" }}>
+              <div className="authen-form-group" style={{ flex: 1 }}>
                 <label>First Name</label>
                 <input
                   type="text"
@@ -128,11 +122,11 @@ const SignUp = () => {
                   onChange={handleChange}
                 />
                 {errors.firstName && (
-                  <div className="error-message">{errors.firstName}</div>
+                  <div className="authen-error-message">{errors.firstName}</div>
                 )}
               </div>
 
-              <div className="form-group" style={{ flex: 1 }}>
+              <div className="authen-form-group" style={{ flex: 1 }}>
                 <label>Last Name</label>
                 <input
                   type="text"
@@ -142,12 +136,12 @@ const SignUp = () => {
                   onChange={handleChange}
                 />
                 {errors.lastName && (
-                  <div className="error-message">{errors.lastName}</div>
+                  <div className="authen-error-message">{errors.lastName}</div>
                 )}
               </div>
             </div>
 
-            <div className="form-group">
+            <div className="authen-form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -157,11 +151,11 @@ const SignUp = () => {
                 onChange={handleChange}
               />
               {errors.email && (
-                <div className="error-message">{errors.email}</div>
+                <div className="authen-error-message">{errors.email}</div>
               )}
             </div>
 
-            <div className="form-group">
+            <div className="authen-form-group">
               <label>Phone Number</label>
               <input
                 type="tel"
@@ -171,11 +165,11 @@ const SignUp = () => {
                 onChange={handleChange}
               />
               {errors.phone && (
-                <div className="error-message">{errors.phone}</div>
+                <div className="authen-error-message">{errors.phone}</div>
               )}
             </div>
 
-            <div className="form-group">
+            <div className="authen-form-group">
               <label>Password</label>
               <input
                 type="password"
@@ -185,26 +179,11 @@ const SignUp = () => {
                 onChange={handleChange}
               />
               {errors.password && (
-                <div className="error-message">{errors.password}</div>
+                <div className="authen-error-message">{errors.password}</div>
               )}
-              <div
-                className="password-requirements"
-                style={{
-                  fontSize: "0.85rem",
-                  color: "#666",
-                  marginTop: "0.5rem",
-                }}
-              >
-                Password must:
-                <ul style={{ paddingLeft: "1.2rem", marginTop: "0.3rem" }}>
-                  <li>Be at least 6 characters long</li>
-                  <li>Include uppercase and lowercase letters</li>
-                  <li>Include numbers and special characters</li>
-                </ul>
-              </div>
             </div>
 
-            <div className="form-group">
+            <div className="authen-form-group">
               <label>Confirm Password</label>
               <input
                 type="password"
@@ -214,16 +193,16 @@ const SignUp = () => {
                 onChange={handleChange}
               />
               {errors.confirmPassword && (
-                <div className="error-message">{errors.confirmPassword}</div>
+                <div className="authen-error-message">{errors.confirmPassword}</div>
               )}
             </div>
 
-            <button type="submit" className="auth-button" disabled={loading}>
+            <button type="submit" className="authen-button" disabled={loading}>
               {loading ? "Creating Account..." : "Create Account"}
             </button>
 
             <div
-              className="auth-links"
+              className="authen-links"
               style={{ marginTop: "2rem", textAlign: "center" }}
             >
               Already have an account? <a href="/login">Sign In</a>

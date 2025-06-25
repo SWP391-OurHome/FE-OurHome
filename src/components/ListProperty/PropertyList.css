@@ -124,45 +124,54 @@
     right: 15px; /* Cách đều từ phải */
     background: rgba(255, 255, 255, 0.9); /* Nền trắng mờ */
     padding: 1rem; /* Padding bên trong */
+    padding-bottom: 15px;
     border-radius: 12px; /* Bo góc đẹp */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
 
 .property-detail-info-overlay h3 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #212529;
-    margin-bottom: 0.1rem;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-left: 3rem;
 }
 
 .property-detail-info-overlay p {
-    color: #6c757d;
-    font-size: 0.95rem;
+    color: #404346;
+    font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 0.5rem;
+    gap: 5px;
+    margin-bottom: 15px;
+    margin-top: 0.1rem;
+    margin-left: 3rem;
 }
 
-.property-detail-info-overlay strong {
-    color: #d32f2f; /* Màu đỏ giống hình */
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
+    .property-detail-info-overlay strong {
+        color: #d32f2f;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 1px;
+        float: left;
+        margin-left: 3rem;
+    }
 
 .property-info {
     display: flex;
-    justify-content: space-between;
     font-size: 0.9rem;
     color: #444;
+    width: 40%;
+    float: right;   
 }
 
 .property-info span {
     display: flex;
     align-items: center;
     gap: 4px;
+    margin-left: 1rem;
 }
 
 .view-all {

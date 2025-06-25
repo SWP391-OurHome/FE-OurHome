@@ -84,8 +84,8 @@ const AgentDetails = () => {
             <Navbar />
             <div className="agent-details-wrapper">
                 <div className="agent-details-container">
-                    <Link to="/agents" className="back-link">
-                        Back to Agents
+                    <Link to="/" className="back-link">
+                        Back to home
                     </Link>
                     <div className="agent-header">
                         <img

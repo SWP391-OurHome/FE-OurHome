@@ -1,5 +1,5 @@
 .admin-sidebar {
-    background: linear-gradient(180deg, #311b92 0%, #4527a0 100%);
+    background: linear-gradient(135deg, #25594d, #3ca267);
     color: #fff;
     width: 280px;
     position: fixed;
@@ -16,11 +16,18 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.05);
   }
-  
+  .admin-sidebar-header img {
+    margin-left: 13px;
+    width: 170px;
+    height: auto;
+
+  }
   .admin-sidebar-header h2 {
-    font-size: 1.5rem;
-    margin: 0;
+    font-size: 2.2rem;
+    margin-top: 10px; ;
+    margin-left: 65px;
     font-weight: 600;
+    color: #fff;
   }
   
   .admin-sidebar-nav ul {
@@ -37,8 +44,8 @@
   .admin-sidebar-nav a {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1rem;
-    color: rgba(255, 255, 255, 0.8);
+    padding: 1rem 1rem;
+    color: #fff;
     text-decoration: none;
     transition: all 0.3s ease;
     border-radius: 8px;

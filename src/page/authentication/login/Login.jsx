@@ -47,7 +47,7 @@ const Login = () => {
         } else {
           navigate("/");
         }
-      }else {
+      } else {
         toast.error(res.message || "Invalid login credentials");
       }
     } catch (error) {
@@ -67,26 +67,19 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-background">
-        <div className="auth-background-content">
-          <h1>Welcome Back</h1>
-          <p>
-            Sign in to access your account and continue your journey in finding
-            your dream home.
-          </p>
-        </div>
+    <div className="authen-container">
+      <div className="authen-background">
       </div>
 
-      <div className="auth-content">
-        <div className="auth-form-container">
-          <div className="auth-header">
+      <div className="authen-content">
+        <div className="authen-form-container">
+          <div className="authen-header">
             <h2>Sign In</h2>
             <p>Enter your credentials to access your account</p>
           </div>
 
-          <form className="auth-form" onSubmit={handleLogin}>
-            <div className="form-group">
+          <form className="authen-form" onSubmit={handleLogin}>
+            <div className="authen-form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -98,7 +91,7 @@ const Login = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="authen-form-group">
               <label>Password</label>
               <input
                 type="password"
@@ -111,7 +104,7 @@ const Login = () => {
             </div>
 
             <div
-              className="auth-links"
+              className="authen-links"
               style={{
                 textAlign: "right",
                 marginTop: "-10px",
@@ -121,18 +114,18 @@ const Login = () => {
               <a href="/forgot-password">Forgot password?</a>
             </div>
 
-            <button type="submit" className="auth-button" disabled={loading}>
+            <button type="submit" className="authen-button" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
-            <div className="divider">
+            <div className="authen-divider">
               <span>Or continue with</span>
             </div>
 
-            <div className="social-buttons">
+            <div className="authen-social-buttons">
               <button
                 type="button"
-                className="social-button"
+                className="authen-social-button"
                 onClick={handleGoogleLogin}
               >
                 <FcGoogle style={{ width: "24px", height: "24px" }} />
@@ -140,7 +133,7 @@ const Login = () => {
               </button>
             </div>
 
-            <div className="auth-links" style={{ marginTop: "2rem" }}>
+            <div className="authen-links" style={{ marginTop: "2rem" }}>
               Don't have an account? <a href="/signup">Create Account</a>
             </div>
           </form>

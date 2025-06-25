@@ -14,19 +14,19 @@ export default function GoogleCallback() {
         const token = queryParams.get("token");
         const error = queryParams.get("error");
 
-        const userID = queryParams.get("userId");
+        const id = queryParams.get("userId");
         const name = queryParams.get("name");
         const email = queryParams.get("email");
         const picture = queryParams.get("picture");
         const role = queryParams.get("role") ;
         const birthDay = queryParams.get("birthday");
-        console.log(token, error, userID, name, email, picture, role,userID);
+        console.log(token, error, id, name, email, picture, role, birthDay);
         if (token) {
 
             localStorage.setItem("token", token);
             localStorage.setItem("role", role.toLowerCase());
 
-            const user = { name, email, picture ,birthDay};
+            const user = { id, name, email, picture, birthDay };
             localStorage.setItem("user", JSON.stringify(user));
 
             navigate("/"); // ✅ về Home sau khi đã có dữ liệu
