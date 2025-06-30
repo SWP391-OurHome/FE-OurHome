@@ -1,26 +1,224 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./RecentProperties.css";
+import SellerService from "../../services/SellerService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash, faEye, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
+const truncate = (str, maxLength = 30) => {
+  if (!str) return "";
+  return str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
+};
 
 const RecentProperties = () => {
-  const properties = [
-    { id: 1, title: "Modern Apartment", location: "Đà Nẵng", price: "8 million/month", status: "Listed" },
-    { id: 2, title: "Luxury Villa", location: "Đà Nẵng", price: "25 million/month", status: "Sold" },
-  ];
+  const [listings, setListings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const navigate = useNavigate();
+
+  // Retrieve userId from localStorage
+  const userData = localStorage.getItem("user");
+  const userId = userData ? JSON.parse(userData).id : null;
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      if (!userId) {
+        console.error("User ID is missing. Please log in.");
+        return;
+      }
+      try {
+        const data = await SellerService.getListingsByUserId(userId);
+        console.log("API Response - Number of properties:", data.properties);
+        console.log("API Response - Number of listings:", data.listings);
+        const mappedListings = data.listings.map((listing) => {
+          const property = data.properties.find((prop) => String(prop.propertyID) === String(listing.propertyId)) || {};
+          console.log("Mapping:", { listingId: listing.listingId, propertyId: listing.propertyId, propertyFound: property });
+          return { ...listing, property };
+        });
+        setListings(mappedListings);
+        console.log("Total mapped listings:", mappedListings.length);
+      } catch (error) {
+        console.error("Failed to fetch listings:", error);
+      }
+    };
+    fetchListings();
+  }, [userId]);
+
+  const handleEdit = (id) => {
+    navigate(`/seller/dashboard/property/form/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm(`Are you sure you want to delete property with ID: ${id}?`)) {
+      alert(`Deleted property with ID: ${id}`);
+      // Add delete logic here (e.g., call API to delete)
+    }
+  };
+
+  const handleCreateNew = () => {
+    navigate("/seller/dashboard/property/new");
+  };
+
+  // Pagination logic
+  const totalPages = Math.ceil(listings.length / itemsPerPage);
+  const paginatedListings = listings.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+  );
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="seller-recent-properties">
-      <h2>Recent Properties</h2>
-      <div className="seller-properties-list">
-        {properties.map((prop) => (
-          <div key={prop.id} className="seller-property-card">
-            <h3>{prop.title}</h3>
-            <p><strong>Location:</strong> {prop.location}</p>
-            <p><strong>Price:</strong> {prop.price}</p>
-            <p><strong>Status:</strong> <span className={`seller-status-${prop.status.toLowerCase()}`}>{prop.status}</span></p>
-          </div>
-        ))}
+      <div className="seller-recent-properties">
+        <h2>
+          Recent Properties <span>({listings.length} properties)</span>
+        </h2>
+        {listings.length === 0 ? (
+            <p>No properties found for user ID: {userId}. Please check the data.</p>
+        ) : (
+            <>
+              <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 10,
+                    alignItems: "center",
+                  }}
+              >
+                <label>
+                  Show
+                  <select
+                      value={itemsPerPage}
+                      onChange={handleItemsPerPageChange}
+                      style={{ margin: "0 8px" }}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={15}>15</option>
+                  </select>
+                  items
+                </label>
+                <button
+                    className="seller-action-btn create"
+                    onClick={handleCreateNew}
+                    title="Create new"
+                    style={{ backgroundColor: "#4CAF50", color: "#fff" }}
+                >
+                  <FontAwesomeIcon icon={faPlus} /> Create new
+                </button>
+              </div>
+              <div className="seller-properties-table">
+                <table>
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Address</th>
+                    <th>Area</th>
+                    <th>Property Type</th>
+                    <th>Purpose</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {paginatedListings.map((listing, index) => (
+                      <tr key={listing.listingId}>
+                        <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                        <td
+                            title={[
+                              listing.property.addressLine1,
+                              listing.property.addressLine2,
+                              listing.property.region,
+                              listing.property.city,
+                            ]
+                                .filter(Boolean)
+                                .join(", ")}
+                        >
+                          {truncate(
+                              [
+                                listing.property.addressLine1,
+                                listing.property.addressLine2,
+                                listing.property.region,
+                                listing.property.city,
+                              ]
+                                  .filter(Boolean)
+                                  .join(", "),
+                              30
+                          )}
+                        </td>
+                        <td>
+                          {truncate(
+                              listing.property.area
+                                  ? listing.property.area.toString()
+                                  : "N/A",
+                              10
+                          )}
+                        </td>
+                        <td>{truncate(listing.property.propertyType || "N/A", 15)}</td>
+                        <td>{truncate(listing.property.purpose || "N/A", 15)}</td>
+                        <td>
+                          <button
+                              className="seller-action-btn view"
+                              title="View details"
+                              onClick={() =>
+                                  navigate(`/seller/dashboard/property/${listing.property.propertyID}`)
+                              }
+                          >
+                            <FontAwesomeIcon icon={faEye} />
+                          </button>
+                          <button
+                              className="seller-action-btn edit"
+                              onClick={() => handleEdit(listing.listingId)}
+                              title="Edit"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </button>
+                          <button
+                              className="seller-action-btn delete"
+                              onClick={() => handleDelete(listing.listingId)}
+                              title="Delete"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        </td>
+                      </tr>
+                  ))}
+                  </tbody>
+                </table>
+                <div className="seller-table-footer">
+                  Displaying {paginatedListings.length} out of {listings.length}{" "}
+                  results - Current page: {currentPage}
+                </div>
+                <div
+                    style={{ display: "flex", justifyContent: "center", marginTop: 16 }}
+                >
+                  {Array.from({ length: totalPages }, (_, i) => (
+                      <button
+                          key={i + 1}
+                          onClick={() => handlePageChange(i + 1)}
+                          style={{
+                            margin: "0 4px",
+                            padding: "4px 10px",
+                            background: currentPage === i + 1 ? "#311b92" : "#fff",
+                            color: currentPage === i + 1 ? "#fff" : "#311b92",
+                            border: "1px solid #311b92",
+                            borderRadius: 4,
+                            cursor: "pointer",
+                            fontWeight: currentPage === i + 1 ? 700 : 400,
+                          }}
+                      >
+                        {i + 1}
+                      </button>
+                  ))}
+                </div>
+              </div>
+            </>
+        )}
       </div>
-    </div>
   );
 };
 

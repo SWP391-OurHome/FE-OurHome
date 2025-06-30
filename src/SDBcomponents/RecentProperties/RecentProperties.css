@@ -1,7 +1,7 @@
 .seller-recent-properties {
   padding: 20px;
   background-color: #f5f7fa;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .seller-recent-properties h2 {
@@ -52,4 +52,39 @@
   border-radius: 20px;
   font-size: 0.9em;
   font-weight: 500;
+}
+
+.seller-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #311b92;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+  font-size: 1.1em;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  cursor: pointer;
+}
+.seller-action-btn.view:hover {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-color: #1565c0;
+}
+.seller-action-btn.edit:hover {
+  background: #ede7f6;
+  color: #512da8;
+  border-color: #512da8;
+}
+.seller-action-btn.delete:hover {
+  background: #ffebee;
+  color: #c62828;
+  border-color: #c62828;
+}
+.seller-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #b39ddb44;
 }

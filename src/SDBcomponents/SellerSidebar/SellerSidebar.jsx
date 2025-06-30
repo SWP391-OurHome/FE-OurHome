@@ -36,6 +36,12 @@ const SellerSidebar = () => {
             </Link>
           </li>
           <li>
+            <Link to="/seller/profile">
+              <i className="bi bi-box-arrow-right"></i>
+              <span>Profile</span>
+            </Link>
+          </li>
+          <li>
             <Link to="/seller/logout">
               <i className="bi bi-box-arrow-right"></i>
               <span>Logout</span>

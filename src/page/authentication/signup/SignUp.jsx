@@ -11,6 +11,7 @@ const SignUp = () => {
     lastName: "",
     email: "",
     phone: "",
+    birthday: "",
     password: "",
     confirmPassword: "",
   });
@@ -47,6 +48,26 @@ const SignUp = () => {
 
     if (!(form.phone || "").trim()) {
       newErrors.phone = "Please enter your phone number";
+    }
+
+    if (!form.birthday) {
+      newErrors.birthday = "Please enter your birthday";
+    } else {
+      const today = new Date();
+      const birthDate = new Date(form.birthday);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      if (age < 18) {
+        newErrors.birthday = "You must be at least 18 years old";
+      }
     }
 
     if (!form.password) {
@@ -205,6 +226,19 @@ const SignUp = () => {
                 />
                 {errors.phone && (
                   <div className="error-message">{errors.phone}</div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Birthday</label>
+                <input
+                  type="date"
+                  name="birthday"
+                  value={form.birthday}
+                  onChange={handleChange}
+                />
+                {errors.birthday && (
+                  <div className="error-message">{errors.birthday}</div>
                 )}
               </div>
 

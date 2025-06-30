@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import "./ForgotPassword.css";
+import { sendOtp, verifyOtp, resetPassword } from "../../../services/authService"; // Adjust path if needed
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-  // Validation cho mật khẩu
+  // Password validation
   const validatePassword = (password) => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
@@ -22,12 +30,13 @@ const ForgotPassword = () => {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+    console.log("Email being sent:", email); // Log email
     setLoading(true);
     setError("");
     setMessage("");
-
     try {
       const result = await sendOtp(email);
+      console.log("Result from sendOtp:", result); // Log result
       if (result.success) {
         setMessage(result.message);
         setStep(2);
@@ -35,7 +44,8 @@ const ForgotPassword = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError("Có lỗi xảy ra khi gửi OTP");
+      console.error("Error in handleSendOtp:", err); // Log error
+      setError("An error occurred while sending OTP");
     } finally {
       setLoading(false);
     }
@@ -48,7 +58,7 @@ const ForgotPassword = () => {
     setMessage("");
 
     try {
-      const result = await verifyOtp(email, otp);
+      const result = await verifyOtp(email, otp); // Ensure verifyOtp is defined
       if (result.success) {
         setMessage(result.message);
         setStep(3);
@@ -56,7 +66,7 @@ const ForgotPassword = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError("Có lỗi xảy ra khi xác thực OTP");
+      setError("An error occurred while verifying OTP");
     } finally {
       setLoading(false);
     }
@@ -69,21 +79,20 @@ const ForgotPassword = () => {
 
     const passwordValidation = validatePassword(password);
     if (!passwordValidation.isValid) {
-      setError("Mật khẩu không đáp ứng yêu cầu bảo mật");
+      setError("Password does not meet security requirements");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Mật khẩu xác nhận không khớp");
+      setError("Confirm password does not match");
       return;
     }
 
     setLoading(true);
     try {
-      const result = await resetPassword(email, password);
+      const result = await resetPassword(email, password); // Ensure resetPassword is defined
       if (result.success) {
-        setMessage("Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.");
-        // Redirect to login sau 2 giây
+        setMessage("Password reset successful! Please log in again.");
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);
@@ -91,7 +100,7 @@ const ForgotPassword = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError("Có lỗi xảy ra khi đặt lại mật khẩu");
+      setError("An error occurred while resetting the password");
     } finally {
       setLoading(false);
     }
@@ -100,174 +109,160 @@ const ForgotPassword = () => {
   const passwordValidation = validatePassword(password);
 
   return (
-    <div className="fp-container">
-      {/* Phần background (7/10) */}
-      <div className="fp-background"></div>
-
-      {/* Phần nội dung (3/10) */}
-      <div className="fp-content">
-        <div className="fp-form">
-          {/* Bước 1: Nhập email */}
-          {step === 1 && (
-            <div className="fp-step">
-              <h2>Quên mật khẩu</h2>
-              <p>Nhập email của bạn để nhận mã OTP</p>
-
-              <form onSubmit={handleSendOtp}>
-                <input
-                  type="email"
-                  className="fp-input"
-                  placeholder="Nhập email của bạn"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-
-                <div className="fp-button-group">
-                  <button
-                    type="submit"
-                    className="fp-btn fp-btn-primary"
-                    disabled={loading}
-                  >
-                    {loading ? "Đang gửi..." : "Gửi OTP"}
-                  </button>
+      <div className="fp-container">
+        <div className="fp-background"></div>
+        <div className="fp-content">
+          <div className="fp-form">
+            {/* Step 1: Enter email */}
+            {step === 1 && (
+                <div className="fp-step">
+                  <h2>Forgot Password</h2>
+                  <p>Enter your email to receive an OTP</p>
+                  <form onSubmit={handleSendOtp}>
+                    <input
+                        type="email"
+                        className="fp-input"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <div className="fp-button-group">
+                      <button
+                          type="submit"
+                          className="fp-btn fp-btn-primary"
+                          disabled={loading}
+                      >
+                        {loading ? "Sending..." : "Send OTP"}
+                      </button>
+                    </div>
+                  </form>
+                  <p className="fp-link">
+                    Remember your password? <a href="/login">Log in</a>
+                  </p>
                 </div>
-              </form>
+            )}
 
-              <p className="fp-link">
-                Nhớ mật khẩu? <a href="/login">Đăng nhập</a>
-              </p>
-            </div>
-          )}
-
-          {/* Bước 2: Nhập OTP */}
-          {step === 2 && (
-            <div className="fp-step">
-              <h2>Xác thực OTP</h2>
-              <p>Nhập mã OTP đã được gửi đến {email}</p>
-
-              <form onSubmit={handleVerifyOtp}>
-                <input
-                  type="text"
-                  className="fp-input"
-                  placeholder="Nhập mã OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
-                  maxLength={6}
-                />
-
-                <div className="fp-button-group">
-                  <button
-                    type="submit"
-                    className="fp-btn fp-btn-primary"
-                    disabled={loading}
-                  >
-                    {loading ? "Đang xác thực..." : "Xác thực OTP"}
-                  </button>
-                  <button
-                    type="button"
-                    className="fp-btn"
-                    onClick={() => setStep(1)}
-                  >
-                    Quay lại
-                  </button>
+            {/* Step 2: Enter OTP */}
+            {step === 2 && (
+                <div className="fp-step">
+                  <h2>Verify OTP</h2>
+                  <p>Enter the OTP sent to {email}</p>
+                  <form onSubmit={handleVerifyOtp}>
+                    <input
+                        type="text"
+                        className="fp-input"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        required
+                        maxLength={6}
+                    />
+                    <div className="fp-button-group">
+                      <button
+                          type="submit"
+                          className="fp-btn fp-btn-primary"
+                          disabled={loading}
+                      >
+                        {loading ? "Verifying..." : "Verify OTP"}
+                      </button>
+                      <button
+                          type="button"
+                          className="fp-btn"
+                          onClick={() => setStep(1)}
+                      >
+                        Back
+                      </button>
+                    </div>
+                  </form>
                 </div>
-              </form>
-            </div>
-          )}
+            )}
 
-          {/* Bước 3: Nhập mật khẩu mới */}
-          {step === 3 && (
-            <div className="fp-step">
-              <h2>Đặt lại mật khẩu</h2>
-              <p>Tạo mật khẩu mới cho tài khoản của bạn</p>
-
-              <form onSubmit={handleResetPassword}>
-                <input
-                  type="password"
-                  className="fp-input"
-                  placeholder="Mật khẩu mới"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-
-                <input
-                  type="password"
-                  className="fp-input"
-                  placeholder="Xác nhận mật khẩu"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-
-                {/* Hiển thị yêu cầu mật khẩu */}
-                <div className="fp-input-hint">
-                  <p>Mật khẩu phải có:</p>
-                  <ul>
-                    <li
-                      className={
-                        passwordValidation.hasMinLength ? "valid" : "invalid"
-                      }
-                    >
-                      ✓ Ít nhất 8 ký tự
-                    </li>
-                    <li
-                      className={
-                        passwordValidation.hasUpperCase ? "valid" : "invalid"
-                      }
-                    >
-                      ✓ Ít nhất 1 chữ hoa
-                    </li>
-                    <li
-                      className={
-                        passwordValidation.hasNumber ? "valid" : "invalid"
-                      }
-                    >
-                      ✓ Ít nhất 1 chữ số
-                    </li>
-                    <li
-                      className={
-                        passwordValidation.hasSpecialChar ? "valid" : "invalid"
-                      }
-                    >
-                      ✓ Ít nhất 1 ký tự đặc biệt
-                    </li>
-                  </ul>
+            {/* Step 3: Reset password */}
+            {step === 3 && (
+                <div className="fp-step">
+                  <h2>Reset Password</h2>
+                  <p>Create a new password for your account</p>
+                  <form onSubmit={handleResetPassword}>
+                    <input
+                        type="password"
+                        className="fp-input"
+                        placeholder="New password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        className="fp-input"
+                        placeholder="Confirm password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <div className="fp-input-hint">
+                      <p>Password must have:</p>
+                      <ul>
+                        <li
+                            className={
+                              passwordValidation.hasMinLength ? "valid" : "invalid"
+                            }
+                        >
+                          ✓ At least 8 characters
+                        </li>
+                        <li
+                            className={
+                              passwordValidation.hasUpperCase ? "valid" : "invalid"
+                            }
+                        >
+                          ✓ At least 1 uppercase letter
+                        </li>
+                        <li
+                            className={
+                              passwordValidation.hasNumber ? "valid" : "invalid"
+                            }
+                        >
+                          ✓ At least 1 number
+                        </li>
+                        <li
+                            className={
+                              passwordValidation.hasSpecialChar ? "valid" : "invalid" // Changed from emailValidation to passwordValidation
+                            }
+                        >
+                          ✓ At least 1 special character
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="fp-button-group">
+                      <button
+                          type="submit"
+                          className="fp-btn fp-btn-primary"
+                          disabled={
+                              loading ||
+                              !passwordValidation.isValid ||
+                              password !== confirmPassword
+                          }
+                      >
+                        {loading ? "Resetting..." : "Reset Password"}
+                      </button>
+                      <button
+                          type="button"
+                          className="fp-btn"
+                          onClick={() => setStep(2)}
+                      >
+                        Back
+                      </button>
+                    </div>
+                  </form>
                 </div>
+            )}
 
-                <div className="fp-button-group">
-                  <button
-                    type="submit"
-                    className="fp-btn fp-btn-primary"
-                    disabled={
-                      loading ||
-                      !passwordValidation.isValid ||
-                      password !== confirmPassword
-                    }
-                  >
-                    {loading ? "Đang đặt lại..." : "Đặt lại mật khẩu"}
-                  </button>
-                  <button
-                    type="button"
-                    className="fp-btn"
-                    onClick={() => setStep(2)}
-                  >
-                    Quay lại
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-
-          {/* Hiển thị thông báo */}
-          {message && <div className="fp-message success">{message}</div>}
-
-          {error && <div className="fp-message error">{error}</div>}
+            {/* Display messages */}
+            {message && <div className="fp-message success">{message}</div>}
+            {error && <div className="fp-message error">{error}</div>}
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

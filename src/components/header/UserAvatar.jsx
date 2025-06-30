@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserAvatar.css";
-
+import DefaultAvatar from "../../Assets/img/DefaultAvatar.jpg";
 const UserAvatar = () => {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -135,7 +135,7 @@ const UserAvatar = () => {
     window.dispatchEvent(new CustomEvent("userLoggedOut"));
 
     // Navigate về trang chủ
-    navigate("/");
+    navigate("/login");
   };
 
   if (!user) return null;
@@ -152,7 +152,7 @@ const UserAvatar = () => {
         {user.picture ? (
           <img src={user.picture} alt="User avatar" className="user-avatar" />
         ) : (
-          <div className="avatar-placeholder">{initials}</div>
+            <img src={DefaultAvatar} alt="Default avatar" className="user-avatar" />
         )}
       </div>
 
