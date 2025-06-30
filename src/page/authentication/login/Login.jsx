@@ -3,7 +3,11 @@ import "../auth-common.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-import { login, loginWithGoogle } from "../../../services/authService";
+import {
+  login,
+  loginWithGoogle,
+  getRoleBasedRedirectPath,
+} from "../../../services/authService";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
@@ -30,23 +34,19 @@ const Login = () => {
         localStorage.setItem("role", role);
 
         const user = {
-          userID: res.data.userID,
-          name: res.data.name,
+          id: res.data.userID,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
           email: res.data.email,
           picture: res.data.picture,
-          birthday: res.data.birthday
+          birthday: res.data.birthday,
         };
         localStorage.setItem("user", JSON.stringify(user));
 
         toast.success("Login successful!");
 
-        if (role === "seller") {
-          navigate("/sellerdashboard");
-        } else if (role === "admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
+        const redirectPath = getRoleBasedRedirectPath(role);
+        navigate(redirectPath);
       } else {
         toast.error(res.message || "Invalid login credentials");
       }
@@ -67,19 +67,26 @@ const Login = () => {
   };
 
   return (
-    <div className="authen-container">
-      <div className="authen-background">
+    <div className="auth-container">
+      <div className="auth-background">
+        <div className="auth-background-content">
+          <h1>Welcome Back</h1>
+          <p>
+            Sign in to access your account and continue your journey in finding
+            your dream home.
+          </p>
+        </div>
       </div>
 
-      <div className="authen-content">
-        <div className="authen-form-container">
-          <div className="authen-header">
+      <div className="auth-content">
+        <div className="auth-form-container">
+          <div className="auth-header">
             <h2>Sign In</h2>
             <p>Enter your credentials to access your account</p>
           </div>
 
-          <form className="authen-form" onSubmit={handleLogin}>
-            <div className="authen-form-group">
+          <form className="auth-form" onSubmit={handleLogin}>
+            <div className="form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -91,7 +98,7 @@ const Login = () => {
               />
             </div>
 
-            <div className="authen-form-group">
+            <div className="form-group">
               <label>Password</label>
               <input
                 type="password"
@@ -104,7 +111,7 @@ const Login = () => {
             </div>
 
             <div
-              className="authen-links"
+              className="auth-links"
               style={{
                 textAlign: "right",
                 marginTop: "-10px",
@@ -114,18 +121,18 @@ const Login = () => {
               <a href="/forgot-password">Forgot password?</a>
             </div>
 
-            <button type="submit" className="authen-button" disabled={loading}>
+            <button type="submit" className="auth-button" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
-            <div className="authen-divider">
+            <div className="divider">
               <span>Or continue with</span>
             </div>
 
-            <div className="authen-social-buttons">
+            <div className="social-buttons">
               <button
                 type="button"
-                className="authen-social-button"
+                className="social-button"
                 onClick={handleGoogleLogin}
               >
                 <FcGoogle style={{ width: "24px", height: "24px" }} />
@@ -133,7 +140,7 @@ const Login = () => {
               </button>
             </div>
 
-            <div className="authen-links" style={{ marginTop: "2rem" }}>
+            <div className="auth-links" style={{ marginTop: "2rem" }}>
               Don't have an account? <a href="/signup">Create Account</a>
             </div>
           </form>

@@ -3,15 +3,14 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD5nbb4q5rWllwKRB2fMDmXuzn8rTnMWtI",
-    authDomain: "ourhome-55e00.firebaseapp.com",
-    projectId: "ourhome-55e00",
-    storageBucket: "ourhome-55e00.firebasestorage.app",
-    messagingSenderId: "793571385559",
-    appId: "1:793571385559:web:a4c8218e4f74b0cf2bd092",
-    measurementId: "G-JXR10S9C4D"
+    apiKey: "AIzaSyDFXOWHYctBvMoBcaY331u0iUGyWTMQTxE",
+    authDomain: "ourhome-45c19.firebaseapp.com",
+    projectId: "ourhome-45c19",
+    storageBucket: "ourhome-45c19.firebasestorage.app",
+    messagingSenderId: "790453700928",
+    appId: "1:790453700928:web:7f115abb1b3e728325d2a5",
+    measurementId: "G-KK48L3C3C2"
 };
-
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 

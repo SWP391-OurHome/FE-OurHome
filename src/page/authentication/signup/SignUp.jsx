@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { register } from "../../../services/authService";
+import { register, sendOtp, verifyOtp } from "../../../services/authService";
 import "../auth-common.css";
 
 const SignUp = () => {
@@ -16,6 +16,10 @@ const SignUp = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -82,7 +86,13 @@ const SignUp = () => {
 
       if (response.success) {
         toast.success(response.message || "Account created successfully");
-        navigate("/login");
+        const otpRes = await sendOtp(form.email);
+        if (otpRes.success) {
+          toast.success(otpRes.message || "OTP sent to your email");
+          setShowOtpInput(true);
+        } else {
+          toast.error(otpRes.message || "Failed to send OTP");
+        }
       } else {
         toast.error(response.message || "Failed to create account");
       }
@@ -97,117 +107,190 @@ const SignUp = () => {
     }
   };
 
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setOtpLoading(true);
+    setOtpError("");
+    try {
+      const res = await verifyOtp(form.email, otp);
+      if (res.success) {
+        toast.success(res.message || "OTP verified successfully");
+        navigate("/login");
+      } else {
+        setOtpError(res.message || "OTP verification failed");
+      }
+    } catch (error) {
+      setOtpError("Có lỗi xảy ra khi xác thực OTP");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
   return (
-    <div className="authen-container">
-      <div className="authen-background">
-  
+    <div className="auth-container">
+      <div className="auth-background">
+        <div className="auth-background-content">
+          <h1>Create Your Account</h1>
+          <p>
+            Join our community and start your journey to finding your perfect
+            home.
+          </p>
+        </div>
       </div>
 
-      <div className="authen-content">
-        <div className="authen-form-container">
-          <div className="authen-header">
+      <div className="auth-content">
+        <div className="auth-form-container">
+          <div className="auth-header">
             <h2>Sign Up</h2>
             <p>Fill in your details to create your account</p>
           </div>
 
-          <form className="authen-form" onSubmit={handleSubmit}>
-            <div className="authen-form-row" style={{ display: "flex", gap: "1rem" }}>
-              <div className="authen-form-group" style={{ flex: 1 }}>
-                <label>First Name</label>
+          {!showOtpInput && (
+            <form className="auth-form" onSubmit={handleSubmit}>
+              <div
+                className="form-row"
+                style={{ display: "flex", gap: "1rem" }}
+              >
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="Enter your first name"
+                    value={form.firstName}
+                    onChange={handleChange}
+                  />
+                  {errors.firstName && (
+                    <div className="error-message">{errors.firstName}</div>
+                  )}
+                </div>
+
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Enter your last name"
+                    value={form.lastName}
+                    onChange={handleChange}
+                  />
+                  {errors.lastName && (
+                    <div className="error-message">{errors.lastName}</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
                 <input
-                  type="text"
-                  name="firstName"
-                  placeholder="Enter your first name"
-                  value={form.firstName}
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={form.email}
                   onChange={handleChange}
                 />
-                {errors.firstName && (
-                  <div className="authen-error-message">{errors.firstName}</div>
+                {errors.email && (
+                  <div className="error-message">{errors.email}</div>
                 )}
               </div>
 
-              <div className="authen-form-group" style={{ flex: 1 }}>
-                <label>Last Name</label>
+              <div className="form-group">
+                <label>Phone Number</label>
                 <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Enter your last name"
-                  value={form.lastName}
+                  type="tel"
+                  name="phone"
+                  placeholder="e.g. 0912345678"
+                  value={form.phone}
                   onChange={handleChange}
                 />
-                {errors.lastName && (
-                  <div className="authen-error-message">{errors.lastName}</div>
+                {errors.phone && (
+                  <div className="error-message">{errors.phone}</div>
                 )}
               </div>
-            </div>
 
-            <div className="authen-form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                value={form.email}
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <div className="authen-error-message">{errors.email}</div>
-              )}
-            </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={form.password}
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                  <div className="error-message">{errors.password}</div>
+                )}
+                <div
+                  className="password-requirements"
+                  style={{
+                    fontSize: "0.85rem",
+                    color: "#666",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  Password must:
+                  <ul style={{ paddingLeft: "1.2rem", marginTop: "0.3rem" }}>
+                    <li>Be at least 6 characters long</li>
+                    <li>Include uppercase and lowercase letters</li>
+                    <li>Include numbers and special characters</li>
+                  </ul>
+                </div>
+              </div>
 
-            <div className="authen-form-group">
-              <label>Phone Number</label>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="e.g. 0912345678"
-                value={form.phone}
-                onChange={handleChange}
-              />
-              {errors.phone && (
-                <div className="authen-error-message">{errors.phone}</div>
-              )}
-            </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Re-enter your password"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                />
+                {errors.confirmPassword && (
+                  <div className="error-message">{errors.confirmPassword}</div>
+                )}
+              </div>
 
-            <div className="authen-form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                value={form.password}
-                onChange={handleChange}
-              />
-              {errors.password && (
-                <div className="authen-error-message">{errors.password}</div>
-              )}
-            </div>
+              <button type="submit" className="auth-button" disabled={loading}>
+                {loading ? "Creating Account..." : "Create Account"}
+              </button>
 
-            <div className="authen-form-group">
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Re-enter your password"
-                value={form.confirmPassword}
-                onChange={handleChange}
-              />
-              {errors.confirmPassword && (
-                <div className="authen-error-message">{errors.confirmPassword}</div>
-              )}
-            </div>
+              <div
+                className="auth-links"
+                style={{ marginTop: "2rem", textAlign: "center" }}
+              >
+                Already have an account? <a href="/login">Sign In</a>
+              </div>
+            </form>
+          )}
 
-            <button type="submit" className="authen-button" disabled={loading}>
-              {loading ? "Creating Account..." : "Create Account"}
-            </button>
-
-            <div
-              className="authen-links"
-              style={{ marginTop: "2rem", textAlign: "center" }}
+          {showOtpInput && (
+            <form
+              className="auth-form"
+              onSubmit={handleVerifyOtp}
+              style={{ marginTop: 24 }}
             >
-              Already have an account? <a href="/login">Sign In</a>
-            </div>
-          </form>
+              <div className="form-group">
+                <label>Enter OTP</label>
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP sent to your email"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  required
+                />
+                {otpError && <div className="error-message">{otpError}</div>}
+              </div>
+              <button
+                type="submit"
+                className="auth-button"
+                disabled={otpLoading}
+              >
+                {otpLoading ? "Verifying..." : "Verify OTP"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
