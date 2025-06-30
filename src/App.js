@@ -21,8 +21,10 @@ import ChangePassWord from './page/authentication/ChangePassWord/changepassword'
 import AgentDetails from './page/agentdetails/AgentDetails';
 import Logout from "./DBcomponents/Logout/Logout";
 import Wishlist from './page/wishlist/Wishlist';
-import Membership from './page/membership/Membership';
- // Đảm bảo đường dẫn đúng theo cấu trúc dự án
+import Agent from './page/Agent/Agent';
+
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+// Đảm bảo đường dẫn đúng theo cấu trúc dự án
 // Components for Dashboard
 import StatsCards from './DBcomponents/Statscards/Statscards';
 import RevenueChart from './DBcomponents/RevenueChart/RevenueChart';
@@ -32,15 +34,16 @@ import Settings from './DBcomponents/Settings/Setting';
 import Notifications from './DBcomponents/Notifications/Notifications';
 import Sidebar from './DBcomponents/Sidebar/Sidebar';
 import Header from './DBcomponents/Header/Header';
- // Placeholder components for new routes
+// Placeholder components for new routes
 // import Support from "./DBcomponents/Support/Support";
 // import Reports from "./DBcomponents/Reports/Reports";
-
 // Components for SellerDashboard
 import RecentProperties from "./SDBcomponents/RecentProperties/RecentProperties";
+import DBPropertyDetails from "./SDBcomponents/DBProperty/DBPropertyDetails";
+import DBPropertyEdit from "./SDBcomponents/DBProperty/DBPropertyEdit";
+import DBPropertyCreate from "./SDBcomponents/DBProperty/DBPropertyCreate";
 import SalesAnalytics from "./SDBcomponents/SalesAnalytics/SalesAnalytics";
 import StatsCardsSeller from "./SDBcomponents/StatsCards/StatsCards";
-import SellerNotifications from "./SDBcomponents/SellerNotification/sellernotification";
 function App() {
     return (
 
@@ -67,39 +70,49 @@ function App() {
                     <Route path="/google-callback" element={<GoogleCallback />} />
                     <Route path="/property/:id" element={<PropertyDetails />} /> {/* Route cho PropertyDetails */}
                     {/* <Route path='/dashboard' element={<Dashboard />} /> */}
-                    <Route path="/seller" element={<SellerDashboard />}>
-                        <Route index element={<RecentProperties />} />
-                        <Route path="dashboard" element={<RecentProperties />} />
-                        <Route path="analytics" element={<SalesAnalytics />} />
-                        <Route path="add-property" element={<div>Add Property Placeholder</div>} />
-                        <Route path="statscards" element={<StatsCardsSeller />} />
-                        <Route path="notifications" element={<SellerNotifications />} />
-                        <Route path="logout" element={<Logout />} />
+                    <Route element={<ProtectedRoute allowedRole="seller" />}>
+                        <Route path="/seller" element={<SellerDashboard />}>
+
+                            <Route index element={<RecentProperties />} />
+                            <Route path="dashboard" element={<RecentProperties />} />
+                            <Route path="dashboard/property/:id" element={<DBPropertyDetails/>} />
+                            <Route path="dashboard/property/form/:id" element={<DBPropertyEdit />} />
+                            <Route path="dashboard/property/new" element={<DBPropertyCreate />} />
+                            <Route path="analytics" element={<SalesAnalytics />} />
+                            <Route path="add-property" element={<div>Add Property Placeholder</div>} />
+                            <Route path="statscards" element={<StatsCardsSeller />} />
+                            <Route path="logout" element={<Logout />} />
+                        </Route>
                     </Route>
                     {/* <Route path='/sellerdashboard' element={<SellerDashboard />} /> */}
-                    <Route path="/dashboard" element={<Dashboard />}>
-                        <Route index element={<StatsCards />} />
-                        <Route path="overview" element={<StatsCards />} />
-                        <Route path="analytics" element={<RevenueChart />} />
-                        <Route path="transactions" element={<Transactions />} />
-                        <Route path="users" element={<Users />} />
-                        <Route path="settings" element={<Settings />} />
-                        <Route path="notifications" element={<Notifications />} />
-                 {/* <Route path="support" element={<Support />} />
-                 <Route path="reports" element={<Reports />} /> */}
-                        <Route path="logout" element={<Logout />} />
+                    <Route element={<ProtectedRoute allowedRole="admin" />}>
+                        <Route path="admin/dashboard" element={<Dashboard />}>
+                            <Route index element={<StatsCards />} />
+                            <Route path="overview" element={<StatsCards />} />
+                            <Route path="analytics" element={<RevenueChart />} />
+                            <Route path="transactions" element={<Transactions />} />
+                            <Route path="users" element={<Users />} />
+                            <Route path="settings" element={<Settings />} />
+                            <Route path="notifications" element={<Notifications />} />
+                            {/* <Route path="support" element={<Support />} />
+                     <Route path="reports" element={<Reports />} /> */}
+                            <Route path="logout" element={<Logout />} />
+                        </Route>
                     </Route>
+
                     <Route path='/sale' element={<Sale />} />
-                    {/*<Route path='*' element={<Error404 />} />*/}
+                    <Route path='/error' element={<Error404 />} />
                     <Route path='/verify-gmail' element={<VerifyGoogle />} />
                     <Route path='/verify-phone' element={<PhoneAuth />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/profile' element={<Profile />} />
+                    <Route path='/seller/profile' element={<Profile />} />
+                    <Route path='/admin/profile' element={<Profile />} />
                     <Route path='/changepassword' element={<ChangePassWord />} />
                     <Route path="/agent/:agentId" element={<AgentDetails />} />
                     <Route path="/wishlist" element={<Wishlist />} />
-                    <Route path="/membership" element={<Membership />} />
+                    <Route path="/agent" element={<Agent />} />
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />

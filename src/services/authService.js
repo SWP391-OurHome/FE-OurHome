@@ -21,7 +21,7 @@ export const getRoleBasedRedirectPath = (role) => {
     case "customer":
       return "/";
     case "seller":
-      return "/seller"; // Chuyển hướng về seller dashboard
+      return "/seller/dashboard"; // Chuyển hướng về seller dashboard
     case "admin":
       return "/admin/dashboard"; // Chuyển hướng về admin dashboard
     default:
@@ -220,29 +220,6 @@ export const checkPhoneNumber = async (phoneNumber) => {
     };
   }
 };
-
-// Function to reset password
-export const resetPassword = async (email, password) => {
-  try {
-    const response = await axios.put(`${API_URL}/reset-password`, {
-      email,
-      password,
-    });
-
-    return {
-      success: response.data.success,
-      message: response.data.message || "Password reset successfully.",
-    };
-  } catch (error) {
-    console.error("Error resetting password", error);
-    return {
-      success: false,
-      message: error.response
-        ? error.response.data.message
-        : "Failed to reset password. Please try again.",
-    };
-  }
-};
 export const changePassword = async (email, currentPassword, newPassword) => {
   try {
     const response = await axios.put(
@@ -267,6 +244,31 @@ export const changePassword = async (email, currentPassword, newPassword) => {
     return { success: false, message: errorMessage };
   }
 };
+
+// Function to reset password
+export const resetPassword = async (email, password) => {
+  try {
+    const response = await axios.put(`${API_URL}/reset-password`, {
+      email,
+      password,
+    });
+
+    return {
+      success: response.data.success,
+      message: response.data.message || "Password reset successfully.",
+    };
+  } catch (error) {
+    console.error("Error resetting password", error);
+    return {
+      success: false,
+      message: error.response
+        ? error.response.data.message
+        : "Failed to reset password. Please try again.",
+    };
+  }
+};
+
+
 export default {
   login,
   loginWithGoogle,

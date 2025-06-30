@@ -69,7 +69,7 @@ const AgentDetails = () => {
                 <div className="agent-details-wrapper">
                     <div className="agent-details-container">
                         <h2>Agent Not Found</h2>
-                        <Link to="/agents" className="back-link">
+                        <Link to="/agent" className="back-link">
                             Back to Agents
                         </Link>
                     </div>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { firebase } from "../../../config/FirebaseConfig";
+import React, { useState, useEffect, useRef } from "react";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../../../config/FirebaseConfig";
 import "../auth-common.css";
 
 const PhoneAuth = () => {
@@ -8,20 +9,110 @@ const PhoneAuth = () => {
   const [message, setMessage] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [recaptchaInitialized, setRecaptchaInitialized] = useState(false);
+  const recaptchaId = useRef(
+    `recaptcha-${Math.random().toString(36).substr(2, 9)}`
+  );
 
-  useEffect(() => {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      "sign-in-button",
-      {
-        size: "invisible",
-        defaultCountry: "VN",
-        callback: (response) => {
-          console.log("reCAPTCHA solved:", response);
-        },
+  // Khởi tạo reCAPTCHA khi cần thiết
+  const initializeRecaptcha = async () => {
+    // Kiểm tra xem reCAPTCHA đã được khởi tạo chưa
+    if (recaptchaInitialized || window.recaptchaVerifier) {
+      return true;
+    }
+
+    // Đợi một chút để đảm bảo DOM đã sẵn sàng
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Kiểm tra xem phần tử có tồn tại không
+    const recaptchaContainer = document.getElementById(recaptchaId.current);
+    if (!recaptchaContainer) {
+      console.error(`reCAPTCHA container ${recaptchaId.current} not found`);
+      setMessage("Lỗi: Không tìm thấy container reCAPTCHA.");
+      return false;
+    }
+
+    // Kiểm tra xem element đã có reCAPTCHA chưa
+    if (
+      recaptchaContainer.querySelector(".grecaptcha-badge") ||
+      recaptchaContainer.children.length > 0
+    ) {
+      console.log("reCAPTCHA already exists, clearing container...");
+      recaptchaContainer.innerHTML = "";
+      // Đợi thêm một chút để đảm bảo DOM đã được cập nhật
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        recaptchaId.current,
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("reCAPTCHA solved:", response);
+          },
+          "expired-callback": () => {
+            console.log("reCAPTCHA expired");
+            setMessage("reCAPTCHA đã hết hạn. Vui lòng thử lại.");
+            // Reset reCAPTCHA khi hết hạn
+            setRecaptchaInitialized(false);
+            if (window.recaptchaVerifier) {
+              try {
+                window.recaptchaVerifier.clear();
+              } catch (e) {
+                console.log("Error clearing expired reCAPTCHA:", e);
+              }
+              window.recaptchaVerifier = null;
+            }
+          },
+        }
+      );
+
+      // Render reCAPTCHA
+      await window.recaptchaVerifier.render();
+      setRecaptchaInitialized(true);
+      console.log("reCAPTCHA initialized successfully");
+      return true;
+    } catch (error) {
+      console.error("Error initializing reCAPTCHA:", error);
+      if (error.message.includes("reCAPTCHA has already been rendered")) {
+        console.log("reCAPTCHA already rendered, clearing and retrying...");
+        // Xóa container và thử lại
+        recaptchaContainer.innerHTML = "";
+        window.recaptchaVerifier = null;
+        setRecaptchaInitialized(false);
+        // Thử khởi tạo lại sau 1 giây
+        setTimeout(async () => {
+          await initializeRecaptcha();
+        }, 1000);
+        return false;
+      } else {
+        setMessage("Lỗi khởi tạo reCAPTCHA. Vui lòng thử lại.");
+        setRecaptchaInitialized(false);
+        return false;
       }
-    );
+    }
+  };
+
+  // Cleanup khi component unmount
+  useEffect(() => {
+    return () => {
+      // Dọn dẹp reCAPTCHA khi component unmount
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (error) {
+          console.log("Error clearing reCAPTCHA:", error);
+        }
+        window.recaptchaVerifier = null;
+      }
+      setRecaptchaInitialized(false);
+    };
   }, []);
 
+  // Timer đếm ngược cho nút gửi lại OTP
   useEffect(() => {
     let interval = null;
     if (timer > 0) {
@@ -32,41 +123,116 @@ const PhoneAuth = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
+  // Hàm xử lý nhập OTP, giới hạn 6 số
   const handleOtpChange = (value) => {
     if (/^\d*$/.test(value) && value.length <= 6) {
       setOtp(value);
     }
   };
 
-  const handleSendOtp = async () => {
-    if (!phoneNumber) {
-      alert("Vui lòng nhập số điện thoại");
-      return;
+  // Validate số điện thoại
+  const validatePhoneNumber = (phone) => {
+    // Đảm bảo số điện thoại có định dạng quốc tế
+    if (!phone.startsWith("+")) {
+      return false;
     }
-    try {
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await firebase
-        .auth()
-        .signInWithPhoneNumber(phoneNumber, appVerifier);
-      window.confirmationResult = confirmationResult;
-      alert("Đã gửi OTP thành công");
-      setIsOtpSent(true);
-      setTimer(60);
-      setMessage("");
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      setMessage("Gửi OTP thất bại. Vui lòng thử lại sau.");
+    // Loại bỏ ký tự không phải số và +
+    const cleanPhone = phone.replace(/[^\d+]/g, "");
+    // Kiểm tra độ dài (ít nhất 10 số, tối đa 15 số)
+    return cleanPhone.length >= 10 && cleanPhone.length <= 15;
+  };
+
+  // Reset reCAPTCHA
+  const resetRecaptcha = () => {
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (e) {
+        console.log("Error clearing reCAPTCHA:", e);
+      }
+      window.recaptchaVerifier = null;
+    }
+    setRecaptchaInitialized(false);
+
+    // Xóa nội dung trong container
+    const recaptchaContainer = document.getElementById(recaptchaId.current);
+    if (recaptchaContainer) {
+      recaptchaContainer.innerHTML = "";
     }
   };
 
+  // Gửi OTP
+  const handleSendOtp = async () => {
+    if (!phoneNumber) {
+      setMessage("Vui lòng nhập số điện thoại");
+      return;
+    }
+
+    if (!validatePhoneNumber(phoneNumber)) {
+      setMessage("Vui lòng nhập số điện thoại hợp lệ (ví dụ: +84912345678)");
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage("");
+
+    try {
+      // Khởi tạo reCAPTCHA nếu chưa có
+      const recaptchaReady = await initializeRecaptcha();
+      if (!recaptchaReady) {
+        setMessage("Không thể khởi tạo reCAPTCHA. Vui lòng thử lại.");
+        return;
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+      if (!appVerifier) {
+        setMessage("reCAPTCHA chưa được khởi tạo. Vui lòng thử lại.");
+        return;
+      }
+
+      // Đảm bảo reCAPTCHA đã sẵn sàng
+      await appVerifier.verify();
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      );
+      window.confirmationResult = confirmationResult;
+      setMessage("Đã gửi OTP thành công");
+      setIsOtpSent(true);
+      setTimer(60);
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      if (error.code === "auth/invalid-phone-number") {
+        setMessage("Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
+      } else if (error.code === "auth/too-many-requests") {
+        setMessage("Quá nhiều yêu cầu. Vui lòng thử lại sau.");
+      } else if (
+        error.message.includes("reCAPTCHA has already been rendered")
+      ) {
+        setMessage("Lỗi reCAPTCHA. Đang reset...");
+        resetRecaptcha();
+        // Thử khởi tạo lại sau 2 giây
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setMessage("Gửi OTP thất bại. Vui lòng thử lại sau.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xác thực OTP
   const handleVerifyOtp = async () => {
     if (otp.length !== 6) {
-      alert("Vui lòng nhập đủ 6 chữ số OTP");
+      setMessage("Vui lòng nhập đủ 6 chữ số OTP");
       return;
     }
     try {
       await window.confirmationResult.confirm(otp);
-      alert("Xác thực thành công!");
       setMessage("Xác thực thành công!");
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -75,13 +241,20 @@ const PhoneAuth = () => {
   };
 
   return (
-    <div className="authen-container">
-      <div className="authen-background">
+    <div className="auth-container">
+      <div className="auth-background">
+        <div className="auth-background-content">
+          <h1>Verify Your Phone</h1>
+          <p>
+            We want to make sure it's really you. Please enter the verification
+            code we sent to your phone.
+          </p>
+        </div>
       </div>
 
-      <div className="authen-content">
-        <div className="authen-form-container">
-          <div className="authen-header">
+      <div className="auth-content">
+        <div className="auth-form-container">
+          <div className="auth-header">
             <h2>Phone Verification</h2>
             <p>
               {isOtpSent
@@ -90,57 +263,65 @@ const PhoneAuth = () => {
             </p>
           </div>
 
-          <div id="sign-in-button" style={{ display: "none" }}></div>
+          {/* reCAPTCHA mount point */}
+          <div id={recaptchaId.current} style={{ display: "none" }}></div>
 
-          <div className="authen-form">
+          <div className="auth-form">
             {!isOtpSent ? (
-              <div className="authen-form-group">
+              <div className="form-group">
                 <label>Phone Number</label>
                 <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   placeholder="Enter phone number (e.g., +84912345678)"
-                  className="authen-form-control"
+                  className="form-control"
                 />
                 <button
-                  className="authen-button"
+                  className="auth-button"
                   onClick={handleSendOtp}
-                  disabled={!phoneNumber || timer > 0}
+                  disabled={!phoneNumber || timer > 0 || isLoading}
                 >
-                  {timer > 0 ? `Send Again in ${timer}s` : "Send Verification Code"}
+                  {isLoading
+                    ? "Đang gửi..."
+                    : timer > 0
+                    ? `Send Again in ${timer}s`
+                    : "Send Verification Code"}
                 </button>
               </div>
             ) : (
               <>
-                <div className="authen-form-group">
+                <div className="form-group">
                   <label>Enter OTP</label>
                   <input
                     type="text"
                     value={otp}
                     onChange={(e) => handleOtpChange(e.target.value)}
                     maxLength={6}
-                    className="authen-form-control"
+                    className="form-control"
                     placeholder="Enter 6-digit code"
                   />
                 </div>
 
                 <button
-                  className="authen-button"
+                  className="auth-button"
                   onClick={handleVerifyOtp}
                   disabled={otp.length !== 6}
                 >
                   Verify Code
                 </button>
 
-                <div className="authen-resend-code" style={{ marginTop: 10 }}>
+                <div className="resend-code" style={{ marginTop: 10 }}>
                   {timer > 0 ? (
-                    <div className="authen-timer">Resend code in {timer}s</div>
+                    <div className="timer">Resend code in {timer}s</div>
                   ) : (
                     <button
-                      className="authen-button"
+                      className="auth-button"
                       onClick={handleSendOtp}
-                      style={{ backgroundColor: "transparent", color: "#4a90e2" }}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "#4a90e2",
+                      }}
                     >
                       Resend Code
                     </button>
@@ -151,10 +332,12 @@ const PhoneAuth = () => {
 
             {message && (
               <div
-                className={`authen-message ${
-                  message.includes("failed") || message.includes("not")
-                    ? "authen-error"
-                    : "authen-success"
+                className={`message ${
+                  message.includes("thất bại") ||
+                  message.includes("hết hạn") ||
+                  message.includes("khởi tạo")
+                    ? "error"
+                    : "success"
                 }`}
                 style={{ marginTop: "10px" }}
               >
