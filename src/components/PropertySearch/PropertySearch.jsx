@@ -25,8 +25,8 @@ export default function PropertySearch() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const newFilters = {
-      city: params.get("city") || null,
-      propertyType: params.get("propertyType") || null,
+      city: params.get("city") || "",
+      propertyType: params.get("propertyType") || "",
       minPrice: params.get("minPrice") || "",
       maxPrice: params.get("maxPrice") || "",
       minArea: params.get("minArea") || "",
@@ -62,9 +62,10 @@ export default function PropertySearch() {
   };
 
   return (
-    <section className="featured-section">
+    <section className="search-featured-section">
       <div className="search-form">
-        <div className="form-grid">
+        <div className="search-form-grid">
+          <h2>Search Properties</h2>
           <input
             name="city"
             placeholder="Address"
@@ -124,41 +125,45 @@ export default function PropertySearch() {
       </div>
 
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="search-loading">Loading...</div>
       ) : error ? (
-        <div className="error">{error}</div>
+        <div className="search-error">{error}</div>
       ) : (
-        <div className="properties-grid">
+        <div className="search-properties-grid">
           {properties.map((item) => (
             <Link
               to={`/property/${item.propertyID || item.propertyId}`}
               key={item.propertyID || item.propertyId}
-              className="property-card"
+              className="search-property-card"
             >
-              <div className="image-wrapper">
+              <div className="search-image-wrapper">
                 <img
                   src={item.imgURL || "/fallback.jpg"}
                   alt={item.addressLine1}
                 />
-                <div className="badges">
+                <div className="search-badges">
                   <span
-                    className={`badge ${
-                      item.purpose === "buy" ? "for-sale" : "for-rent"
+                    className={`search-badge ${
+                      item.purpose === "buy"
+                        ? "search-for-sale"
+                        : "search-for-rent"
                     }`}
                   >
                     {item.purpose === "buy" ? "FOR SALE" : "FOR RENT"}
                   </span>
                   {item.isFeatured && (
-                    <span className="badge featured">FEATURED</span>
+                    <span className="search-badge search-featured">
+                      FEATURED
+                    </span>
                   )}
                 </div>
-                <div className="property-detail-info-overlay">
+                <div className="search-property-detail-info-overlay">
                   <h3>{item.addressLine1}</h3>
                   <p>
                     <FaMapMarkerAlt /> {item.addressLine1}, {item.city}
                   </p>
                   <strong>${item.price}</strong>
-                  <div className="property-info">
+                  <div className="search-property-info">
                     <span>
                       <FaBed /> {item.numBedroom}
                     </span>

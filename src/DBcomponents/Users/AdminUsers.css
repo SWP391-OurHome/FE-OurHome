@@ -5,7 +5,7 @@
   }
   
   .admin-users h2 {
-    color: #311b92;
+    color: #3ca267;
     margin-bottom: 20px;
     font-size: 1.8em;
     font-weight: 600;
@@ -16,7 +16,7 @@
   }
   
   .admin-toggle-btn {
-    background-color: #311b92;
+    background-color: #3ca267;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -28,7 +28,7 @@
   }
   
   .admin-toggle-btn:hover {
-    background-color: #2a2e80;
+    background-color: #3ca267;
   }
   
   .admin-users-table {
@@ -51,7 +51,7 @@
   
   th {
     background: #f8f9fa;
-    color: #311b92;
+    color: #3ca267;
     font-weight: 600;
     text-transform: uppercase;
   }

@@ -1,4 +1,3 @@
-/* Common styles for authentication pages */
 :root {
   --primary-color: #064749;
   --primary-hover: #075d60;
@@ -8,13 +7,13 @@
   --success-color: #28a745;
 }
 
-.auth-container {
+.authen-container {
   display: flex;
   min-height: 100vh;
   background-color: #f5f5f5;
 }
 
-.auth-background {
+.authen-background {
   flex: 7;
   position: relative;
   overflow: hidden;
@@ -28,7 +27,7 @@
   padding: 2rem;
 }
 
-.auth-background-content {
+.authen-background-content {
   text-align: center;
   max-width: 600px;
   background-color: rgba(255, 255, 255, 0.15);
@@ -38,21 +37,21 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.auth-background h1 {
+.authen-background h1 {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.auth-background p {
+.authen-background p {
   font-size: 1.25rem;
   line-height: 1.6;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
   margin-bottom: 2rem;
 }
 
-.auth-content {
+.authen-content {
   flex: 3;
   background-color: white;
   padding: 3rem 2rem;
@@ -63,45 +62,54 @@
   box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
 }
 
-.auth-form-container {
+.authen-form-container {
   width: 100%;
   max-width: 400px;
 }
 
-.auth-header {
+.authen-header {
   text-align: center;
   margin-bottom: 2.5rem;
 }
 
-.auth-header h2 {
-  font-size: 2rem;
+.authen-header h2 {
+  font-size: 2.8rem;
   color: var(--text-dark);
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.auth-header p {
+.authen-header p {
   color: var(--text-light);
-  font-size: 1.1rem;
+  font-size: 1.7rem;
   line-height: 1.5;
 }
 
-.auth-form {
+.authen-form {
   width: 100%;
 }
 
-.form-group {
+.authen-form-group {
   margin-bottom: 1.75rem;
 }
 
-.form-group label {
+.authen-form-group label {
   display: block;
   margin-bottom: 0.75rem;
   color: var(--text-dark);
-  font-weight: 500;
+  font-weight: 800;
+  font-size: 1.7rem;
 }
 
-.form-group input {
+.authen-form-group input{
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+.authen-form-control {
   width: 100%;
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
@@ -111,16 +119,17 @@
   margin-bottom: 1rem;
 }
 
-.form-group input:focus {
+.authen-form-group input:focus,
+.authen-form-control:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(6, 71, 73, 0.1);
 }
 
-.auth-button {
+.authen-button {
   width: 100%;
   padding: 1rem;
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #25594d, #3ca267);
   color: white;
   border: none;
   border-radius: 8px;
@@ -131,59 +140,58 @@
   margin-top: 0.5rem;
 }
 
-.auth-button:hover:not(:disabled) {
-  background-color: var(--primary-hover);
+.authen-button:hover:not(:disabled) {
+   background: linear-gradient(135deg, #25594d, #3ca267);
 }
 
-.auth-button:disabled {
+.authen-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.auth-links {
+.authen-links {
   margin-top: 1.5rem;
   text-align: center;
 }
 
-.auth-links a {
+.authen-links a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-.auth-links a:hover {
+.authen-links a:hover {
   color: var(--primary-hover);
 }
 
-.divider {
+.authen-divider {
   display: flex;
   align-items: center;
   margin: 1.5rem 0;
   color: var(--text-light);
 }
 
-.divider::before,
-.divider::after {
+.authen-divider::before,
+.authen-divider::after {
   content: "";
   flex: 1;
   height: 1px;
   background-color: #e0e0e0;
 }
 
-.divider span {
+.authen-divider span {
   padding: 0 1rem;
 }
 
-/* Verification code inputs */
-.verification-code {
+.authen-verification-code {
   display: flex;
   gap: 0.75rem;
   justify-content: center;
   margin: 2rem 0;
 }
 
-.verification-code input {
+.authen-verification-code input {
   width: 50px;
   height: 50px;
   text-align: center;
@@ -194,49 +202,50 @@
   margin-bottom: 1.5rem;
 }
 
-.verification-code input:focus {
+.authen-verification-code input:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(6, 71, 73, 0.1);
 }
 
-.resend-code {
+.authen-resend-code {
   text-align: center;
   margin-top: 1.5rem;
 }
 
-.timer {
+.authen-timer {
   color: var(--text-light);
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-.message {
+.authen-message {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.95rem;
 }
 
-.message.error {
+.authen-message.authen-error {
   background-color: #fde8e8;
   color: var(--error-color);
   border: 1px solid #fad1d1;
 }
-
-.message.success {
+.authen-error-message{
+  color: red;
+}
+.authen-message.authen-success {
   background-color: #e6f4ea;
   color: var(--success-color);
   border: 1px solid #c3e6cb;
 }
 
-/* Social buttons */
-.social-buttons {
+.authen-social-buttons {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.social-button {
+.authen-social-button {
   flex: 1;
   padding: 0.875rem;
   border: 1.5px solid #e0e0e0;
@@ -252,58 +261,58 @@
   color: var(--text-dark);
 }
 
-.social-button:hover {
+.authen-social-button:hover {
   background-color: #f5f5f5;
   border-color: #ccc;
 }
 
-/* Responsive design */
+/* Responsive */
 @media (max-width: 1024px) {
-  .auth-background h1 {
+  .authen-background h1 {
     font-size: 3rem;
   }
 }
 
 @media (max-width: 768px) {
-  .auth-container {
+  .authen-container {
     flex-direction: column;
   }
 
-  .auth-background {
+  .authen-background {
     flex: none;
     height: 300px;
   }
 
-  .auth-content {
+  .authen-content {
     flex: none;
     min-height: 60vh;
   }
 
-  .auth-background h1 {
+  .authen-background h1 {
     font-size: 2.5rem;
   }
 
-  .auth-background p {
+  .authen-background p {
     font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .auth-content {
+  .authen-content {
     padding: 2rem 1.5rem;
   }
 
-  .auth-header h2 {
+  .authen-header h2 {
     font-size: 1.75rem;
   }
 
-  .verification-code input {
+  .authen-verification-code input {
     width: 40px;
     height: 40px;
     font-size: 1.25rem;
   }
 
-  .social-buttons {
+  .authen-social-buttons {
     flex-direction: column;
   }
 }

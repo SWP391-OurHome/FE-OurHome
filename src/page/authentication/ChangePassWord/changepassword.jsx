@@ -58,7 +58,7 @@ const ChangePassword = () => {
 
     return (
         <>
-            <div className="change-password-header">
+            <div className="custom-password-header">
                 <Header />
             </div>
             <div
@@ -67,11 +67,11 @@ const ChangePassword = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: "#fff"
+                    background: "#f9f9f9"
                 }}
             >
-            <div className="change-password-body">
-                <div className="change-password-container">
+            <div className="custom-password-body">
+                <div className="custom-password-container">
                     <h2>Change Password</h2>
 
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -86,6 +86,7 @@ const ChangePassword = () => {
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 
@@ -97,6 +98,7 @@ const ChangePassword = () => {
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 
@@ -108,6 +110,7 @@ const ChangePassword = () => {
                                 value={confirmNewPassword}
                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 
@@ -120,7 +123,7 @@ const ChangePassword = () => {
                 </div>
             </div>
             </div>
-            <div className="change-password-footer">
+            <div className="custom-password-footer">
                 <Footer />
             </div>
         </>

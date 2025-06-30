@@ -21,7 +21,7 @@ const RevenueChart = () => {
       {
         label: "Revenue ($)",
         data: [5000, 10000, 15000, 20000, 25000, 30000],
-        borderColor: "#311b92",
+        borderColor: "#3ca267",
         backgroundColor: "rgba(49, 27, 146, 0.1)",
         fill: true,
       },

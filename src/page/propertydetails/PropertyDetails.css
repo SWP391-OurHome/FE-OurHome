@@ -131,28 +131,32 @@
 }
 
 /* Property Info Section */
-.property-info {
-  margin-bottom: 3rem;
-}
-
-.property-info-meta {
+.property-info1 {
+  margin-bottom: 2rem;
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 2.5rem;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-.property-info h1 {
+.property-info1-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0; /* Đảm bảo không có khoảng cách thừa */
+  margin-top: 15px;
+  margin-left:30px;
+}
+
+.property-info1 h1 {
   font-size: 2.4rem;
   font-weight: 700;
   color: #004d40;
-  margin-bottom: 0.3rem;
+  margin-bottom: 7px; /* Loại bỏ margin để sát với location */
   line-height: 1.2;
-  flex: 2 1 400px;
 }
 
-.property-info .location {
+.property-info1 .location {
   color: #757575;
   font-size: 1.1rem;
   display: flex;
@@ -162,12 +166,12 @@
   gap: 0.4em;
 }
 
-.property-info .location i {
+.property-info1 .location i {
   color: #b0bec5;
   font-size: 1.2em;
 }
 
-.property-info .details {
+.property-info1 .details {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -175,18 +179,20 @@
   color: #424242;
   min-width: 200px;
   font-weight: 400;
+  margin-right: 200px;
+  margin-top: 20px;
 }
 
-.property-info .details span {
+.property-info1 .details span {
   display: flex;
   align-items: center;
   gap: 0.5em;
   color: #424242;
 }
 
-.property-info .details i {
+.property-info1 .details i {
   color: #00796b;
-}
+} 
 
 /* Pricing Section */
 .pricing {
@@ -444,10 +450,10 @@
     width: 150px;
     height: 120px;
   }
-  .property-info h1 {
+  .property-info1 h1 {
     font-size: 1.9rem;
   }
-  .property-info .details {
+  .property-info1 .details {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;

@@ -6,16 +6,17 @@ import "./SellerDashboard.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const SellerDashboard = () => {
+  
   return (
-      <div className="seller-dashboard-container">
-        <SellerSidebar />
-        <div className="seller-main-content">
-          <SellerHeader />
-          <div className="seller-dashboard-content">
-            <Outlet />
-          </div>
+    <div className="seller-dashboard-container">
+      <SellerSidebar />
+      <div className="seller-main-content">
+        <SellerHeader />
+        <div className="seller-dashboard-content">
+          <Outlet />
         </div>
       </div>
+    </div>
   );
 };
 

@@ -130,33 +130,42 @@
 }
 
 .property-detail-info-overlay h3 {
-    font-size: 0.9rem;
+    font-size: 12px;
     font-weight: 600;
     color: #212529;
-    margin-bottom: 0.1rem;
+    margin-bottom: 1rem;
+    margin-left: 15px;
 }
 
 .property-detail-info-overlay p {
-    color: #6c757d;
-    font-size: 0.95rem;
+    color: #404346;
+    font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 0.5rem;
+    gap: 5px;
+    margin-bottom: 1rem;
+    margin-top: 0.1rem;
+    margin-left: 15px;
 }
 
 .property-detail-info-overlay strong {
-    color: #d32f2f; /* Màu đỏ giống hình */
+    color: #d32f2f;
     font-weight: 700;
     font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1px;
+    float: left;
+    margin-left: 1.7rem; /* Thêm margin-left để di chuyển sang phải */
 }
 
 .property-info {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-end;
     font-size: 0.9rem;
     color: #444;
+    margin-left: auto;
+    margin-right: 10px;
+    gap: 1.5rem;
 }
 
 .property-info span {

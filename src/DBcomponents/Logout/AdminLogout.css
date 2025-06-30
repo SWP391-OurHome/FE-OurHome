@@ -6,7 +6,7 @@
   }
   
   .admin-logout h2 {
-    color: #311b92;
+    color: #3ca267;
     margin-bottom: 15px;
     font-size: 1.8em;
     font-weight: 600;
@@ -20,7 +20,7 @@
   }
   
   .admin-logout-btn {
-    background-color: #311b92;
+    background-color: #3ca267;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -32,5 +32,5 @@
   }
   
   .admin-logout-btn:hover {
-    background-color: #2a5298;
+    background-color: #318a56;
   }
