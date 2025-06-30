@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./RecentProperties.css";
 import SellerService from "../../services/SellerService";
+import propertyService from "../../services/propertyService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faEye, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const truncate = (str, maxLength = 30) => {
   if (!str) return "";
@@ -48,10 +50,25 @@ const RecentProperties = () => {
     navigate(`/seller/dashboard/property/form/${id}`);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm(`Are you sure you want to delete property with ID: ${id}?`)) {
-      alert(`Deleted property with ID: ${id}`);
-      // Add delete logic here (e.g., call API to delete)
+  const handleDelete = async (propertyId) => {
+    const result = await Swal.fire({
+      title: "Are you sure to delete property?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Continue",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await propertyService.deleteProperty(propertyId, userId);
+        setListings(listings.filter((listing) => listing.property.propertyID !== propertyId));
+        Swal.fire("Deleted!", "Property has been deleted.", "success");
+      } catch (error) {
+        Swal.fire("Error!", error.message, "error");
+      }
     }
   };
 
@@ -179,7 +196,7 @@ const RecentProperties = () => {
                           </button>
                           <button
                               className="seller-action-btn delete"
-                              onClick={() => handleDelete(listing.listingId)}
+                              onClick={() => handleDelete(listing.property.propertyID)}
                               title="Delete"
                           >
                             <FontAwesomeIcon icon={faTrash} />
