@@ -7,6 +7,7 @@ import Navbar from '../../components/Navigation/Header';
 import Footer from '../../components/Footer/Footer';
 import './PropertyDetails.css';
 import ImageGallery from '../../page/ImageGallery/ImageGallery';
+import { createBooking } from '../../services/bookingService';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const PropertyDetails = () => {
   const pricingRef = useRef(null);
   const propertyDetailsRef = useRef(null);
   const footerRef = useRef(null);
+const { id: propertyId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,6 +124,38 @@ const PropertyDetails = () => {
     property.city,
     'Vietnam'
   ].filter(Boolean).join(', ');
+const handleBooking = async () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem("user"));
+
+    // Kiểm tra dữ liệu user trong localStorage
+    // sửa đoạn này nhé
+    // lúc key nó để là userid lúc là id
+    // nếu lỗi thì cứ sửa ơr đây =))), đếm đám thg làm login di
+const userId = stored?.id;
+    console.log("🔐 UserID dùng để booking:", userId);
+
+    const result = await createBooking(userId, parseInt(propertyId));
+
+    if (result.success) {
+      console.log("✅ Booking thành công:", result);
+      setTimeout(() => {
+        window.location.href = "zalo://conversation?phone=0375523715";
+      }, 100);
+    } else {
+      console.warn("⚠️ Booking thất bại:", result.message);
+      alert(result.message || "Không thể đặt booking.");
+    }
+  } catch (error) {
+    console.error("❌ Lỗi khi gọi API booking:", {
+      message: error.message,
+      responseData: error.response?.data,
+      status: error.response?.status,
+    });
+    alert("Đã xảy ra lỗi khi lưu thông tin. Vui lòng thử lại.");
+  }
+};
+
 
   return (
       <>
@@ -215,32 +249,16 @@ const PropertyDetails = () => {
                       <p style={{ margin: 0 }}>Rent includes utilities</p>
                       <input type="date" defaultValue="2025-06-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px', marginTop:'10px' }} />
                   <input type="date" defaultValue="2025-07-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px' }} />
-                  <button
-                    style={{ width: 'fit-content', padding: '0.5rem 1rem' }}
-                    onClick={() => {
-                      // const timeout = setTimeout(() => {
-                      //   window.location.href = 'https://zalo.me/0389314617'; // Fallback đến trang web
-                      // }, 1000); // Thời gian chờ 1 giây
-                      window.location.href = 'zalo://conversation?phone=0389314617'; // Thử deep link cuộc trò chuyện
-                    }}
-                  >
-                    Continue Booking
-                  </button>
+                 <button
+  style={{ width: 'fit-content', padding: '0.5rem 1rem' }}
+  onClick={handleBooking}>Continue Booking</button>
                 </div>
                 ) : (
                     <div>
                       <p>One-time payment</p>
                       <button
                     style={{ width: 'fit-content', padding: '0.5rem 1rem' }}
-                    onClick={() => {
-                      // const timeout = setTimeout(() => {
-                      //   window.location.href = 'https://zalo.me/0375523715'; // Fallback đến trang web
-                      // }, 1000); // Thời gian chờ 1 giây
-                      window.location.href = 'zalo://conversation?phone=0375523715'; // Thử deep link cuộc trò chuyện
-                    }}
-                  >
-                    Continue Booking
-                  </button>
+                     onClick={handleBooking}>Continue Booking</button>
                     </div>
 
                 )}

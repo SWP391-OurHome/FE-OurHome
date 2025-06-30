@@ -86,6 +86,7 @@ const ChangePassword = () => {
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 
@@ -97,6 +98,7 @@ const ChangePassword = () => {
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 
@@ -108,6 +110,7 @@ const ChangePassword = () => {
                                 value={confirmNewPassword}
                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                                 required
+                                style={{ width: "640px", height: "60px", padding: "10px" }}
                             />
                         </div>
 

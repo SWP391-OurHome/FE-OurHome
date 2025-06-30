@@ -21,7 +21,7 @@ export const getRoleBasedRedirectPath = (role) => {
     case "customer":
       return "/";
     case "seller":
-      return "/seller/dashboard"; // Chuyển hướng về seller dashboard
+      return "/seller"; // Chuyển hướng về seller dashboard
     case "admin":
       return "/admin/dashboard"; // Chuyển hướng về admin dashboard
     default:
@@ -243,7 +243,30 @@ export const resetPassword = async (email, password) => {
     };
   }
 };
+export const changePassword = async (email, currentPassword, newPassword) => {
+  try {
+    const response = await axios.put(
+        `${API_URL}/password`,
+        { email, currentPassword, newPassword },
+        { headers: { "Content-Type": "application/json" } }
+    );
 
+    // Giả sử BE trả về { success: boolean, message: string }
+    return {
+      success: response.data.success,
+      message: response.data.message || "Đổi mật khẩu thành công.",
+    };
+  } catch (error) {
+    let errorMessage = "Có lỗi khi đổi mật khẩu";
+    if (error.response) {
+      const data = error.response.data;
+      errorMessage = data?.message || `Lỗi ${error.response.status}`;
+    } else if (error.request) {
+      errorMessage = "Không thể kết nối đến server";
+    }
+    return { success: false, message: errorMessage };
+  }
+};
 export default {
   login,
   loginWithGoogle,
@@ -254,4 +277,5 @@ export default {
   resetPassword,
   updateUserData,
   getRoleBasedRedirectPath,
+  changePassword,
 };

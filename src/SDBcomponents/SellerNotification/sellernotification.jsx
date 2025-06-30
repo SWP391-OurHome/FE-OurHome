@@ -1,60 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import './SellerNotifications.css';
+import React, { useState, useEffect } from "react";
+import { getAllBookings, markAsViewed } from "../../services/bookingService";
+import "./SellerNotifications.css";
 
 const Notifications = () => {
-  const { state } = useLocation();
-  const [userContacts, setUserContacts] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    const fetchUserContacts = async () => {
+    const fetchBookings = async () => {
       try {
-        const sellerId = 3; // Giả sử sellerId là 3, có thể lấy từ context hoặc localStorage
-        const response = await axios.get(`http://localhost:8082/api/user-contacts?sellerId=${sellerId}`);
-        setUserContacts(response.data); // Lấy danh sách user_contacts của seller
+        const data = await getAllBookings();
+        setBookings(data);
       } catch (error) {
-        console.error('Error fetching user contacts:', error);
+        console.error("Lỗi khi lấy booking:", error);
       }
     };
-    fetchUserContacts();
+    fetchBookings();
   }, []);
+
+  const handleMarkAsViewed = async (bookingId) => {
+    try {
+      await markAsViewed(bookingId);
+      setBookings((prev) =>
+        prev.map((b) => (b.id === bookingId ? { ...b, viewed: true } : b))
+      );
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái đã xem:", error);
+    }
+  };
+
+  const formatDateTime = (raw) => {
+  if (!raw) return "Không rõ thời gian";
+
+  // "2025-06-25 15:24:34.029224" -> "2025-06-25T15:24:34"
+  const clean = raw.replace(" ", "T").split(".")[0];
+  const date = new Date(clean);
+  if (isNaN(date.getTime())) return "Không hợp lệ";
+
+  const pad = (n) => (n < 10 ? "0" + n : n);
+
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+};
 
   return (
     <div className="seller-notifications">
-      <h2>Notifications</h2>
+      <h2>Danh sách booking</h2>
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Date</th>
+            <th>Tên</th>
+            <th>SĐT</th>
             <th>Email</th>
-            <th>Response Status</th>
+            <th>Ngày đặt</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
-          {userContacts.map((contact) => (
-            <tr key={contact.id}>
-              <td>{contact.id}</td>
-              <td>{contact.name}</td>
-              <td>{contact.phone}</td>
-              <td>{new Date(contact.date).toLocaleString()}</td>
-              <td>{contact.email}</td>
-              <td>{contact.responseStatus}</td>
+          {bookings.map((b) => (
+            <tr key={b.id}>
+              <td>{b.firstName + " " + b.lastName}</td>
+              <td>{b.phone}</td>
+              <td>{b.email}</td>
+              <td>{formatDateTime(b.bookingTime)}</td>
+              <td>
+                {!b.viewed ? (
+                  <button onClick={() => handleMarkAsViewed(b.id)}>
+                    Đánh dấu đã xem
+                  </button>
+                ) : (
+                  <span style={{ color: "green" }}>Đã xem</span>
+                )}
+              </td>
             </tr>
           ))}
-          {state?.userContact && (
-            <tr key={state.userContact.id}>
-              <td>{state.userContact.id}</td>
-              <td>{state.userContact.name}</td>
-              <td>{state.userContact.phone}</td>
-              <td>{new Date(state.userContact.date).toLocaleString()}</td>
-              <td>{state.userContact.email}</td>
-              <td>{state.userContact.responseStatus}</td>
-            </tr>
-          )}
         </tbody>
       </table>
     </div>

@@ -54,7 +54,7 @@ const EmailVerification = () => {
   return (
     <div className="authen-container">
       <div className="authen-background">
-
+  
       </div>
 
       <div className="authen-content">
