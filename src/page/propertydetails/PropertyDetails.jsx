@@ -19,6 +19,7 @@ const PropertyDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching property:', id);
         const [detailRes, listingRes] = await Promise.all([
           axios.get(`http://localhost:8082/api/listing/${id}`),
           axios.get(`http://localhost:8082/api/listings/${id}`)

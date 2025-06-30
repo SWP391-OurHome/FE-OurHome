@@ -17,6 +17,7 @@ const PropertyList = () => {
         .get("http://localhost:8082/api/listing")
         .then((response) => {
           setProperties(response.data);
+          console.log(properties);
           setLoading(false);
         })
         .catch((error) => {
@@ -72,7 +73,7 @@ const PropertyList = () => {
         <div className="properties-grid">
           {filteredProperties.map((item) => (
               <Link
-                  to={`/property/${item.propertyID || item.propertyId}`}
+                  to={`/property/${item.id || item.id}`}
                   key={item.propertyID || item.propertyId}
                   className="property-card"
               >
