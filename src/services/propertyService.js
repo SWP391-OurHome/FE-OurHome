@@ -74,9 +74,9 @@ export const createProperty = async (userID, formData) => {
     }
 };
 
-export const deleteProperty = async (id,userID) => {
+export const deleteProperty = async (id, userID) => {
     try {
-        const response = await axios.delete(`${API_URL}/listing/${id}`,userID);
+        const response = await axios.delete(`${API_URL}/listing/${id}/${userID}`);
         return response.data;
     } catch (error) {
         console.error("Error deleting property:", error);

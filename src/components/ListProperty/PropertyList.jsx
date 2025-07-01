@@ -17,7 +17,6 @@ const PropertyList = () => {
         .get("http://localhost:8082/api/listing")
         .then((response) => {
           setProperties(response.data);
-          console.log(properties);
           setLoading(false);
         })
         .catch((error) => {
@@ -25,7 +24,6 @@ const PropertyList = () => {
           setLoading(false);
         });
   }, []);
-
 
   const filteredProperties = properties.filter((p) => {
     const cityMatch = p.city?.toLowerCase().includes("da nang");
@@ -73,7 +71,7 @@ const PropertyList = () => {
         <div className="properties-grid">
           {filteredProperties.map((item) => (
               <Link
-                  to={`/property/${item.id || item.id}`}
+                  to={`/property/${item.propertyID || item.id}`}
                   key={item.propertyID || item.propertyId}
                   className="property-card"
               >

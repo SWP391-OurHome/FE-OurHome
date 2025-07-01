@@ -146,11 +146,11 @@ const UserAvatar = () => {
   return (
     <div className="user-avatar-container">
       <div
-        className="avatar-wrapper"
-        onClick={() => setShowDropdown(!showDropdown)}
+          className="avatar-wrapper"
+          onClick={() => setShowDropdown(!showDropdown)}
       >
-        {user.picture ? (
-          <img src={user.picture} alt="User avatar" className="user-avatar" />
+        {user.picture && user.picture.trim() ? (
+            <img src={user.picture} alt="User avatar" className="user-avatar" />
         ) : (
             <img src={DefaultAvatar} alt="Default avatar" className="user-avatar" />
         )}

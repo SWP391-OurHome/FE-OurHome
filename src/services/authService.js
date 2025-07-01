@@ -138,6 +138,7 @@ export const register = async (formData) => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
+        birthday: formData.birthday,
         phone: formData.phone,
         password: formData.password,
       },

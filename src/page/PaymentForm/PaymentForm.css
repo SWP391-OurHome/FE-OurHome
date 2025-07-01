@@ -1,0 +1,107 @@
+
+/* Container chính */
+.payment-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Nền nhẹ nhàng */
+}
+
+/* Thẻ form */
+.payment-form {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payment-form:hover {
+    transform: translateY(-5px); /* Nâng lên khi hover */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Tiêu đề */
+.payment-form h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0d6efd; /* Màu xanh dương */
+    margin-bottom: 1.5rem;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    outline: none;
+}
+
+/* Nút Pay with PayOS và Proceed to Payment */
+.payment-form button {
+    background-color: #0d6efd;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.payment-form button:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px); /* Nâng lên khi hover */
+}
+
+.btn-proceed {
+    background-color: #28a745; /* Màu xanh lá cho Proceed to Payment */
+}
+
+.btn-proceed:hover {
+    background-color: #218838;
+}
+
+/* Thông tin hiển thị */
+.text-muted {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.text-info {
+    color: #0d6efd !important;
+}
+
+/* Tùy chỉnh Toast */
+.custom-toast {
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-toast .Toastify__progress-bar {
+    background-color: #28a745; /* Thanh tiến trình màu xanh lá */
+}
+

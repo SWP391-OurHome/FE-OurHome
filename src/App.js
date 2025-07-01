@@ -44,6 +44,16 @@ import DBPropertyEdit from "./SDBcomponents/DBProperty/DBPropertyEdit";
 import DBPropertyCreate from "./SDBcomponents/DBProperty/DBPropertyCreate";
 import SalesAnalytics from "./SDBcomponents/SalesAnalytics/SalesAnalytics";
 import StatsCardsSeller from "./SDBcomponents/StatsCards/StatsCards";
+
+
+import TransactionHistory from './page/transactionHistory/TransactionHistory';
+import SellerTransactionHistory from './page/transactionHistory/SellerTransactionHistory';
+import PaymentForm from './page/PaymentForm/PaymentForm';
+import Membership from './page/membership/Membership';
+import PaymentFormBasic from './page/PaymentForm/PaymentFormBasic';
+import PaymentFormAdvanced from './page/PaymentForm/PaymentFormAdvanced';
+import PaymentFormPremium from './page/PaymentForm/PaymentFormPremium';
+
 function App() {
     return (
 
@@ -113,6 +123,15 @@ function App() {
                     <Route path="/agent/:agentId" element={<AgentDetails />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/agent" element={<Agent />} />
+
+
+                    <Route path="/transaction-history" element={<TransactionHistory />} />
+                    <Route path="/seller/transaction-history" element={<SellerTransactionHistory />} />
+                    <Route path="/payment" element={<PaymentForm />} />
+                    <Route path="/membership" element={<Membership />} />
+                    <Route path="/paymentform/basic" element={<PaymentFormBasic />} />
+                    <Route path="/paymentform/advanced" element={<PaymentFormAdvanced />} />
+                    <Route path="/paymentform/premium" element={<PaymentFormPremium />} />
                     {/* Mở rộng sau:
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutPage />} />

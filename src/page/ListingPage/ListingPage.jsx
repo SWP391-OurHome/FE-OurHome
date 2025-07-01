@@ -5,16 +5,16 @@ import Footer from "../../components/Footer/Footer";
 import PropertySearch from "../../components/PropertySearch/PropertySearch";
 
 export default function ListingPage() {
-  return (
-    <div className="home-container">
-      {/* Hero Banner Section */}
-      <Navbar />
-      <section className="section property-section-city fade-in">
-        <PropertySearch />
-      </section>
+    return (
+        <div className="home-container">
+            {/* Hero Banner Section */}
+            <Navbar />
+            <section className="section property-section-city fade-in">
+                <PropertySearch />
+            </section>
 
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
+            {/* Footer */}
+            <Footer />
+        </div>
+    );
 }

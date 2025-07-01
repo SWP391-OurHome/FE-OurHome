@@ -5,7 +5,7 @@
 }
 
 .seller-recent-properties h2 {
-  color: #311b92;
+  color: #3ca267;
   margin-bottom: 20px;
   font-size: 1.8em;
   font-weight: 600;
@@ -24,7 +24,7 @@
 }
 
 .seller-property-card h3 {
-  color: #311b92;
+  color: #3ca267;
   margin-bottom: 10px;
   font-size: 1.2em;
   font-weight: 600;
@@ -87,4 +87,21 @@
 .seller-action-btn:focus {
   outline: none;
   box-shadow: 0 0 0 2px #b39ddb44;
+}
+
+.seller-action-btn.create {
+  width: 150px;
+  height: 42px;
+  display: inline-flex; /* Ensures content is centered */
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px; /* Adds padding for text */
+  font-size: 16px; /* Adjust font size for readability */
+  font-weight: 500; /* Medium font weight */
+  color: #fff; /* White text */
+  background-color: #28a745; /* Green background for "create" action */
+  border: none; /* Removes default border */
+  border-radius: 4px; /* Slightly rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover transition */
 }

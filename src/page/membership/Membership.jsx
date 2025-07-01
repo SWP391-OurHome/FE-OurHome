@@ -1,7 +1,9 @@
+
 import React from 'react';
 import Navbar from '../../components/Navigation/Header';
 import Footer from '../../components/Footer/Footer';
 import './Membership.css';
+import { Link } from 'react-router-dom'; // Thêm để tạo liên kết
 
 const Membership = () => {
   const plans = [
@@ -15,6 +17,7 @@ const Membership = () => {
         'Access to basic dashboard',
       ],
       color: 'linear-gradient(135deg, #f7e4e1, #fff)',
+      path: '/paymentform/basic',
     },
     {
       name: 'Advanced',
@@ -27,6 +30,7 @@ const Membership = () => {
         'Featured listing once a month',
       ],
       color: 'linear-gradient(135deg, #e1f0e1, #fff)',
+      path: '/paymentform/advanced',
     },
     {
       name: 'Premium',
@@ -40,6 +44,7 @@ const Membership = () => {
         'Exclusive advertising',
       ],
       color: 'linear-gradient(135deg, #e1e8f0, #fff)',
+      path: '/paymentform/premium',
     },
   ];
 
@@ -58,55 +63,67 @@ const Membership = () => {
     },
   ];
 
+  const handleChoosePlan = (path) => {
+    const confirm = window.confirm(`Are you sure you want to choose the ${path.split('/')[2]} plan?`);
+    if (confirm) {
+      window.location.href = path; // Chuyển hướng sau khi nhấn OK
+    }
+  };
+
   return (
-    <>
-      <Navbar />
-      <div className="membership-container">
-        {/* Banner */}
-        <div className="banner">
-          <h1>Discover Membership Plans</h1>
-          <p>Elevate your real estate business with us today!</p>
-        </div>
+      <>
+        <Navbar />
+        <div className="membership-container">
+          {/* Banner */}
+          <div className="banner">
+            <h1>Discover Membership Plans</h1>
+            <p>Elevate your real estate business with us today!</p>
+          </div>
 
-        {/* Membership Plans */}
-        <div className="plans-section">
-          <h2>Your Membership Plans</h2>
-          <div className="plans-grid">
-            {plans.map((plan, index) => (
-              <div key={index} className="plan-card" style={{ background: plan.color }}>
-                <div className="plan-header">
-                  <h3>{plan.name}</h3>
-                  <span className="plan-price">{plan.price}</span>
-                </div>
-                <p className="plan-description">{plan.description}</p>
-                <ul className="plan-benefits">
-                  {plan.benefits.map((benefit, i) => (
-                    <li key={i}>
-                      <span className="check-mark">✓</span> {benefit}
-                    </li>
-                  ))}
-                </ul>
-                <button className="plan-button" onClick={() => alert(`You have selected the ${plan.name} plan`)}>Choose Plan</button>
-              </div>
-            ))}
+          {/* Membership Plans */}
+          <div className="plans-section">
+            <h2>Your Membership Plans</h2>
+            <div className="plans-grid">
+              {plans.map((plan, index) => (
+                  <div key={index} className="plan-card" style={{ background: plan.color }}>
+                    <div className="plan-header">
+                      <h3>{plan.name}</h3>
+                      <span className="plan-price">{plan.price}</span>
+                    </div>
+                    <p className="plan-description">{plan.description}</p>
+                    <ul className="plan-benefits">
+                      {plan.benefits.map((benefit, i) => (
+                          <li key={i}>
+                            <span className="check-mark">✓</span> {benefit}
+                          </li>
+                      ))}
+                    </ul>
+                    <button
+                        className="plan-button"
+                        onClick={() => handleChoosePlan(plan.path)}
+                    >
+                      Choose Plan
+                    </button>
+                  </div>
+              ))}
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div className="faq-grid">
+              {faqs.map((faq, index) => (
+                  <div key={index} className="faq-item">
+                    <h3>{faq.question}</h3>
+                    <p>{faq.answer}</p>
+                  </div>
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* FAQ Section */}
-        <div className="faq-section">
-          <h2>Frequently Asked Questions</h2>
-          <div className="faq-grid">
-            {faqs.map((faq, index) => (
-              <div key={index} className="faq-item">
-                <h3>{faq.question}</h3>
-                <p>{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </>
+        <Footer />
+      </>
   );
 };
 

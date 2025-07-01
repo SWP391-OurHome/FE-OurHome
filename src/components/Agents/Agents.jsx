@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Agents.css";
 
 const agents = [
@@ -34,7 +35,9 @@ const Agents = () => {
             <div className="agents-grid">
                 {agents.map((agent, index) => (
                     <div className="agent-card" key={index}>
-                        <img src={agent.image} alt={agent.name} className="agent-image" />
+                        <Link to={`/agent/${agent.name.replace(/\s+/g, "-").toLowerCase()}`}>
+                            <img src={agent.image} alt={agent.name} className="agent-image" />
+                        </Link>
                         <h3 className="agent-name">{agent.name}</h3>
                         <p className="agent-role">{agent.role}</p>
                     </div>
