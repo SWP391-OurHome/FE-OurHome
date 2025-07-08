@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8082/api/customers";
+const API_URL_Favourite = "http://localhost:8082/api/favourites";
 
 export const getUserInformation = async (userId) => {
     try {
@@ -42,4 +43,25 @@ export const updateAvatarProfile = async (userId, formData) => {
         const message = error.response?.data?.message || "Lỗi khi cập nhật ảnh đại diện";
         return { success: false, message };
     }
+};
+
+export const addToFavourite = async (userId, propertyId) => {
+    try {
+        const response = await axios.post(`${API_URL_Favourite}/add`, {
+            userId: userId,
+            propertyId: parseInt(propertyId)
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error adding to favourite:', error);
+        throw error;
+    }
+};
+
+
+export default {
+    getUserInformation,
+    updateUserInformation,
+    updateAvatarProfile,
+    addToFavourite,
 };

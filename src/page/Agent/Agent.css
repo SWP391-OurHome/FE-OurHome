@@ -1,158 +1,62 @@
-/* src/components/SellerList.css */
-
-.sl-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 16px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-family: Arial, sans-serif;
-}
-
-.sl-title {
-  font-size: 24px;
-  margin-bottom: 12px;
-  color: #333;
-  text-align: center;
-}
-
-.sl-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.sl-table th,
-.sl-table td {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  text-align: left;
-}
-
-.sl-table thead {
-  background-color: #f5f5f5;
-}
-
-.sl-table tbody tr:hover {
-  background-color: #fafafa;
-}
-
-.sl-loading,
-.sl-empty {
-  text-align: center;
-  color: #555;
-  margin-top: 20px;
-}
-
-.sl-error {
-  text-align: center;
-  color: #c00;
-  margin-top: 20px;
-}
-
+/* Agent.css */
 .sellerlist-root {
-  min-height: 100vh;
-  background: #1f2937;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .sellerlist-main {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 0 60px 0;
+  padding: 20px;
+  text-align: center;
 }
 
 .sellerlist-title {
-  color: #fff;
-  font-weight: 700;
-  font-size: 2.2rem;
-  margin-bottom: 32px;
-  letter-spacing: 1px;
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 .sellerlist-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
   justify-content: center;
-  width: 100%;
-  max-width: 1200px;
 }
 
 .sellerlist-card {
-  background: #232e3c;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px #0002;
-  padding: 28px 24px;
-  min-width: 260px;
-  max-width: 320px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1px solid #232e3c;
-  transition: transform 0.18s, box-shadow 0.18s;
-}
-.sellerlist-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 8px 32px #0004;
-  border-color: #374151;
-}
-.sellerlist-card-name {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  letter-spacing: 0.5px;
-}
-.sellerlist-card-email,
-.sellerlist-card-phone {
-  font-size: 1rem;
-  margin-bottom: 4px;
-  opacity: 0.85;
-}
-.sellerlist-card-phone {
-  margin-bottom: 0;
-}
-
-.sellerlist-loading,
-.sellerlist-error,
-.sellerlist-empty {
-  color: #fff;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
   text-align: center;
-  margin-top: 60px;
-  font-size: 1.2rem;
-  opacity: 0.85;
 }
 
-@media (max-width: 900px) {
-  .sellerlist-card-container {
-    gap: 20px;
-    max-width: 98vw;
-  }
-  .sellerlist-card {
-    min-width: 180px;
-    max-width: 98vw;
-    padding: 18px 10px;
-  }
+.sellerlist-card-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
-@media (max-width: 600px) {
-  .sellerlist-main {
-    padding: 20px 0 40px 0;
-  }
-  .sellerlist-title {
-    font-size: 1.3rem;
-    margin-bottom: 18px;
-  }
-  .sellerlist-card-container {
-    gap: 10px;
-  }
-  .sellerlist-card {
-    min-width: 120px;
-    font-size: 0.95rem;
-    padding: 10px 4px;
-  }
+.sellerlist-card-name {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sellerlist-contact-btn {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.agent-warrap-content{
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  width: 100%;
 }

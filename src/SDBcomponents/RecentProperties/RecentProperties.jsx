@@ -34,7 +34,6 @@ const RecentProperties = () => {
         console.log("API Response - Number of listings:", data.listings);
         const mappedListings = data.listings.map((listing) => {
           const property = data.properties.find((prop) => String(prop.propertyID) === String(listing.propertyId)) || {};
-          console.log("Mapping:", { listingId: listing.listingId, propertyId: listing.propertyId, propertyFound: property });
           return { ...listing, property };
         });
         setListings(mappedListings);

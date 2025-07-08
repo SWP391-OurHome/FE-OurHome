@@ -1,9 +1,10 @@
-// src/components/SellerList.jsx
 import React, { useEffect, useState } from "react";
 import { getAllSellers } from "../../services/SellerService";
+import { Link } from "react-router-dom";
 import "./Agent.css"; // import CSS thuần
 import Header from "../../components/Navigation/Header";
 import Footer from "../../components/Footer/Footer";
+import DefaultAvatar from "../../Assets/img/DefaultAvatar.jpg";
 
 export default function SellerList() {
   const [sellers, setSellers] = useState([]);
@@ -15,6 +16,7 @@ export default function SellerList() {
       try {
         const data = await getAllSellers();
         setSellers(data);
+        console.log("Data from API:", data);
       } catch (err) {
         setError("Không thể tải danh sách sellers.");
       } finally {
@@ -30,27 +32,35 @@ export default function SellerList() {
     return <p className="sellerlist-empty">Chưa có seller nào.</p>;
 
   return (
-    <div className="sellerlist-root">
-      <Header />
-      <main className="sellerlist-main">
-        <h2 className="sellerlist-title">Seller List</h2>
-        <div className="sellerlist-card-container">
-          {sellers.map((seller) => (
-            <div key={seller.userId} className="sellerlist-card">
-              <div className="sellerlist-card-name">
-                {seller.firstName} {seller.lastName}
-              </div>
-              <div className="sellerlist-card-email">
-                <b>Email:</b> {seller.email}
-              </div>
-              <div className="sellerlist-card-phone">
-                <b>Phone:</b> {seller.phone}
-              </div>
+      <div className="sellerlist-root">
+        <Header />
+        <div className="agent-warrap-content">
+          <main className="sellerlist-main">
+            <h2 className="sellerlist-title">Our Agents</h2>
+            <div className="sellerlist-card-container">
+              {sellers.map((seller) => (
+                  <Link
+                      to={`/agent-property/${seller.userID}`}
+                      key={seller.userID}
+                      className="sellerlist-card-link"
+                  >
+                    <div className="sellerlist-card">
+                      <img
+                          src={seller.imgPath || DefaultAvatar}
+                          alt={`${seller.firstName} ${seller.lastName}`}
+                          className="sellerlist-card-image"
+                      />
+                      <div className="sellerlist-card-name">
+                        {seller.firstName} {seller.lastName}
+                      </div>
+                      <button className="sellerlist-contact-btn">📞</button>
+                    </div>
+                  </Link>
+              ))}
             </div>
-          ))}
+          </main>
         </div>
-      </main>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
   );
 }
