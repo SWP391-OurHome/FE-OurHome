@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BOOKING_API = "http://localhost:8082/api/booking";
+const API_URL = "http://localhost:8082/api/contact";
 
 export const createBooking = async (userId, propertyId) => {
   try {
-    const response = await axios.post(BOOKING_API, {
+    const response = await axios.post(API_URL, {
       userId,
       propertyId,
     });
@@ -15,9 +15,21 @@ export const createBooking = async (userId, propertyId) => {
   }
 };
 
+//Seller Dashboard
+export const markAsViewed = async (contactId) => {
+  try {
+    const response = await axios.put(`${API_URL}/${contactId}/view`);
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi cập nhật trạng thái đã xem:", error);
+    return null;
+  }
+};
+
+//using for admin page
 export const getAllBookings = async () => {
   try {
-    const response = await axios.get(`${BOOKING_API}/all`);
+    const response = await axios.get(`${API_URL}/all`);
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy danh sách booking:", error);
@@ -25,12 +37,4 @@ export const getAllBookings = async () => {
   }
 };
 
-export const markAsViewed = async (bookingId) => {
-  try {
-    const response = await axios.put(`${BOOKING_API}/${bookingId}/view`);
-    return response.data;
-  } catch (error) {
-    console.error("Lỗi khi cập nhật trạng thái đã xem:", error);
-    return null;
-  }
-};
+

@@ -1,83 +1,92 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { FaBath, FaBed, FaExpand, FaMapMarkerAlt } from "react-icons/fa";
 import Navbar from "../../components/Navigation/Header";
 import Footer from "../../components/Footer/Footer";
+import SellerService from "../../services/SellerService";
+import customerService, {getUserInformation} from "../../services/cusomerService";
+import DefaultAvatar from "../../Assets/img/DefaultAvatar.jpg";
 import "./AgentDetails.css";
 
-const agents = [
-    {
-        name: "John Powell",
-        role: "Real Estate Agent",
-        image: "https://images.unsplash.com/photo-1656338997878-279d71d48f6e?w=600&auto=format&fit=crop&q=60&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGh1bWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D",
-        sales: "Over $5M in properties sold",
-        propertiesSold: [
-            { id: 1, name: "Luxury Villa", price: "$1,200,000", date: "Jan 2025" },
-            { id: 2, name: "Downtown Apartment", price: "$800,000", date: "Dec 2024" },
-        ],
-        customerComments: [
-            { id: 1, name: "Alice Brown", comment: "John was professional and helped us find our dream home!", rating: 5 },
-            { id: 2, name: "Mark Lee", comment: "Great service, highly recommend!", rating: 4 },
-        ],
-    },
-    {
-        name: "Thomas Powell",
-        role: "Property Consultant",
-        image: "https://plus.unsplash.com/premium_photo-1666866587910-2f333c109ef7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGh1bWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D",
-        sales: "Over $3M in properties sold",
-        propertiesSold: [
-            { id: 1, name: "Beachfront Condo", price: "$950,000", date: "Feb 2025" },
-        ],
-        customerComments: [
-            { id: 1, name: "Sarah Kim", comment: "Thomas was very knowledgeable and patient.", rating: 5 },
-        ],
-    },
-    {
-        name: "Tom Wilson",
-        role: "Sales Specialist",
-        image: "https://images.unsplash.com/photo-1618224884150-56e42a997a4b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fGh1bWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D",
-        sales: "Over $2M in properties sold",
-        propertiesSold: [
-            { id: 1, name: "Suburban House", price: "$600,000", date: "Mar 2025" },
-            { id: 2, name: "City Loft", price: "$700,000", date: "Nov 2024" },
-        ],
-        customerComments: [
-            { id: 1, name: "Emma Davis", comment: "Tom made the process smooth and stress-free.", rating: 5 },
-        ],
-    },
-    {
-        name: "Samuel Palmer",
-        role: "Marketing & Client Relations",
-        image: "https://images.unsplash.com/photo-1700317440795-4f52d9364783?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGh1bWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D",
-        sales: "Over $1.5M in properties sold",
-        propertiesSold: [
-            { id: 1, name: "Countryside Cottage", price: "$450,000", date: "Apr 2025" },
-        ],
-        customerComments: [
-            { id: 1, name: "Liam Johnson", comment: "Samuel was very responsive and helpful.", rating: 4 },
-        ],
-    },
-];
+// Utility function to parse price strings to numbers (in millions)
+const parsePrice = (priceStr) => {
+    if (!priceStr) return 0;
+    const numericStr = priceStr.replace(/[^0-9.]/g, '');
+    const value = parseFloat(numericStr);
+    if (priceStr.includes("billion")) return value * 1000;
+    return value;
+};
+const truncate = (str, maxLength = 30) => {
+    if (!str) return "";
+    return str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
+};
+
 
 const AgentDetails = () => {
-    const { agentId } = useParams();
-    const agent = agents.find((a) => a.name.replace(/\s+/g, "-").toLowerCase() === agentId);
+    const [profile, setProfile] = useState(null);
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        birthday: "",
+        imgPath: "",
+    });
+    const { userId } = useParams();
+    const [properties, setProperties] = useState([]);
+    const [listings, setListings] = useState([]);
+    const [agent, setAgent] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [message, setMessage] = useState("");
+    console.log("User ID:", userId);
+    const fetchProfile = async (id) => {
+        setMessage("");
+        try {
+            const data = await getUserInformation(userId);
+            console.log("Server trả về:", data);
+            setProfile(data);
+            setFormData({
+                firstName: data.firstName || "",
+                lastName: data.lastName || "",
+                email: data.email || "",
+                phone: data.phone || "",
+                birthday: data.birthday || "",
+                imgPath: data.imgPath || data.ImgPath || "",
+            });
+        } catch (err) {
+            console.error("Lỗi khi tải thông tin:", err);
+            setMessage("Lỗi khi tải thông tin người dùng: " + err.message);
+        }
+    };
 
-    if (!agent) {
-        return (
-            <>
-                <Navbar />
-                <div className="agent-details-wrapper">
-                    <div className="agent-details-container">
-                        <h2>Agent Not Found</h2>
-                        <Link to="/agent" className="back-link">
-                            Back to Agents
-                        </Link>
-                    </div>
-                </div>
-                <Footer />
-            </>
-        );
-    }
+    const fetchListings = async () => {
+        if (!userId) {
+            console.error("User ID is missing. Please log in.");
+            return;
+        }
+        try {
+            const data = await SellerService.getListingsByUserId(userId);
+            console.log("API Response - Number of properties:", data.properties);
+            console.log("API Response - Number of listings:", data.listings);
+            const mappedListings = data.listings.map((listing) => {
+                const property = data.properties.find((prop) => String(prop.propertyID) === String(listing.propertyId)) || {};
+                return { ...listing, property };
+            });
+            setListings(mappedListings);
+            console.log("Total mapped listings:", mappedListings.length);
+        } catch (error) {
+            console.error("Failed to fetch listings:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (!userId) return;
+        fetchListings();
+        fetchProfile();
+        setLoading(false);
+    }, [userId]);
+
 
     return (
         <>
@@ -85,56 +94,113 @@ const AgentDetails = () => {
             <div className="agent-details-wrapper">
                 <div className="agent-details-container">
                     <Link to="/" className="back-link">
-                        Back to home
+                        Back to Home
                     </Link>
                     <div className="agent-header">
                         <img
-                            src={agent.image}
-                            alt={agent.name}
+                            src={profile?.imgPath || profile?.ImgPath || DefaultAvatar}
+                            alt={`${profile?.firstName || "Unknown"} ${profile?.lastName || "Agent"}`}
                             className="agent-details-image"
                             loading="lazy"
                         />
-                        <div className="agent-info">
-                            <h2 className="agent-details-name">{agent.name}</h2>
-                            <p className="agent-details-role">{agent.role}</p>
-                            <p className="agent-details-sales">{agent.sales}</p>
-                        </div>
+                        {profile && (
+                            <div className="agent-info">
+                                <h2 className="agent-details-name">
+                                    {`${profile.firstName || "Unknown"} ${profile.lastName || "Agent"}`}
+                                </h2>
+                                <p className="agent-details-role">Real Estate Agent</p>
+                                <p className="agent-details-sales">
+                                    Over $
+                                    {(listings.length > 0
+                                            ? listings.reduce((sum, p) => {
+                                            const price = parsePrice(p.property?.price || "0");
+                                            return isNaN(price) ? sum : sum + price;
+                                        }, 0) / 1000
+                                            : 0
+                                    ).toFixed(2)}
+                                    M in properties owned
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <div className="agent-content">
                         <section className="properties-sold">
-                            <h3>Properties Sold</h3>
-                            {agent.propertiesSold.length > 0 ? (
-                                <ul className="properties-list">
-                                    {agent.propertiesSold.map((property) => (
-                                        <li key={property.id} className="property-item">
-                                            <span>{property.name}</span>
-                                            <span>{property.price}</span>
-                                            <span>{property.date}</span>
-                                        </li>
-                                    ))}
-                                </ul>
+                            <h3>Properties Owned</h3>
+                            {listings.length === 0 ? (
+                                <p>No properties found for this agent.</p>
                             ) : (
-                                <p>No properties sold yet.</p>
+                                <div className="properties-grid">
+                                    {listings.map((listing) => (
+                                        <Link
+                                            to={`/property/${listing.property.propertyID}`}
+                                            key={listing.property.propertyID}
+                                            className="property-card"
+                                        >
+                                            <div className="image-wrapper">
+                                                <img
+                                                    src={listing.property.imgURL || "/fallback.jpg"}
+                                                    alt={listing.property.addressLine1}
+                                                />
+                                                <div className="badges">
+                                                    <span
+                                                        className={`badge ${
+                                                            listing.property.purpose === "buy"
+                                                                ? "for-sale"
+                                                                : "for-rent"
+                                                        }`}
+                                                    >
+                                                        {listing.property.purpose === "buy"
+                                                            ? "FOR SALE"
+                                                            : "FOR RENT"}
+                                                    </span>
+                                                </div>
+                                                <div className="property-detail-info-overlay">
+                                                    <h3>{listing.property.addressLine1}</h3>
+                                                    <p
+                                                        title={[
+                                                            listing.property.addressLine1,
+                                                            listing.property.addressLine2,
+                                                            listing.property.region,
+                                                            listing.property.city,
+                                                        ]
+                                                            .filter(Boolean)
+                                                            .join(", ")}
+                                                    >
+                                                        <FaMapMarkerAlt />{" "}
+                                                        {truncate(
+                                                            [
+                                                                listing.property.addressLine1,
+                                                                listing.property.addressLine2,
+                                                                listing.property.region,
+                                                                listing.property.city,
+                                                            ]
+                                                                .filter(Boolean)
+                                                                .join(", "),
+                                                            30
+                                                        )}
+                                                    </p>
+                                                    <strong>{listing.property.price}</strong>
+                                                    <div className="property-info">
+                                                        <span>
+                                                            <FaBed /> {listing.property.numBedroom || 0}
+                                                        </span>
+                                                        <span>
+                                                            <FaBath /> {listing.property.numBathroom || 0}
+                                                        </span>
+                                                        <span>
+                                                            <FaExpand /> {listing.property.area || 0}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
                             )}
                         </section>
                         <section className="customer-comments">
                             <h3>Customer Comments</h3>
-                            {agent.customerComments.length > 0 ? (
-                                <ul className="comments-list">
-                                    {agent.customerComments.map((comment) => (
-                                        <li key={comment.id} className="comment-item">
-                                            <p className="comment-name">{comment.name}</p>
-                                            <p className="comment-text">{comment.comment}</p>
-                                            <p className="comment-rating">
-                                                Rating: {"★".repeat(comment.rating)}
-                                                {"☆".repeat(5 - comment.rating)}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No comments yet.</p>
-                            )}
+                            <p>No comments available. (API integration needed)</p>
                         </section>
                     </div>
                 </div>

@@ -22,7 +22,6 @@ import AgentDetails from './page/agentdetails/AgentDetails';
 import Logout from "./DBcomponents/Logout/Logout";
 import Wishlist from './page/wishlist/Wishlist';
 import Agent from './page/Agent/Agent';
-
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 // Đảm bảo đường dẫn đúng theo cấu trúc dự án
 // Components for Dashboard
@@ -44,6 +43,19 @@ import DBPropertyEdit from "./SDBcomponents/DBProperty/DBPropertyEdit";
 import DBPropertyCreate from "./SDBcomponents/DBProperty/DBPropertyCreate";
 import SalesAnalytics from "./SDBcomponents/SalesAnalytics/SalesAnalytics";
 import StatsCardsSeller from "./SDBcomponents/StatsCards/StatsCards";
+import SellerNotifications from "./SDBcomponents/SellerNotification/sellernotification";
+import ListingPage from'./page/ListingPage/ListingPage'
+import TransactionHistory from './page/transactionHistory/TransactionHistory';
+import SellerTransactionHistory from './page/transactionHistory/SellerTransactionHistory';
+import Membership from './page/membership/Membership';
+import PayOSIntegration from './page/PayOSIntergation';
+import { useLocation } from 'react-router-dom';
+function PayOSWithPlan() {
+    const location = useLocation();
+    const plan = location.state?.plan;
+    return <PayOSIntegration plan={plan} />;
+}
+
 function App() {
     return (
 
@@ -72,7 +84,7 @@ function App() {
                     {/* <Route path='/dashboard' element={<Dashboard />} /> */}
                     <Route element={<ProtectedRoute allowedRole="seller" />}>
                         <Route path="/seller" element={<SellerDashboard />}>
-
+                            <Route path="dashboard/contact" element={<SellerNotifications/>} />
                             <Route index element={<RecentProperties />} />
                             <Route path="dashboard" element={<RecentProperties />} />
                             <Route path="dashboard/property/:id" element={<DBPropertyDetails/>} />
@@ -110,13 +122,20 @@ function App() {
                     <Route path='/seller/profile' element={<Profile />} />
                     <Route path='/admin/profile' element={<Profile />} />
                     <Route path='/changepassword' element={<ChangePassWord />} />
-                    <Route path="/agent/:agentId" element={<AgentDetails />} />
+                    <Route path="/agent-property/:userId" element={<AgentDetails />}/>
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/agent" element={<Agent />} />
-                    {/* Mở rộng sau:
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/about" element={<AboutPage />} />
-          ... */}
+                    <Route path="/listings" element={<ListingPage />} />
+
+                    <Route path="/transaction-history" element={<TransactionHistory />} />
+                    <Route path="/seller/transaction-history" element={<SellerTransactionHistory />} />
+                    <Route path="/membership" element={<Membership />} />
+<Route path="/payos" element={<PayOSWithPlan />} />
+
+                        {/* Mở rộng sau: */}
+                        {/* <Route path="/signup" element={<Signup />} /> */}
+                        {/* <Route path="/about" element={<AboutPage />} /> */}
+                        {/* ... */}
                 </Routes>
             </div>
         </Router>

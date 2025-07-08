@@ -38,15 +38,23 @@ export default function PropertySearch() {
 
     setLoading(true);
     axios
-      .get("http://localhost:8082/api/listing/search", { params: newFilters })
-      .then((res) => {
-        setProperties(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Error loading data: " + err.message);
-        setLoading(false);
-      });
+        .get("http://localhost:8082/api/listing/search", { params: newFilters })
+        .then((res) => {
+          const filteredProperties = res.data
+              .filter((listing) => listing.listingStatus === "true")
+              .sort((a, b) => {
+                if (a.listingType === "vip" && b.listingType !== "vip") return -1;
+                if (a.listingType !== "vip" && b.listingType === "vip") return 1;
+                return 0;
+              });
+          setProperties(filteredProperties);
+          console.log(filteredProperties);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError("Error loading data: " + err.message);
+          setLoading(false);
+        });
   }, [location.search]);
 
   const handleChange = (e) => {
@@ -62,124 +70,124 @@ export default function PropertySearch() {
   };
 
   return (
-    <section className="search-featured-section">
-      <div className="search-form">
-        <div className="search-form-grid">
-          <h2>Search Properties</h2>
-          <input
-            name="city"
-            placeholder="Address"
-            value={filters.city}
-            onChange={handleChange}
-          />
-          <input
-            name="propertyType"
-            placeholder="Property Type"
-            value={filters.propertyType}
-            onChange={handleChange}
-          />
-          <input
-            name="minPrice"
-            type="number"
-            placeholder="Min Price"
-            value={filters.minPrice}
-            onChange={handleChange}
-          />
-          <input
-            name="maxPrice"
-            type="number"
-            placeholder="Max Price"
-            value={filters.maxPrice}
-            onChange={handleChange}
-          />
-          <input
-            name="minArea"
-            type="number"
-            placeholder="Min Area (m²)"
-            value={filters.minArea}
-            onChange={handleChange}
-          />
-          <input
-            name="maxArea"
-            type="number"
-            placeholder="Max Area (m²)"
-            value={filters.maxArea}
-            onChange={handleChange}
-          />
-          <input
-            name="bedrooms"
-            type="number"
-            placeholder="Bedrooms"
-            value={filters.bedrooms}
-            onChange={handleChange}
-          />
-          <input
-            name="bathrooms"
-            type="number"
-            placeholder="Bathrooms"
-            value={filters.bathrooms}
-            onChange={handleChange}
-          />
-          <button onClick={handleSearch}>Search</button>
+      <section className="search-featured-section">
+        <div className="search-form">
+          <div className="search-form-grid">
+            <h2>Search Properties</h2>
+            <input
+                name="city"
+                placeholder="Address"
+                value={filters.city}
+                onChange={handleChange}
+            />
+            <input
+                name="propertyType"
+                placeholder="Property Type"
+                value={filters.propertyType}
+                onChange={handleChange}
+            />
+            <input
+                name="minPrice"
+                type="number"
+                placeholder="Min Price"
+                value={filters.minPrice}
+                onChange={handleChange}
+            />
+            <input
+                name="maxPrice"
+                type="number"
+                placeholder="Max Price"
+                value={filters.maxPrice}
+                onChange={handleChange}
+            />
+            <input
+                name="minArea"
+                type="number"
+                placeholder="Min Area (m²)"
+                value={filters.minArea}
+                onChange={handleChange}
+            />
+            <input
+                name="maxArea"
+                type="number"
+                placeholder="Max Area (m²)"
+                value={filters.maxArea}
+                onChange={handleChange}
+            />
+            <input
+                name="bedrooms"
+                type="number"
+                placeholder="Bedrooms"
+                value={filters.bedrooms}
+                onChange={handleChange}
+            />
+            <input
+                name="bathrooms"
+                type="number"
+                placeholder="Bathrooms"
+                value={filters.bathrooms}
+                onChange={handleChange}
+            />
+            <button onClick={handleSearch}>Search</button>
+          </div>
         </div>
-      </div>
 
-      {loading ? (
-        <div className="search-loading">Loading...</div>
-      ) : error ? (
-        <div className="search-error">{error}</div>
-      ) : (
-        <div className="search-properties-grid">
-          {properties.map((item) => (
-            <Link
-              to={`/property/${item.propertyID || item.propertyId}`}
-              key={item.propertyID || item.propertyId}
-              className="search-property-card"
-            >
-              <div className="search-image-wrapper">
-                <img
-                  src={item.imgURL || "/fallback.jpg"}
-                  alt={item.addressLine1}
-                />
-                <div className="search-badges">
+        {loading ? (
+            <div className="search-loading">Loading...</div>
+        ) : error ? (
+            <div className="search-error">{error}</div>
+        ) : (
+            <div className="search-properties-grid">
+              {properties.map((item) => (
+                  <Link
+                      to={`/property/${item.propertyID || item.propertyId}`}
+                      key={item.propertyID || item.propertyId}
+                      className="search-property-card"
+                  >
+                    <div className="search-image-wrapper">
+                      <img
+                          src={item.imgURL || "/fallback.jpg"}
+                          alt={item.addressLine1}
+                      />
+                      <div className="search-badges">
                   <span
-                    className={`search-badge ${
-                      item.purpose === "buy"
-                        ? "search-for-sale"
-                        : "search-for-rent"
-                    }`}
+                      className={`search-badge ${
+                          item.purpose === "buy"
+                              ? "search-for-sale"
+                              : "search-for-rent"
+                      }`}
                   >
                     {item.purpose === "buy" ? "FOR SALE" : "FOR RENT"}
                   </span>
-                  {item.isFeatured && (
-                    <span className="search-badge search-featured">
+                        {item.isFeatured && (
+                            <span className="search-badge search-featured">
                       FEATURED
                     </span>
-                  )}
-                </div>
-                <div className="search-property-detail-info-overlay">
-                  <h3>{item.addressLine1}</h3>
-                  <p>
-                    <FaMapMarkerAlt /> {item.addressLine1}, {item.city}
-                  </p>
-                  <strong>${item.price}</strong>
-                  <div className="search-property-info">
+                        )}
+                      </div>
+                      <div className="search-property-detail-info-overlay">
+                        <h3>{item.addressLine1}</h3>
+                        <p>
+                          <FaMapMarkerAlt /> {item.addressLine1}, {item.city}
+                        </p>
+                        <strong>${item.price}</strong>
+                        <div className="search-property-info">
                     <span>
                       <FaBed /> {item.numBedroom}
                     </span>
-                    <span>
+                          <span>
                       <FaBath /> {item.numBathroom}
                     </span>
-                    <span>
+                          <span>
                       <FaExpand /> {item.area} m²
                     </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </section>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+              ))}
+            </div>
+        )}
+      </section>
   );
 }

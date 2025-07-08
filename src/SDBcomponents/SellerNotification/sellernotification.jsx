@@ -1,81 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { getAllBookings, markAsViewed } from "../../services/bookingService";
+import { fetchSellerContacts } from "../../services/contactService"; // Assuming fetchSellerContacts is exported from this service
+import { markAsViewed } from "../../services/bookingService";
 import "./SellerNotifications.css";
 
-const Notifications = () => {
-  const [bookings, setBookings] = useState([]);
+const SellerNotifications = () => {
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchContacts = async () => {
       try {
-        const data = await getAllBookings();
-        setBookings(data);
+        // Retrieve user from localStorage
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const sellerUserId = user.id;
+        console.log("Seller user ID:", sellerUserId);
+        if (!sellerUserId || sellerUserId <= 0) {
+          throw new Error("Invalid or missing seller ID in localStorage");
+        }
+        const data = await fetchSellerContacts(sellerUserId);
+        setContacts(data);
       } catch (error) {
-        console.error("Lỗi khi lấy booking:", error);
+        console.error("Error fetching contacts:", error);
       }
     };
-    fetchBookings();
+    fetchContacts();
   }, []);
 
-  const handleMarkAsViewed = async (bookingId) => {
+  const handleMarkAsViewed = async (contactId) => {
     try {
-      await markAsViewed(bookingId);
-      setBookings((prev) =>
-        prev.map((b) => (b.id === bookingId ? { ...b, viewed: true } : b))
+      await markAsViewed(contactId);
+      setContacts((prev) =>
+          prev.map((c) => (c.id === contactId ? { ...c, viewed: true } : c))
       );
     } catch (error) {
-      console.error("Lỗi khi cập nhật trạng thái đã xem:", error);
+      console.error("Error updating viewed status:", error);
     }
   };
 
   const formatDateTime = (raw) => {
-  if (!raw) return "Không rõ thời gian";
-
-  // "2025-06-25 15:24:34.029224" -> "2025-06-25T15:24:34"
-  const clean = raw.replace(" ", "T").split(".")[0];
-  const date = new Date(clean);
-  if (isNaN(date.getTime())) return "Không hợp lệ";
-
-  const pad = (n) => (n < 10 ? "0" + n : n);
-
-  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-};
+    if (!raw) return "Unknown time";
+    // "2025-06-25 15:24:34.029224" -> "2025-06-25T15:24:34"
+    const clean = raw.replace(" ", "T").split(".")[0];
+    const date = new Date(clean);
+    if (isNaN(date.getTime())) return "Invalid date";
+    const pad = (n) => (n < 10 ? "0" + n : n);
+    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  };
 
   return (
-    <div className="seller-notifications">
-      <h2>Danh sách booking</h2>
-      <table>
-        <thead>
+      <div className="seller-notifications">
+        <h2>Contact List</h2>
+        <table>
+          <thead>
           <tr>
-            <th>Tên</th>
-            <th>SĐT</th>
-            <th>Email</th>
-            <th>Ngày đặt</th>
-            <th>Thao tác</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Booking Date</th>
+            <th>Action</th>
           </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b.id}>
-              <td>{b.firstName + " " + b.lastName}</td>
-              <td>{b.phone}</td>
-              <td>{b.email}</td>
-              <td>{formatDateTime(b.bookingTime)}</td>
-              <td>
-                {!b.viewed ? (
-                  <button onClick={() => handleMarkAsViewed(b.id)}>
-                    Đánh dấu đã xem
-                  </button>
-                ) : (
-                  <span style={{ color: "green" }}>Đã xem</span>
-                )}
-              </td>
-            </tr>
+          </thead>
+          <tbody>
+          {contacts.map((c) => (
+              <tr key={c.contactId}>
+                <td>{c.buyerFirstName + " " + c.buyerLastName}</td>
+                <td>{c.buyerPhone}</td>
+                <td>{c.contactDate}</td>
+                <td>
+                  {!c.status ? (
+                      <button onClick={() => handleMarkAsViewed(c.contactId)}>
+                        Mark as Viewed
+                      </button>
+                  ) : (
+                      <span style={{ color: "green" }}>Viewed</span>
+                  )}
+                </td>
+              </tr>
           ))}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
   );
 };
 
-export default Notifications;
+export default SellerNotifications;

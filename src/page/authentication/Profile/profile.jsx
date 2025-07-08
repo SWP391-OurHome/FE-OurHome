@@ -284,7 +284,7 @@ const ProfileView = () => {
               {/* Avatar */}
               <div className="pv-details-section">
                 <div className="pv-image-wrapper pv-image-upload">
-                  {formData.imgPath ? (
+                  {formData.imgPath && formData.imgPath.trim() ? (
                       <img
                           src={formData.imgPath}
                           alt="Profile"
