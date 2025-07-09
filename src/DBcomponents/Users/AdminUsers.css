@@ -72,3 +72,69 @@
       min-width: 120px;
     }
   }
+
+.ban-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.ban-btn.banned {
+  color: red;
+}
+
+.ban-btn.unbanned {
+  color: green;
+}
+
+.admin-view-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.filter-select {
+  padding: 5px;
+  margin: 2px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.search-container {
+  display: flex;
+  flex-grow: 1; /* Makes the search input take up the remaining width */
+  max-width: 300px; /* Optional: limit the maximum width */
+}
+
+.search-input {
+  flex-grow: 1; /* Expands to fill available space in the container */
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  border-right: none;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.search-btn {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  border-radius: 0 4px 4px 0;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
