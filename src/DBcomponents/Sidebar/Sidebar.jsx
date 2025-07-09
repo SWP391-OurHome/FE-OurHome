@@ -12,67 +12,67 @@ const AdminSidebar = () => {
             <nav className="admin-sidebar-nav">
                 <ul>
                     <li>
-                        <Link to="/dashboard/overview">
+                        <Link to="/admin/dashboard/overview">
                             <i className="bi bi-house-door"></i>
                             <span>Overview</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/analytics">
+                        <Link to="/admin/dashboard/analytics">
                             <i className="bi bi-bar-chart"></i>
                             <span>Analytics</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/properties">
+                        <Link to="/admin/dashboard/properties">
                             <i className="bi bi-building"></i>
                             <span>Properties</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/transactions">
+                        <Link to="/admin/dashboard/transactions">
                             <i className="bi bi-currency-dollar"></i>
                             <span>Transactions</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/users">
+                        <Link to="/admin/dashboard/users">
                             <i className="bi bi-people"></i>
                             <span>Users</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/settings">
+                        <Link to="/admin/dashboard/settings">
                             <i className="bi bi-gear"></i>
                             <span>Settings</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/support">
+                        <Link to="/admin/dashboard/support">
                             <i className="bi bi-headset"></i>
                             <span>Support/Tickets</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/reports">
+                        <Link to="/admin/dashboard/reports">
                             <i className="bi bi-file-earmark-text"></i>
                             <span>Reports</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/notifications">
+                        <Link to="/admin/dashboard/notifications">
                             <i className="bi bi-bell"></i>
                             <span>Notifications</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/admin/profile">
+                        <Link to="/admin/admin/profile">
                             <i className="bi bi-bell"></i>
                             <span>Profile</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/logout">
+                        <Link to="/admin/dashboard/logout">
                             <i className="bi bi-box-arrow-right"></i>
                             <span>Logout</span>
                         </Link>
