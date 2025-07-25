@@ -110,7 +110,7 @@ const ForgotPassword = () => {
 
   return (
       <div className="fp-container">
-        <div className="fp-background"></div>
+        <div className="authen-background"></div>
         <div className="fp-content">
           <div className="fp-form">
             {/* Step 1: Enter email */}

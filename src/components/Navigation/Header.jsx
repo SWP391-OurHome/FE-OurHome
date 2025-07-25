@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../../Assets/Asset/Reset.css";
 import "../../Assets/Asset/Global.css";
 import UserAvatar from "../header/UserAvatar";
+import Notification from "../Notifications/Notification";
 import { getRoleBasedRedirectPath } from "../../services/authService";
 
 const Header = () => {
@@ -92,24 +93,27 @@ const Header = () => {
             <Link to="/listings" className="nav-item">
               <span>Listings</span>
             </Link>
-            <Link to="/members" className="nav-item">
+            <Link to="/membership" className="nav-item">
               <span>Members</span>
             </Link>
-            <Link to="/blog" className="nav-item">
-              <span>Blog</span>
+            {/*<Link to="/blog" className="nav-item">*/}
+            {/*  <span>Blog</span>*/}
+            {/*</Link>*/}
+            <Link to="/agent" className="nav-item">
+              <span>Agent</span>
             </Link>
-            <Link to="/pages" className="nav-item">
-              <span>Pages</span>
-            </Link>
-            <Link to="/contact" className="nav-item-simple">
-              <span>Contact</span>
-            </Link>
+            {/*<Link to="/contact" className="nav-item-simple">*/}
+            {/*  <span>Contact</span>*/}
+            {/*</Link>*/}
           </nav>
 
           {/* Right Side Actions */}
           <div className="actions">
             {user && role === "customer" ? (
+                <>
+                <Notification />
               <UserAvatar />
+                </>
             ) : (
               <Link to="/login">
                 <button className="add-property-button">Sign-In</button>

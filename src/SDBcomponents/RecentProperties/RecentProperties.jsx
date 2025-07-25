@@ -94,6 +94,14 @@ const RecentProperties = () => {
         <h2>
           Recent Properties <span>({listings.length} properties)</span>
         </h2>
+        <button
+            className="seller-action-btn create"
+            onClick={handleCreateNew}
+            title="Create new"
+            style={{ width: "100px", height: "40px", backgroundColor: "#4CAF50", color: "#fff", borderRadius:"12px" , float: "right"}}
+        >
+          <FontAwesomeIcon icon={faPlus} /> Create new
+        </button>
         {listings.length === 0 ? (
             <p>No properties found for user ID: {userId}. Please check the data.</p>
         ) : (
@@ -119,14 +127,7 @@ const RecentProperties = () => {
                   </select>
                   items
                 </label>
-                <button
-                    className="seller-action-btn create"
-                    onClick={handleCreateNew}
-                    title="Create new"
-                    style={{ backgroundColor: "#4CAF50", color: "#fff" }}
-                >
-                  <FontAwesomeIcon icon={faPlus} /> Create new
-                </button>
+
               </div>
               <div className="seller-properties-table">
                 <table>
@@ -219,9 +220,9 @@ const RecentProperties = () => {
                           style={{
                             margin: "0 4px",
                             padding: "4px 10px",
-                            background: currentPage === i + 1 ? "#311b92" : "#fff",
-                            color: currentPage === i + 1 ? "#fff" : "#311b92",
-                            border: "1px solid #311b92",
+                            background: currentPage === i + 1 ? "#3ca267" : "#fff",
+                            color: currentPage === i + 1 ? "#fff" : "#3ca267",
+                            border: "1px solid #3ca267",
                             borderRadius: 4,
                             cursor: "pointer",
                             fontWeight: currentPage === i + 1 ? 700 : 400,

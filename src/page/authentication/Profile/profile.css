@@ -6,15 +6,18 @@
   font-family: "Poppins", sans-serif;
 }
 
+
 /* Thêm CSS cho layout mới */
 .profile-layout {
   display: flex;
 }
 
+
 .profile-main-content {
   flex-grow: 1;
   background-color: #f9f9f9;
 }
+
 
 .pv-content-wrapper {
   min-height: 80vh;
@@ -23,7 +26,9 @@
   justify-content: center;
   background: #fff;
   width: 100%;
+  margin-top: 2rem;
 }
+
 
 .pv-loading {
   display: flex;
@@ -32,6 +37,7 @@
   height: 100vh;
   font-size: 1.2rem;
 }
+
 
 .pv-profile-container {
   background-color: white;
@@ -43,10 +49,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 .pv-profile-header {
   text-align: center;
   margin-bottom: 20px;
 }
+
 
 .pv-details-section {
   display: flex;
@@ -55,9 +63,11 @@
   margin-bottom: 20px;
 }
 
+
 .pv-image-wrapper {
   position: relative;
 }
+
 
 .pv-image-preview {
   width: 100px;
@@ -67,13 +77,16 @@
   border: 2px solid #ddd;
 }
 
+
 .pv-info-section {
   flex-grow: 1;
 }
 
+
 .pv-field-row {
   margin-bottom: 15px;
 }
+
 
 .pv-label {
   display: inline-block;
@@ -82,18 +95,21 @@
   color: #333;
 }
 
+
 .pv-input {
   padding: 8px;
-  width: 200px;
+  width: 300px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 14px;
 }
+
 
 .pv-display-row {
   margin-bottom: 10px;
   color: #555;
 }
+
 
 .pv-message {
   text-align: center;
@@ -101,21 +117,27 @@
   margin-top: 10px;
 }
 
+
 .pv-edit-btn,
 .pv-save-btn-main {
   padding: 10px 20px;
   margin: 5px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #25594d, #3ca267);
   color: white;
   cursor: pointer;
 }
-
+.pv-save-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 .pv-edit-btn:hover,
 .pv-save-btn-main:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #25594d, #3ca267);
 }
+
 
 .edit-overlay {
   position: absolute;
@@ -134,10 +156,15 @@
   transition: opacity 0.3s;
 }
 
+
 .pv-image-wrapper:hover .edit-overlay {
   opacity: 1;
 }
 
+
 .edit-overlay input[type="file"] {
   display: none;
 }
+
+
+

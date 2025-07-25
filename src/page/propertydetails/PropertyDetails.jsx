@@ -401,8 +401,8 @@ const PropertyDetails = () => {
                 {property.purpose === 'rent' ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <p style={{ margin: 0 }}>Rent includes utilities</p>
-                      <input type="date" defaultValue="2025-06-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px', marginTop: '10px' }} />
-                      <input type="date" defaultValue="2025-07-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px' }} />
+                      {/*<input type="date" defaultValue="2025-06-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px', marginTop: '10px' }} />*/}
+                      {/*<input type="date" defaultValue="2025-07-10" style={{ width: '100%', maxWidth: '400px', marginBottom: '10px' }} />*/}
                       <button
                           style={{ width: 'fit-content', padding: '0.5rem 1rem' }}
                           onClick={handleBooking}>Continue Booking</button>
@@ -419,9 +419,10 @@ const PropertyDetails = () => {
             </div>
           </div>
 
-          <div className="footer-wrapper">
-            <Footer ref={footerRef} />
-          </div>
+
+        </div>
+        <div className="footer-wrapper">
+          <Footer ref={footerRef} />
         </div>
       </>
   );

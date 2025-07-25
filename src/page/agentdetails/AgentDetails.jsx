@@ -16,11 +16,11 @@ const parsePrice = (priceStr) => {
     if (priceStr.includes("billion")) return value * 1000;
     return value;
 };
+
 const truncate = (str, maxLength = 30) => {
     if (!str) return "";
     return str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
 };
-
 
 const AgentDetails = () => {
     const [profile, setProfile] = useState(null);
@@ -33,13 +33,15 @@ const AgentDetails = () => {
         imgPath: "",
     });
     const { userId } = useParams();
-    const [properties, setProperties] = useState([]);
     const [listings, setListings] = useState([]);
-    const [agent, setAgent] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [listingsPerPage] = useState(6); // Number of listings per page
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState("");
+
     console.log("User ID:", userId);
+
     const fetchProfile = async (id) => {
         setMessage("");
         try {
@@ -87,13 +89,25 @@ const AgentDetails = () => {
         setLoading(false);
     }, [userId]);
 
+    // Calculate pagination
+    const indexOfLastListing = currentPage * listingsPerPage;
+    const indexOfFirstListing = indexOfLastListing - listingsPerPage;
+    const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
+    const totalPages = Math.ceil(listings.length / listingsPerPage);
+
+    // Handle page change
+    const paginate = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
 
     return (
         <>
             <Navbar />
             <div className="agent-details-wrapper">
                 <div className="agent-details-container">
-                    <Link to="/" className="back-link">
+                    <Link to="/" className="back-link" style={{ display: "none" }}>
                         Back to Home
                     </Link>
                     <div className="agent-header">
@@ -120,6 +134,11 @@ const AgentDetails = () => {
                                     ).toFixed(2)}
                                     M in properties owned
                                 </p>
+                                <button onClick={() => {
+                                    setTimeout(() => {
+                                        window.location.href = "zalo://conversation?phone=0375523715";
+                                    }, 100);
+                                }}>Chat qua Zalo</button>
                             </div>
                         )}
                     </div>
@@ -129,78 +148,101 @@ const AgentDetails = () => {
                             {listings.length === 0 ? (
                                 <p>No properties found for this agent.</p>
                             ) : (
-                                <div className="properties-grid">
-                                    {listings.map((listing) => (
-                                        <Link
-                                            to={`/property/${listing.property.propertyID}`}
-                                            key={listing.property.propertyID}
-                                            className="property-card"
-                                        >
-                                            <div className="image-wrapper">
-                                                <img
-                                                    src={listing.property.imgURL || "/fallback.jpg"}
-                                                    alt={listing.property.addressLine1}
-                                                />
-                                                <div className="badges">
-                                                    <span
-                                                        className={`badge ${
-                                                            listing.property.purpose === "buy"
-                                                                ? "for-sale"
-                                                                : "for-rent"
-                                                        }`}
-                                                    >
-                                                        {listing.property.purpose === "buy"
-                                                            ? "FOR SALE"
-                                                            : "FOR RENT"}
-                                                    </span>
-                                                </div>
-                                                <div className="property-detail-info-overlay">
-                                                    <h3>{listing.property.addressLine1}</h3>
-                                                    <p
-                                                        title={[
-                                                            listing.property.addressLine1,
-                                                            listing.property.addressLine2,
-                                                            listing.property.region,
-                                                            listing.property.city,
-                                                        ]
-                                                            .filter(Boolean)
-                                                            .join(", ")}
-                                                    >
-                                                        <FaMapMarkerAlt />{" "}
-                                                        {truncate(
-                                                            [
+                                <>
+                                    <div className="ag-properties-grid">
+                                        {currentListings.map((listing) => (
+                                            <Link
+                                                to={`/property/${listing.property.propertyID}`}
+                                                key={listing.property.propertyID}
+                                                className="ag-property-card"
+                                            >
+                                                <div className="ag-image-wrapper">
+                                                    <img
+                                                        src={listing.property.imgURL || "/fallback.jpg"}
+                                                        alt={listing.property.addressLine1}
+                                                    />
+                                                    <div className="badges">
+                                                       <span
+                                                           className={`badge ${
+                                                               listing.property.purpose === "buy"
+                                                                   ? "for-sale"
+                                                                   : "for-rent"
+                                                           }`}
+                                                       >
+                                                           {listing.property.purpose === "buy"
+                                                               ? "FOR SALE"
+                                                               : "FOR RENT"}
+                                                       </span>
+                                                    </div>
+                                                    <div className="ag-detail-info-overlay">
+                                                        <h3>{listing.property.addressLine1}</h3>
+                                                        <p
+                                                            title={[
                                                                 listing.property.addressLine1,
                                                                 listing.property.addressLine2,
                                                                 listing.property.region,
                                                                 listing.property.city,
                                                             ]
                                                                 .filter(Boolean)
-                                                                .join(", "),
-                                                            30
-                                                        )}
-                                                    </p>
-                                                    <strong>{listing.property.price}</strong>
-                                                    <div className="property-info">
-                                                        <span>
-                                                            <FaBed /> {listing.property.numBedroom || 0}
-                                                        </span>
-                                                        <span>
-                                                            <FaBath /> {listing.property.numBathroom || 0}
-                                                        </span>
-                                                        <span>
-                                                            <FaExpand /> {listing.property.area || 0}
-                                                        </span>
+                                                                .join(", ")}
+                                                        >
+                                                            <FaMapMarkerAlt />{" "}
+                                                            {truncate(
+                                                                [
+                                                                    listing.property.addressLine1,
+                                                                    listing.property.addressLine2,
+                                                                    listing.property.region,
+                                                                    listing.property.city,
+                                                                ]
+                                                                    .filter(Boolean)
+                                                                    .join(", "),
+                                                                30
+                                                            )}
+                                                        </p>
+                                                        <strong>{listing.property.price}</strong>
+                                                        <div className="ag-info">
+                                                           <span>
+                                                               <FaBed /> {listing.property.numBedroom || 0}
+                                                           </span>
+                                                            <span>
+                                                               <FaBath /> {listing.property.numBathroom || 0}
+                                                           </span>
+                                                            <span>
+                                                               <FaExpand /> {listing.property.area || 0}
+                                                           </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    ))}
-                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    <div className="pagination">
+                                        <button
+                                            onClick={() => paginate(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                            className="pagination-button"
+                                        >
+                                            Previous
+                                        </button>
+                                        {Array.from({ length: totalPages }, (_, index) => (
+                                            <button
+                                                key={index + 1}
+                                                onClick={() => paginate(index + 1)}
+                                                className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        ))}
+                                        <button
+                                            onClick={() => paginate(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
+                                            className="pagination-button"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </>
                             )}
-                        </section>
-                        <section className="customer-comments">
-                            <h3>Customer Comments</h3>
-                            <p>No comments available. (API integration needed)</p>
                         </section>
                     </div>
                 </div>

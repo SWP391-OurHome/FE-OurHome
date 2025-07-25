@@ -11,7 +11,9 @@ import {
 import DefaultAvatar from "../../../Assets/img/DefaultAvatar.jpg"; // Import ảnh mặc định
 import "./profile.css";
 
+
 const BASE_URL = "http://localhost:8082";
+
 
 const ProfileView = () => {
   const [profile, setProfile] = useState(null);
@@ -30,7 +32,6 @@ const ProfileView = () => {
   const [message, setMessage] = useState("");
   const [userID, setUserID] = useState(null);
   const [userRole, setUserRole] = useState(null);
-
 
 
   useEffect(() => {
@@ -62,6 +63,7 @@ const ProfileView = () => {
     }
   }, []);
 
+
   const fetchProfile = async (id) => {
     setMessage("");
     try {
@@ -76,6 +78,7 @@ const ProfileView = () => {
         birthday: data.birthday || "",
         imgPath: data.imgPath || data.ImgPath || "",
       });
+
 
       localStorage.setItem(
           "user",
@@ -96,15 +99,18 @@ const ProfileView = () => {
     }
   };
 
+
   useEffect(() => {
     if (!userID) return;
     fetchProfile(userID);
   }, [userID]);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const handleImageChange = (e) => {
     if (e.target.files.length) {
@@ -117,12 +123,14 @@ const ProfileView = () => {
     }
   };
 
+
   const updateProfileInfo = async () => {
     if (!profile) {
       setMessage("Không tìm thấy thông tin profile.");
       return false;
     }
     setMessage("");
+
 
     const userDTO = {
       firstName: formData.firstName,
@@ -133,14 +141,17 @@ const ProfileView = () => {
       imgPath: formData.imgPath,
     };
 
+
     const res = await updateUserInformation(userID, userDTO);
     if (!res.success) {
       setMessage(res.message);
       return false;
     }
 
+
     setProfile((prev) => ({ ...prev, ...userDTO }));
     setMessage("Cập nhật thông tin thành công 🎉");
+
 
     const stored = localStorage.getItem("user");
     if (stored) {
@@ -159,8 +170,10 @@ const ProfileView = () => {
       }
     }
 
+
     return true;
   };
+
 
   const updateAvatar = async () => {
     if (!profile) {
@@ -172,6 +185,7 @@ const ProfileView = () => {
       return false;
     }
 
+
     const validTypes = ["image/jpeg", "image/png", "image/gif"];
     if (!validTypes.includes(imageFile.type)) {
       setMessage("Chỉ cho phép JPEG, PNG, GIF.");
@@ -182,9 +196,11 @@ const ProfileView = () => {
       return false;
     }
 
+
     setMessage("");
     const fd = new FormData();
     fd.append("avatar", imageFile);
+
 
     try {
       const res = await updateAvatarProfile(userID, fd);
@@ -193,13 +209,16 @@ const ProfileView = () => {
         return false;
       }
 
+
       const url = res.avatarUrl?.startsWith("http")
           ? res.avatarUrl
           : BASE_URL + res.avatarUrl;
 
+
       setFormData((prev) => ({ ...prev, imgPath: url }));
       setProfile((prev) => ({ ...prev, imgPath: url }));
       setMessage("Cập nhật avatar thành công 🎉");
+
 
       const stored = localStorage.getItem("user");
       if (stored) {
@@ -212,6 +231,7 @@ const ProfileView = () => {
         }
       }
 
+
       window.dispatchEvent(new Event("avatarChanged"));
       window.dispatchEvent(new Event("userInfoChanged"));
       return true;
@@ -221,6 +241,7 @@ const ProfileView = () => {
       return false;
     }
   };
+
 
   const handleSaveChanges = async () => {
     let ok = false;
@@ -240,51 +261,21 @@ const ProfileView = () => {
     }
   };
 
+
   const profileContent = profile ? (
       <div className="pv-content-wrapper">
         <div className="pv-profile-page">
           <div className="pv-profile-container">
             <div className="pv-profile-header">
-              <button
-                  className="pv-edit-btn"
-                  onClick={() => {
-                    setIsEditingBasicInfo(true);
-                    setIsEditingEmail(false);
-                    setIsEditingPhone(false);
-                  }}
-              >
-                Edit Profile Info
-              </button>
-              <button
-                  className="pv-edit-btn"
-                  onClick={() => {
-                    setIsEditingEmail(true);
-                    setIsEditingBasicInfo(false);
-                    setIsEditingPhone(false);
-                  }}
-              >
-                Change Email
-              </button>
-              <button
-                  className="pv-edit-btn"
-                  onClick={() => {
-                    setIsEditingPhone(true);
-                    setIsEditingBasicInfo(false);
-                    setIsEditingEmail(false);
-                  }}
-              >
-                Change Phone
-              </button>
-              <button className="pv-save-btn-main" onClick={handleSaveChanges}>
-                Save Changes
-              </button>
+              {/* Nút Save Changes đã được di chuyển xuống dưới */}
             </div>
+
 
             <div className="pv-edit-wrapper">
               {/* Avatar */}
               <div className="pv-details-section">
                 <div className="pv-image-wrapper pv-image-upload">
-                  {formData.imgPath && formData.imgPath.trim() ? (
+                  {formData.imgPath ? (
                       <img
                           src={formData.imgPath}
                           alt="Profile"
@@ -309,88 +300,66 @@ const ProfileView = () => {
                   </label>
                 </div>
 
+
                 {/* Basic Info */}
                 <div className="pv-info-section">
-                  {isEditingBasicInfo ? (
-                      <>
-                        <div className="pv-field-row">
-                          <label className="pv-label">First Name:</label>
-                          <input
-                              className="pv-input"
-                              name="firstName"
-                              value={formData.firstName}
-                              onChange={handleChange}
-                          />
-                        </div>
-                        <div className="pv-field-row">
-                          <label className="pv-label">Last Name:</label>
-                          <input
-                              className="pv-input"
-                              name="lastName"
-                              value={formData.lastName}
-                              onChange={handleChange}
-                          />
-                        </div>
-                        <div className="pv-field-row">
-                          <label className="pv-label">Birthday:</label>
-                          <input
-                              className="pv-input"
-                              type="date"
-                              name="birthday"
-                              value={formData.birthday}
-                              onChange={handleChange}
-                          />
-                        </div>
-                      </>
-                  ) : (
-                      <>
-                        <div className="pv-display-row">
-                          <span className="pv-label">First Name:</span>{" "}
-                          {profile.firstName}
-                        </div>
-                        <div className="pv-display-row">
-                          <span className="pv-label">Last Name:</span>{" "}
-                          {profile.lastName}
-                        </div>
-                        <div className="pv-display-row">
-                          <span className="pv-label">Birthday:</span>{" "}
-                          {profile.birthday}
-                        </div>
-                      </>
-                  )}
+                  <div className="pv-field-row">
+                    <label className="pv-label">First Name:</label>
+                    <input
+                        className="pv-input"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                    />
+                  </div>
+                  <div className="pv-field-row">
+                    <label className="pv-label">Last Name:</label>
+                    <input
+                        className="pv-input"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
+                  </div>
+                  <div className="pv-field-row">
+                    <label className="pv-label">Birthday:</label>
+                    <input
+                        className="pv-input"
+                        type="date"
+                        name="birthday"
+                        value={formData.birthday}
+                        onChange={handleChange}
+                    />
+                  </div>
+                  <div className="pv-field-row">
+                    <label className="pv-label">Email:</label>
+                    <input
+                        className="pv-input"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                  </div>
+                  <div className="pv-field-row">
+                    <label className="pv-label">Phone:</label>
+                    <input
+                        className="pv-input"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Email */}
-              {isEditingEmail && (
-                  <div className="pv-email-section pv-section-show">
-                    <div className="pv-field-row">
-                      <label className="pv-label">New Email:</label>
-                      <input
-                          className="pv-input"
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-              )}
 
-              {/* Phone */}
-              {isEditingPhone && (
-                  <div className="pv-phone-section pv-section-show">
-                    <div className="pv-field-row">
-                      <label className="pv-label">New Phone:</label>
-                      <input
-                          className="pv-input"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-              )}
+              <div className="pv-save-section">
+                <button className="pv-save-btn-main" onClick={handleSaveChanges}>
+                  Save Changes
+                </button>
+              </div>
+
 
               {message && <p className="pv-message">{message}</p>}
             </div>
@@ -401,9 +370,11 @@ const ProfileView = () => {
       <div className="pv-loading">{message || "Đang tải thông tin người dùng..."}</div>
   );
 
+
   if (!profile) {
     return profileContent;
   }
+
 
   if (userRole === "admin") {
     return (
@@ -414,6 +385,7 @@ const ProfileView = () => {
     );
   }
 
+
   if (userRole === "seller") {
     return (
         <div className="profile-layout">
@@ -422,6 +394,7 @@ const ProfileView = () => {
         </div>
     );
   }
+
 
   return (
       <>
@@ -432,4 +405,8 @@ const ProfileView = () => {
   );
 };
 
+
 export default ProfileView;
+
+
+

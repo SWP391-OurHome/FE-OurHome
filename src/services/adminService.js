@@ -2,6 +2,25 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8082/api/admin'; // Adjust to your backend URL
 
+//Overview
+export const fetchDashboardData = async () => {
+    const res = await axios.get(`${API_BASE_URL}/dashboard`);
+    return res.data;
+};
+
+
+export const fetchTopSelling = async () => {
+    try {
+        const response = await  axios.get(`${API_BASE_URL}/top-selling`);
+        return response.data;
+    } catch (error) {
+        console.error("Error in fetchTopSelling:", error);
+        throw error;
+    }
+};
+
+
+//User Management
 export const getAllUsers = async () => {
     try {
         const response = await axios.get(`${API_BASE_URL}/users`);
@@ -33,3 +52,10 @@ export const banUser = async (userId) => {
         throw error;
     }
 };
+
+export default {
+    fetchDashboardData,
+    getAllUsers,
+    updateUserRole,
+    banUser,
+}
