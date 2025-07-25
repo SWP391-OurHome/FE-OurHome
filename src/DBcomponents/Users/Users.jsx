@@ -57,12 +57,11 @@ const Users = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const handleRoleChange = async (userId, roleId) => {
     try {
-      await updateRole(userId, roleId);
+      await updateUserRole(userId, roleId);
       setUsers(users.map((user) =>
           user.userID === userId ? { ...user, roleId, roleName: roleOptions.find(r => r.id === roleId)?.name } : user
       ));
@@ -85,10 +84,70 @@ const Users = () => {
     }
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   const handleSearch = () => {
     setCurrentPage(1); // Reset to first page on search
+  };
+
+  // Generate pagination buttons
+  const renderPagination = () => {
+    const pages = [];
+    const maxPagesToShow = 4; // First 2 + Last 2
+
+    if (totalPages <= maxPagesToShow) {
+      // Show all pages if total is 4 or less
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+            <button
+                key={i}
+                onClick={() => paginate(i)}
+                className={`user-pagination-button ${currentPage === i ? 'user-active' : ''}`}
+            >
+              {i}
+            </button>
+        );
+      }
+    } else {
+      // Show first 2 pages
+      for (let i = 1; i <= 2; i++) {
+        pages.push(
+            <button
+                key={i}
+                onClick={() => paginate(i)}
+                className={`user-pagination-button ${currentPage === i ? 'user-active' : ''}`}
+            >
+              {i}
+            </button>
+        );
+      }
+
+      // Add ellipsis if needed
+      if (totalPages > 5) {
+        pages.push(<span key="start-ellipsis" className="user-pagination-ellipsis">...</span>);
+      }
+
+      // Add last 2 pages
+      for (let i = totalPages - 1; i <= totalPages; i++) {
+        if (i > 2) { // Avoid duplicating pages 1 and 2
+          pages.push(
+              <button
+                  key={i}
+                  onClick={() => paginate(i)}
+                  className={`user-pagination-button ${currentPage === i ? 'user-active' : ''}`}
+              >
+                {i}
+              </button>
+          );
+        }
+      }
+    }
+
+    return pages;
   };
 
   if (loading) return <div>Loading...</div>;
@@ -144,7 +203,7 @@ const Users = () => {
                 placeholder="Search by name, email, or phone"
                 className="search-input"
             />
-            <button onClick={handleSearch} className="search-btn">Search</button>
+            <button onClick={handleSearch} className="1-search-btn">Search</button>
           </div>
         </div>
         <div className="admin-users-table">
@@ -200,16 +259,27 @@ const Users = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-              <button
-                  key={number}
-                  onClick={() => paginate(number)}
-                  className={currentPage === number ? 'active' : ''}
-              >
-                {number}
-              </button>
-          ))}
+        <div className="user-pagination-controls mt-4 flex items-center justify-between flex-wrap">
+          <span className="text-sm text-gray-600">
+            Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, filteredUsers.length)} of {filteredUsers.length}
+          </span>
+          <div className="user-pagination flex gap-2 mt-2">
+            <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="user-pagination-button"
+            >
+              Previous
+            </button>
+            {renderPagination()}
+            <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="user-pagination-button"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
   );

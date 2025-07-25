@@ -22,6 +22,7 @@ export const createReport = async (reportDTO) => {
 export const getAllReports = async () => {
     try {
         const response = await axios.get(`${API_URL}/admin`);
+        console.log("Report BE",response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching reports:', error);
@@ -41,5 +42,16 @@ export const updateReportStatus = async (reportId, status) => {
     } catch (error) {
         console.error('Error updating report status:', error);
         throw new Error(error.response?.data || 'Failed to update report status');
+    }
+};
+
+export const softDeleteReport = async (reportId) => {
+    try {
+        const response = await axios.put(`${API_URL}/${reportId}/delete`, {
+            status: 'deleted'
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error('Failed to delete report: ' + (error.response?.data || error.message));
     }
 };

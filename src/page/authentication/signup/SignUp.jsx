@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { register, sendOtp, verifyOtp } from "../../../services/authService";
 import "../auth-common.css";
 
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -22,6 +23,7 @@ const SignUp = () => {
   const [otpError, setOtpError] = useState("");
   const [otpLoading, setOtpLoading] = useState(false);
 
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
@@ -29,16 +31,20 @@ const SignUp = () => {
     }
   };
 
+
   const validateForm = () => {
     const newErrors = {};
+
 
     if (!(form.firstName || "").trim()) {
       newErrors.firstName = "Please enter your first name";
     }
 
+
     if (!(form.lastName || "").trim()) {
       newErrors.lastName = "Please enter your last name";
     }
+
 
     if (!form.email || !form.email.trim()) {
       newErrors.email = "Please enter your email";
@@ -46,9 +52,11 @@ const SignUp = () => {
       newErrors.email = "Please enter a valid email address";
     }
 
+
     if (!(form.phone || "").trim()) {
       newErrors.phone = "Please enter your phone number";
     }
+
 
     if (!form.birthday) {
       newErrors.birthday = "Please enter your birthday";
@@ -58,6 +66,7 @@ const SignUp = () => {
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
 
+
       if (
           monthDiff < 0 ||
           (monthDiff === 0 && today.getDate() < birthDate.getDate())
@@ -65,10 +74,12 @@ const SignUp = () => {
         age--;
       }
 
+
       if (age < 18) {
         newErrors.birthday = "You must be at least 18 years old";
       }
     }
+
 
     if (!form.password) {
       newErrors.password = "Please enter your password";
@@ -85,20 +96,25 @@ const SignUp = () => {
           "Password must include numbers and special characters";
     }
 
+
     if (form.password !== form.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
+
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     if (!validateForm()) {
       return;
     }
+
 
     setLoading(true);
     try {
@@ -116,11 +132,14 @@ const SignUp = () => {
         // Img path can be added later if image upload is implemented
       };
 
+
       // Console log the processed data before sending to BE
       console.log("Data sent to BE:", processedForm);
 
+
       const response = await register(processedForm);
       console.log("Response:", response);
+
 
       if (response.success) {
         toast.success(response.message || "Account created successfully");
@@ -144,6 +163,7 @@ const SignUp = () => {
     }
   };
 
+
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setOtpLoading(true);
@@ -163,32 +183,28 @@ const SignUp = () => {
     }
   };
 
+
   return (
-      <div className="auth-container">
-        <div className="auth-background">
-          <div className="auth-background-content">
-            <h1>Create Your Account</h1>
-            <p>
-              Join our community and start your journey to finding your perfect
-              home.
-            </p>
-          </div>
+      <div className="authen-container">
+        <div className="authen-background">
         </div>
 
-        <div className="auth-content">
-          <div className="auth-form-container">
-            <div className="auth-header">
+
+        <div className="authen-content">
+          <div className="authen-form-container">
+            <div className="authen-header">
               <h2>Sign Up</h2>
               <p>Fill in your details to create your account</p>
             </div>
 
+
             {!showOtpInput && (
-                <form className="auth-form" onSubmit={handleSubmit}>
+                <form className="authen-form" onSubmit={handleSubmit}>
                   <div
-                      className="form-row"
+                      className="authen-form-row"
                       style={{ display: "flex", gap: "1rem" }}
                   >
-                    <div className="form-group" style={{ flex: 1 }}>
+                    <div className="authen-form-group" style={{ flex: 1 }}>
                       <label>First Name</label>
                       <input
                           type="text"
@@ -198,11 +214,12 @@ const SignUp = () => {
                           onChange={handleChange}
                       />
                       {errors.firstName && (
-                          <div className="error-message">{errors.firstName}</div>
+                          <div className="authen-error-message">{errors.firstName}</div>
                       )}
                     </div>
 
-                    <div className="form-group" style={{ flex: 1 }}>
+
+                    <div className="authen-form-group" style={{ flex: 1 }}>
                       <label>Last Name</label>
                       <input
                           type="text"
@@ -212,12 +229,13 @@ const SignUp = () => {
                           onChange={handleChange}
                       />
                       {errors.lastName && (
-                          <div className="error-message">{errors.lastName}</div>
+                          <div className="authen-error-message">{errors.lastName}</div>
                       )}
                     </div>
                   </div>
 
-                  <div className="form-group">
+
+                  <div className="authen-form-group">
                     <label>Email</label>
                     <input
                         type="email"
@@ -227,11 +245,12 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.email && (
-                        <div className="error-message">{errors.email}</div>
+                        <div className="authen-error-message">{errors.email}</div>
                     )}
                   </div>
 
-                  <div className="form-group">
+
+                  <div className="authen-form-group">
                     <label>Phone Number</label>
                     <input
                         type="tel"
@@ -241,11 +260,12 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.phone && (
-                        <div className="error-message">{errors.phone}</div>
+                        <div className="authen-error-message">{errors.phone}</div>
                     )}
                   </div>
 
-                  <div className="form-group">
+
+                  <div className="authen-form-group">
                     <label>Birthday</label>
                     <input
                         type="date"
@@ -254,11 +274,12 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.birthday && (
-                        <div className="error-message">{errors.birthday}</div>
+                        <div className="authen-error-message">{errors.birthday}</div>
                     )}
                   </div>
 
-                  <div className="form-group">
+
+                  <div className="authen-form-group">
                     <label>Password</label>
                     <input
                         type="password"
@@ -268,26 +289,12 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.password && (
-                        <div className="error-message">{errors.password}</div>
+                        <div className="authen-error-message">{errors.password}</div>
                     )}
-                    <div
-                        className="password-requirements"
-                        style={{
-                          fontSize: "0.85rem",
-                          color: "#666",
-                          marginTop: "0.5rem",
-                        }}
-                    >
-                      Password must:
-                      <ul style={{ paddingLeft: "1.2rem", marginTop: "0.3rem" }}>
-                        <li>Be at least 6 characters long</li>
-                        <li>Include uppercase and lowercase letters</li>
-                        <li>Include numbers and special characters</li>
-                      </ul>
-                    </div>
                   </div>
 
-                  <div className="form-group">
+
+                  <div className="authen-form-group">
                     <label>Confirm Password</label>
                     <input
                         type="password"
@@ -297,13 +304,15 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.confirmPassword && (
-                        <div className="error-message">{errors.confirmPassword}</div>
+                        <div className="authen-error-message">{errors.confirmPassword}</div>
                     )}
                   </div>
 
-                  <button type="submit" className="auth-button" disabled={loading}>
+
+                  <button type="submit" className="authen-button" disabled={loading}>
                     {loading ? "Creating Account..." : "Create Account"}
                   </button>
+
 
                   <div
                       className="auth-links"
@@ -314,13 +323,14 @@ const SignUp = () => {
                 </form>
             )}
 
+
             {showOtpInput && (
                 <form
-                    className="auth-form"
+                    className="authen-form"
                     onSubmit={handleVerifyOtp}
                     style={{ marginTop: 24 }}
                 >
-                  <div className="form-group">
+                  <div className="authen-form-group">
                     <label>Enter OTP</label>
                     <input
                         type="text"
@@ -330,11 +340,11 @@ const SignUp = () => {
                         onChange={(e) => setOtp(e.target.value)}
                         required
                     />
-                    {otpError && <div className="error-message">{otpError}</div>}
+                    {otpError && <div className="authen-error-message">{otpError}</div>}
                   </div>
                   <button
                       type="submit"
-                      className="auth-button"
+                      className="authen-button"
                       disabled={otpLoading}
                   >
                     {otpLoading ? "Verifying..." : "Verify OTP"}
@@ -347,4 +357,6 @@ const SignUp = () => {
   );
 };
 
+
 export default SignUp;
+

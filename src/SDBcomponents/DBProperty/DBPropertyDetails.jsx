@@ -135,13 +135,13 @@ function DBPropertyDetails() {
 
   return (
     <>
-      <div className="db-breadcrumb">
-        <Link to="seller/dashboard">Home</Link>
-        <span className="db-breadcrumb-separator">&gt;</span>
-        <Link to="seller/dashboard/property">Quản lý dự án</Link>
-        <span className="db-breadcrumb-separator">&gt;</span>
-        <span>Chi tiết dự án</span>
-      </div>
+      {/*<div className="db-breadcrumb">*/}
+      {/*  <Link to="seller/dashboard">Home</Link>*/}
+      {/*  <span className="db-breadcrumb-separator">&gt;</span>*/}
+      {/*  <Link to="seller/dashboard/property">Quản lý dự án</Link>*/}
+      {/*  <span className="db-breadcrumb-separator">&gt;</span>*/}
+      {/*  <span>Chi tiết dự án</span>*/}
+      {/*</div>*/}
       <div className="container db-property-details" ref={propertyDetailsRef}>
         <div className="db-property-main row">
           <div className="db-property-main-left col-lg-8 col-md-12">

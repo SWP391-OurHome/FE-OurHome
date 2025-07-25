@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SellerHeader.css";
-
+import Notification from "../../components/Notifications/Notification";
 const SellerHeader = () => {
     // State to hold user data
     const [user, setUser] = useState({
@@ -28,6 +28,7 @@ const SellerHeader = () => {
         <header className="seller-header">
             <h1>Seller Dashboard</h1>
             <div className="seller-user-info">
+                <Notification/>
                 <img
                     src={user.picture || "https://via.placeholder.com/40"} // Fallback image if picture is not available
                     alt="User Avatar"

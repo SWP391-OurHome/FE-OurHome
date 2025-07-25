@@ -9,20 +9,20 @@ const headers = {
     'Authorization': 'Basic YWRtaW46YWRtaW4xMjM=' // admin:admin123 mã hóa Base64
 };
 
-export const getTransactionHistory = async (userIdOrAll, searchParams = {}) => {
+export const fetchAllTransactions = async (transactionCode, status, paymentDate) => {
     try {
-        const url = userIdOrAll === 'all'
-            ? `${API_URL}/payment/history/all`
-            : `${API_URL}/payment/history/${userIdOrAll}`;
-        const response = await axios.get(url, {
+        const response = await axios.get(`${API_URL}/payment/history/all`, {
             headers,
-            params: searchParams
+            params: {
+                transactionCode,
+                status,
+                paymentDate,
+            },
         });
-        console.log('API Response (getTransactionHistory):', response.data);
         return response.data;
     } catch (error) {
-        console.error('API Error (getTransactionHistory):', error);
-        throw new Error('Error calling API: ' + error.message);
+        console.error('Failed to fetch transactions:', error);
+        throw error;
     }
 };
 
